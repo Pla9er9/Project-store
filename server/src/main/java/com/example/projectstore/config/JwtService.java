@@ -1,11 +1,12 @@
 package com.example.projectstore.config;
 
+import com.example.projectstore.logged_In_Device.LoggedInDeviceService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -18,12 +19,13 @@ import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class JwtService {
 
-    private final String SECRET_KEY = "6D744E52477A78424756765A4A477A434177694A4D4562724E6E59734D6F3471";
+    private final LoggedInDeviceService deviceService;
 
     public String extractUsername(String token) {
-       return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -51,7 +53,8 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token) &&
+                !deviceService.isTokenBlocked(token);
     }
 
     private boolean isTokenExpired(String token) {
@@ -72,6 +75,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
+        String SECRET_KEY = "6D744E52477A78424756765A4A477A434177694A4D4562724E6E59734D6F3471";
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }

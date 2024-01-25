@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Project Store</title>
+		%sveltekit.head%
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Fira+Sans&family=Staatliches&family=Dosis:wght@300&family=Syne&display=swap&family=Inter:wght@200;900&display=swap"
+			rel="stylesheet"
+		/>
+		<script>
+			if (global === undefined) {
+				var global = window;
+			}
+		</script>
+		<style>
+			::-webkit-scrollbar {
+				width: 8px;
+			}
+
+			::-webkit-scrollbar-track {
+				box-shadow: inset 0 0 5px grey;
+				border-radius: 10px;
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: #8b8b8bfb;
+				border-radius: 10px;
+			}
+
+			:root {
+				--mainColor: #88fc03;
+				color: #7ef04110;
+				/* --mainColor: #a5fc03; */
+			}
+			body {
+				background: #0c0b0b;
+				margin: 0;
+				overflow-x: hidden;
+			}
+			* {
+				text-decoration: none;
+			}
+			#readme * {
+				color: #eeeeee;
+				font-family: 'Fira sans';
+			}
+			label {
+				color: #fff;
+			}
+
+			h1 {
+				color: #fff;
+				font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+			}
+
+			p {
+				color: #fff;
+				font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+			}
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+			.row {
+				display: flex;
+				align-items: center;
+			}
+			.column {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
