@@ -1,6 +1,7 @@
 <script>
-	import StatusBox from "$components/status/StatusBox.svelte";
-
+// @ts-nocheck
+    import StatusBox from "$components/status/StatusBox.svelte";
+    
     let data = [
         ["Auth service", true, "lock.svg"],
         ["Project service", true, "project_gray.svg"],
@@ -32,14 +33,14 @@
         h1 {
             width: 80%;
             font-family: monospace;
-            font-size: 50px;
+            font-size: 40px;
         }
 
         img {
             width: 50px;
             margin-right: 30px;
             animation-name: moving;
-            animation-duration: 1.5s;
+            animation-duration: 2.5s;
             animation-iteration-count: infinite;
         }
 

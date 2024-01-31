@@ -14,19 +14,21 @@
 	});
 </script>
 
-<div id="languageBox">
-	<div class="inline">
-		{#each languages as lang}
-			<div class="line" style="width: {lang.filesCount / sum * 100}%;background: {getColorOfLanguage(lang.name)}" />
-		{/each}
+{#if languages.length > 0}
+	<div id="languageBox">
+		<div class="inline">
+			{#each languages as lang}
+				<div class="line" style="width: {lang.filesCount / sum * 100}%;background: {getColorOfLanguage(lang.name)}" />
+			{/each}
+		</div>
+		<div class="inline" style="margin-left: 8px;">
+			{#each languages as lang}
+				<div class="circle" style="background: {getColorOfLanguage(lang.name)};" />
+				<p>{lang.name} <span>{lang.filesCount / sum * 100}%</span></p>
+			{/each}
+		</div>
 	</div>
-	<div class="inline" style="margin-left: 8px;">
-		{#each languages as lang}
-			<div class="circle" style="background: {getColorOfLanguage(lang.name)};" />
-			<p>{lang.name} <span>{lang.filesCount / sum * 100}%</span></p>
-		{/each}
-	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	#languageBox {

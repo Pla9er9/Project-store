@@ -2,7 +2,7 @@
 	export let label: string;
 	export let value: boolean;
 	export let marginLeft = '80px';
-	export let border = 'solid 1px #ffffff23;';
+	export let border = 'solid 1px var(--lightBorder);';
 </script>
 
 <div

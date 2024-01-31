@@ -28,6 +28,11 @@
 			</a>
 		{/each}
 	</div>
+{:else}
+<div style="display:flex;flex-direction:column;align-items:center">
+	<img src="/icons/file.svg" alt="">
+	<p>No code added yet!</p>
+</div>
 {/if}
 
 <style lang="scss">
@@ -67,5 +72,16 @@
 				cursor: pointer;
 			}
 		}
+	}
+
+	img {
+		width: 120px;
+		height: 120px;
+		margin: 25px 0 20px 0;
+	}
+
+	p {
+		font-size: 15px;
+		font-family: monospace;
 	}
 </style>

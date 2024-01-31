@@ -13,7 +13,7 @@
 </script>
 
 <div id="tagInput">
-	<div style="display: flex;align-items:center;border-bottom: solid 1px #ffffff23;">
+	<div style="display: flex;align-items:center;border-bottom: solid 1px var(--lightBorder);">
 		<input placeholder="Tag" bind:value maxlength="16" />
 		<button on:click={addTag}>Add</button>
 	</div>
@@ -28,9 +28,9 @@
 <style lang="scss">
 	#tagInput {
 		width: 240px;
-		height: 230px;
+		height: 265px;
 		margin: 10px 0;
-		border: solid 1px #ffffff23;
+		border: solid 1px var(--lightBorder);
         border-radius: 8px;
         background-color: inherit;
 		display: flex;
@@ -51,7 +51,7 @@
 				height: max-content;
 				margin: 5px 4px;
 				padding: 3px 8px;
-				border: solid 1px #ffffff23;
+				border: solid 1px var(--lightBorder);
 				background-color: rgba(220, 220, 220, 0.041);
 				border-radius: 15px;
 				color: gainsboro;

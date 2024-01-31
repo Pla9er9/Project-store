@@ -49,6 +49,9 @@
 </main>
 
 <style>
+	h1 {
+		font-family: 'Inter', sans-serif;
+	}
 	img {
 		width: 20px;
 	}

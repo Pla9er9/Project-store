@@ -6,7 +6,6 @@ import com.example.projectstore.project.ProjectRepository;
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -43,6 +42,9 @@ public class FileService {
     {
         try {
             cdnPath = new java.io.File(".").getCanonicalPath() + "\\cdn";
+            if (!Files.exists(Path.of(cdnPath))) {
+                Files.createDirectories(Path.of(cdnPath));
+            }
         } catch (IOException e) {
             log.error(Arrays.toString(e.getStackTrace()));
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -202,7 +204,7 @@ public class FileService {
     }
 
     public byte[] getDefaultAvatar() {
-        var path = Paths.get(this.cdnPath + "\\defaultAvatar.jpg\\");
+        var path = Paths.get(this.cdnPath + "\\defaultAvatar.png\\");
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {

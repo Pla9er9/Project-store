@@ -19,7 +19,7 @@ import type { UserDtoSimple } from "$lib/models/user/UserDtoSimple";
     </button>
     {#each creators as creator}
         <div class="row">
-            <Avatar size="30px" imageUrl="{PUBLIC_API_URL}/user/{creator.username}/avatar" />
+            <Avatar size="30px" username={creator.username} />
             <a href="/{creator.username}">{creator.username}</a>
         </div>
     {/each}

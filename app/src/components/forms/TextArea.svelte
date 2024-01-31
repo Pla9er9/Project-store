@@ -24,13 +24,9 @@
 		outline: none;
 		font-family: monospace;
 		margin: 10px 0;
-		border: solid 1px #ffffff23;
+		border: solid 1px var(--lightBorder);
 		border-radius: 8px;
 		background-color: inherit;
 		resize: none;
-
-		// &::placeholder {
-		// 	text-align: center;
-		// }
 	}
 </style>

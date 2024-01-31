@@ -9,15 +9,15 @@
 
 <nav class="row">
 	<a href="/" class="row home">
-		<img src="icons/project.svg" alt="">
+		<img src="/icons/project.svg" alt="">
 		<h1> Project store</h1>
 	</a>
 	<SearchInput />
 	{#if username === null}
 		<div id="authBar">
-			<LinkButton text="Log in" link="/login" />
+			<LinkButton text="Sign in" link="/login" />
 			<div class="line" />
-			<LinkButton text="Register" link="/register" />
+			<LinkButton text="Sign up" link="/register" />
 		</div>
 	{:else}
 		<a class="iconBtn" href="/new" style="margin-left: auto;">
@@ -34,7 +34,7 @@
 				size="40px"
 				cursor="pointer"
 				margin="0"
-				imageUrl={`${PUBLIC_API_URL}/user/${username}/avatar`}
+				username={username}
 			/>
 		</a>
 	{/if}
@@ -43,6 +43,7 @@
 <style lang="scss">
 	nav {
 		width: 100%;
+		height: 50px;
 		padding: 10px 0;
 		border-bottom: 1px solid #202020;
 
@@ -62,19 +63,19 @@
 		}
 
 		.iconBtn {
-			width: 35px;
-			height: 35px;
+			width: 45px;
+			height: 45px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			background-color: inherit;
 			border: none;
-			margin: 0 12px;
+			margin: 0 10px;
 			cursor: pointer;
 
 			&:hover {
 				border-radius: 50%;
-				background-color: rgba(128, 128, 128, 0.055);
+				background-color: rgba(128, 128, 128, 0.13);
 			}
 
 			img {
@@ -84,15 +85,16 @@
 
 		#authBar {
 			display: flex;
-			border: solid 1px #ffffff23;
+			border: solid 1px var(--lightBorder);
+			height: max-content;
 			border-radius: 9px;
 			margin-left: auto;
 			margin-right: 25px;
 
 			.line {
 				width: 1px;
-				height: 34px;
-				background: #ffffff23;
+				height: 30px;
+				background: var(--lightBorder);
 			}
 		}
 	}

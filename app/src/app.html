@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" href="%sveltekit.assets%/icons/project.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<title>Project Store</title>
 		%sveltekit.head%
@@ -33,12 +33,15 @@
 			}
 
 			:root {
-				--mainColor: #88fc03;
+				--mainColor: #a7f74c;
+				--lightBorder: #ffffff23;
+				--danger: #ff6554;
+				--dark-danger: #ee4634;
+				--background: #0c0b0b;
 				color: #7ef04110;
-				/* --mainColor: #a5fc03; */
 			}
 			body {
-				background: #0c0b0b;
+				background: var(--background);
 				margin: 0;
 				overflow-x: hidden;
 			}

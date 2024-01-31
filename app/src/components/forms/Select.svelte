@@ -9,7 +9,6 @@
     <img src="{imgSrc}" alt="icon">
     <p>{text}</p>
     <select bind:value>
-        <option value="none">none</option>
         {#each options as option}
             <option value="{option}">{option}</option>
         {/each}
@@ -23,7 +22,7 @@
         display: flex;
         align-items: center;
         border-radius: 8px;
-        border: solid 1px #ffffff23;
+        border: solid 1px var(--lightBorder);
 
         img {
             width: 20px;
@@ -45,7 +44,7 @@
             background-color: #0c0b0b;
             border: solid 1px #ffffff1e;
             border-radius: 10px;
-            color: rgb(191, 243, 250);
+            color: rgb(221, 222, 223);
             outline: none;
             text-indent: 8px;
             font-family: monospace;

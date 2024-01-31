@@ -1,168 +1,165 @@
 <script lang="ts">
-	export let data
+    export let data;
 
-	import { goto } from '$app/navigation';
-	import * as validators from '$lib/validators/projectValidators.js';
-	import Input from '$components/forms/Input.svelte';
-	import SubmitButton from '$components/forms/SubmitButton.svelte';
-	import CheckBox from '$components/forms/CheckBox.svelte';
-	import TextArea from '$components/forms/TextArea.svelte';
-	import FileInput from '$components/forms/FileInput.svelte';
-	import fetchHttp from '$lib/fetchHttp.js';
-	import Select from '$components/forms/Select.svelte';
-	import getLicenses from '$lib/licenses.js';
-	import { alertStore } from '$lib/stores/alertStore.js';
+    import { goto } from "$app/navigation";
+    import * as validators from "$lib/validators/projectValidators.js";
+    import Input from "$components/forms/Input.svelte";
+    import SubmitButton from "$components/forms/SubmitButton.svelte";
+    import CheckBox from "$components/forms/CheckBox.svelte";
+    import TextArea from "$components/forms/TextArea.svelte";
+    import FileInput from "$components/forms/FileInput.svelte";
+    import fetchHttp from "$lib/fetchHttp.js";
+    import Select from "$components/forms/Select.svelte";
+    import getLicenses from "$lib/licenses.js";
+    import { alertStore } from "$lib/stores/alertStore.js";
 
-	let projectName = '',
-		projectNameValid = false,
-		isPrivate = false,
-		description = '',
-		license = 'none';
+    let projectName = "",
+        projectNameValid = false,
+        isPrivate = false,
+        description = "",
+        license = "none";
 
-	$: isFormValidated = projectNameValid;
+    $: isFormValidated = projectNameValid;
 
-	let filesToSend: FileList;
+    let filesToSend: FileList;
 
-	async function createNewProject() {
-		if (!isFormValidated) {
-			return;
-		}
+    async function createNewProject() {
+        if (!isFormValidated) {
+            return;
+        }
 
-		let body = JSON.stringify({
-			name: projectName,
-			description: description,
-			isPrivate: isPrivate,
-			license: license
-		});
+        let body = JSON.stringify({
+            name: projectName,
+            description: description,
+            isPrivate: isPrivate,
+            license: license,
+        });
 
-		const res = await fetchHttp('/project', {
-			method: 'POST',
-			body: body,
-			token: data.token
-		});
-		if (!res) return;
+        const res = await fetchHttp("/project", {
+            method: "POST",
+            body: body,
+            token: data.token,
+        });
+        if (!res) return;
 
-		alertStore.update(v => {
-			v.color = "blue"
-			v.message = "Sending files please wait"
-			return v
-		})
-		
-		await sendFiles(res.body.id);
-        alertStore.update(v => {
-            v.message = ""
-            return v
-        })
-		await goto('/project/' + res.body.id);
-	}
+        alertStore.update((v) => {
+            v.color = "blue";
+            v.message = "Sending files please wait";
+            return v;
+        });
 
-	async function sendFiles(projectId: string) {
-		if (filesToSend != null) {
-			Object.values(filesToSend).forEach(async (v: File) => {
-				var fl: string = v.webkitRelativePath;
-				const path = fl.slice(fl.indexOf('/'), fl.length);
+        await sendFiles(res.body.id);
+        alertStore.update((v) => {
+            v.message = "";
+            return v;
+        });
+        await goto("/project/" + res.body.id);
+    }
 
-				let formData = new FormData();
-				formData.append('file', v);
+    async function sendFiles(projectId: string) {
+        if (filesToSend != null) {
+            Object.values(filesToSend).forEach(async (v: File) => {
+                var fl: string = v.webkitRelativePath;
+                const path = fl.slice(fl.indexOf("/"), fl.length);
 
-				await fetchHttp(`project/${projectId}/files?path=${path}&cf=true`, {
-					method: 'POST',
-					noContentType: true,
-					stringify: false,
-					token: data.token,
-					body: formData
-				});
-			});
-		}
-	}
+                let formData = new FormData();
+                formData.append("file", v);
+
+                await fetchHttp(
+                    `project/${projectId}/files?path=${path}&cf=true`,
+                    {
+                        method: "POST",
+                        noContentType: true,
+                        stringify: false,
+                        token: data.token,
+                        body: formData,
+                    }
+                );
+            });
+        }
+    }
 </script>
 
-<main>
-	<div class="form">
-		<h1>
-			Create new Project <br /> <small>Projects contains files, issues</small><br /><small
-				>and more!</small
-			>
-		</h1>
-		<div>
-			<Input
-				placeholder="Project name"
-				validator={validators.validateProjectName}
-				maxlength={50}
-				bind:value={projectName}
-				bind:correct={projectNameValid}
-			>
-				<img src="icons/pen.svg" alt="">
-			</Input>
-			<CheckBox label="Private" bind:value={isPrivate} border="solid 1px #ffffff23">
-				<img src="icons/lock.svg" alt="">
-			</CheckBox>
-			<TextArea
-				width="195px"
-				maxlength={140}
-				bind:value={description}
-				placeholder="Short description - max 140 characters"
-			/>
-			<Select text="License" bind:value={license} options={getLicenses()} imgSrc="/icons/license.svg" />
-			<FileInput bind:value={filesToSend} />
-			<SubmitButton text="Create" isValid={isFormValidated} callback={() => createNewProject()}>
-				<img src="icons/rocket_up.svg" alt="">
-			</SubmitButton>
-		</div>
-	</div>
-	<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"
-		><defs /><title>space-shuttle-launch</title><g id="space-shuttle-launch"
-			><path
-				class="cls-1"
-				d="M28.69,10.17a18.34,18.34,0,0,0,2.08-2.46c.13-.25-.29-.58-.67-.54a8.86,8.86,0,0,0-2.25,2.5C27.85,9.88,28.56,10.13,28.69,10.17Zm4.46,10.21a2.36,2.36,0,0,0-3.79-.25c-.87.92-1.08,5.54-.67,6.17s4.58.38,4.92.21S34.23,22,33.14,20.38Zm-.5,5.17c-.12,0-2.58.29-2.83,0s-.5-5.08,1.38-5.21c.79-.05,1.46.71,1.54,2.67S32.77,25.54,32.64,25.54Zm4.42-10.71c.17,0,.08-.29.13-.54s-1.7-.89-2.12-.83-.29.5-.29.75S36.89,14.83,37.06,14.83Zm0,1.54c.17,0,.08-.29.13-.54s-1.7-.89-2.12-.83-.29.5-.29.75S36.89,16.38,37.06,16.38Zm-1.25.42c-.33,0-.29.5-.29.75S36.85,18,37,18s.08-.29.13-.54S36.23,16.74,35.81,16.79Zm4.71,36.63L40.39,51l-.5-.08s0,2.17,0,2.33S40.52,53.42,40.52,53.42Zm1.13-.12-.12-2.42-.5-.08s0,2.17,0,2.33S41.64,53.29,41.64,53.29Zm-19-2s0,2.17,0,2.33.63.17.63.17l-.12-2.42Zm-1.17,0-.08,1.5a2.47,2.47,0,0,0,.63.17c.21,0,0-1.33,0-1.54S21.73,51.25,21.52,51.25ZM43.1,31c.17-.08.38-10,.21-10.46s-1.09-.38-1.29-.08c-.08.13-.25,10.25-.12,10.5S42.94,31.08,43.1,31ZM49,42.29c.21.08,2-1.46,4.21-1.79a8.18,8.18,0,0,1,4.63,1.13A5.82,5.82,0,0,0,58.39,40c-.08-.25-1.71-1.5-5-1.21a8.9,8.9,0,0,0-5.17,2.08C48.06,41.08,48.81,42.21,49,42.29ZM6.1,40.67c.21.08,2-1.46,4.21-1.79A8.18,8.18,0,0,1,14.94,40a5.82,5.82,0,0,0,.54-1.58c-.08-.25-1.71-1.5-5-1.21a8.9,8.9,0,0,0-5.17,2.08C5.14,39.46,5.89,40.58,6.1,40.67Zm14-14.13c.25-.12,0-8.67,0-8.83s-1.18-.19-1.33,0c-.29.46.13,8.63.25,8.79S19.85,26.67,20.1,26.54Zm40,22a5.79,5.79,0,0,0-1.08-3c-1.12-1.75-4.17-3.37-7.87-1.42s-2.12,6-2.12,6a14.74,14.74,0,0,0-2.33,1.17C45.06,52.21,45,53,45,53l-1.62-.21,0-2.25a15.82,15.82,0,0,0,3.29-.21c.33-.25.29-5.12,0-6s-3.75-3.75-3.75-3.75,0-5.33-.12-5.87S40.1,32,40,31.92,39.81,16.79,39.77,14s-.37-3.83-.87-4.42-4.83-6.42-7-6.58-3.67,1.54-4.58,2.62-4.58,5.67-5,7.13S21.69,33,21.69,33A7.78,7.78,0,0,0,19,34.08c-.92.75-.5,8.25-.5,8.25a16.47,16.47,0,0,0-2,2.5c-.54,1-.46,5.38-.17,5.58a15.58,15.58,0,0,0,2.88.29,10.37,10.37,0,0,0,.13,1.08A6,6,0,0,0,19.94,53l-1.08.17a2.56,2.56,0,0,0-1-1.54,3.64,3.64,0,0,0-2.21-.83,4.17,4.17,0,0,0-.58-1A8.8,8.8,0,0,0,13,48.33a13.14,13.14,0,0,0,2.21-2.21c.5-.83-.08-3.79-3.25-4.75a7.41,7.41,0,0,0-7.29,1.88c-1.5,1.42-1.75,5.5-1.75,5.5a18.67,18.67,0,0,0-1,2.75c-.46,1.63,1.42,4.13,1.42,4.13a5.63,5.63,0,0,0,1.37,3.5c1.38,1.46,4.63.92,4.63.92a9.46,9.46,0,0,0,2,.25,8.72,8.72,0,0,0,2.63-.67c.38-.12,1.58,1,3.42,1.29A13.19,13.19,0,0,0,22,60.29c.54-.12.5.08,1.63.46a3.92,3.92,0,0,0,2.63-.46c.46-.12.88.21,1.75.29s1.38-1,1.5-.92a6.68,6.68,0,0,1,1,1c.25.29.5.21,1-.21A3.86,3.86,0,0,0,32.48,59a2,2,0,0,0,1.58.75c.92-.08,3.38.79,4.58.75a10.5,10.5,0,0,0,2.83-.67c.75-.21,2.42.38,3.25.54s1.54-.21,2.71-.42,3,.67,5.13.71A4.65,4.65,0,0,0,56,59a2.61,2.61,0,0,0,1.71.54c1.13,0,3-1,4.21-5.08A5.23,5.23,0,0,0,60.06,48.5ZM43.19,43.42c.67.46,1.46,1.25,1.5,1.71a24.35,24.35,0,0,1-.08,4c-.17,0-.79-.08-.79-.08s.08-1.71-.12-1.87a6.48,6.48,0,0,0-3.58-.67,1.94,1.94,0,0,0-1.79,1.63c0,.25.13,1.38,0,1.38s-1,.08-1,0S36.85,39,37.19,38.71,42.52,43,43.19,43.42Zm-3.71,5.83s-.08-1.29.21-1.42a7.86,7.86,0,0,1,3,.25,4.41,4.41,0,0,1,0,1.33Zm2.75,4.25a9.55,9.55,0,0,0-1.54,1.33c-.33.46-.12.63-.33.46a4.35,4.35,0,0,1-1.12-1.54,31.41,31.41,0,0,1,.08-3.5,10.36,10.36,0,0,1,3,.25A12,12,0,0,1,42.23,53.5ZM38,50.75l0,1.46-2.42,0,0-.46s.92,0,1.25-.46a2.2,2.2,0,0,0,.38-.79ZM31.39,4.83c2,0,6.5,7,6.08,7.17s-1.75-1.37-6.21-.83-5.71.83-6,.58S29.44,4.79,31.39,4.83ZM20.56,35c.46-.25,2.83-.54,2.88-.92s0-19.42.83-20.38c.23-.28,1.38-1.25,6-1.33s7.33,1,7.38,1.13.33,19.33.5,19.54S40.73,35,40.85,35.5a15.54,15.54,0,0,1,.08,3.33A14.26,14.26,0,0,1,38,36.13c-.58-1-1.46-6.54-1.5-9.83s-.12-9.17-4.79-9.46S26.31,21,26,25.21s-.71,11.33-.87,11.54-5,4.21-5,3.92S20.1,35.29,20.56,35ZM31.64,46.46a37.47,37.47,0,0,1,3.71,2.79,1.43,1.43,0,0,1-.29.63,38.8,38.8,0,0,0-3.71-2.54c-.12.13-.58.42-.33.63s2.83,2.25,2.71,2.29-4,.13-5.25,0-1.87-.83-1.92-1.71.46-16.21.71-20.38.13-9.87,4-9.75c1.21,0,3.71,1.33,3.67,5.92s.25,18.75.25,18.75a9.31,9.31,0,0,0-2-.87c-.12.13-.58.63-.37.75s2.29,1,2.38,1.29.21,1.38.08,1.38-2.37-1.71-2.5-1.54-.46.75-.25.88,2.63,1.46,2.71,1.92.13,1.17.13,1.17-3.12-2.5-3.33-2.25S31.44,46.29,31.64,46.46Zm1,7a7.25,7.25,0,0,1-1.33,2.29,3.58,3.58,0,0,1-1.12-2.58,2.31,2.31,0,0,1,1-1.71A1.43,1.43,0,0,1,32.69,53.46Zm-5.5-1.71-.08,1-1.87-.17,0-1.71c.17,0,1,.46,1.29.58S27.19,51.75,27.19,51.75Zm-8.29-3.54c-.08.33.08,1.46-.08,1.46s-.79-.12-.79-.12-.37-3,0-3.92,5.79-5.75,6.67-6.17l0,7.67s-.58-.92-2.75-.54S19,47.88,18.89,48.21Zm4.83,6c-.37.46-.83,1.08-.87.92a15.65,15.65,0,0,0-1.67-1.62,1.8,1.8,0,0,1-.42-.5s-.5-1.79,0-2.29a11,11,0,0,1,2.13,0c.71,0,1.29.29,1.38.79A5.64,5.64,0,0,1,23.73,54.21ZM19.94,49.5s-.17-1.08.08-1.29a4.65,4.65,0,0,1,2.38-.58c1.13,0,1.58.21,1.58.46s0,1.58-.12,1.67S20.35,49.5,19.94,49.5Zm8.63,10.21c-.5.08-1.21-.79-2.29-.42a17.84,17.84,0,0,1-2.17.58,5.23,5.23,0,0,0-2.67-.62c-1.08.21-2.71,1-4.79.42s-2-1.17-3.21-.83a8,8,0,0,1-2.33.42c-.33,0-.58,0-.46-.08a3.86,3.86,0,0,0,.63-1.33c-.08-.12-.33-.54-.46-.33a3.15,3.15,0,0,1-1.38,1.25c-.62.17-2.79.25-3.88-1.12A3,3,0,0,1,5.31,54c.54-.5,1.5-1.08,1.54-1.21s-.62-.58-.62-.58-1.37-.08-1.42.13-.83,2.13-1,2A3.35,3.35,0,0,1,3,52a7.15,7.15,0,0,1,.63-2.12,2.8,2.8,0,0,0,1.46,1.46c1,.29,1.13.17,1.13.17s-2.33-2-1.83-4.25S6,42.88,8.27,42.58s5.5.54,5.42,2.38a4.1,4.1,0,0,1-2.58,3.25,11.16,11.16,0,0,0-2.33.38A2.28,2.28,0,0,0,7.6,49.88a5.5,5.5,0,0,0,1.17.38c.17,0-.12-.87,1.42-.87s3.46.63,3.67,1.79a3.4,3.4,0,0,1-.54,2.25s.83,1,1.33,1,.92-.71,1.17-1a5.36,5.36,0,0,0,.54-1.29s1.54.71,1.46,1.42-.5,1.21-.42,1.33,1,.54,1.29.29A2.34,2.34,0,0,1,21.27,55c1,.71,1,1.88,1.21,2s1.42-.54,2-1.79A7.94,7.94,0,0,0,25,53.58l2,.13a3.53,3.53,0,0,0,.79,3c1.21,1.71,1.75,2,1.71,2.29A1.1,1.1,0,0,1,28.56,59.71ZM30.94,59c-.29.38-.54-1.12-1.67-2.42A4.47,4.47,0,0,1,28.14,52h1.5a2.69,2.69,0,0,0,0,2.67c.79,1.38,1.54,1.63,1.63,2s2.33-1,2.42-2.37a3.3,3.3,0,0,0-.37-2l1,.13s1.17,2.67.08,4S31.23,58.67,30.94,59Zm22.42.21c-2.17.33-4.58-.83-6.12-.46s-.92.63-2.12.5-1.92-.67-3.12-.62-2.92,1-3.5.88a7.64,7.64,0,0,0-2.83-.67c-1.12.13-1.67.21-1.67.21s-.83-.33-.79-.46,2.33-1,2.5-2.67.17-2.5.17-2.5l1.92,0a4.93,4.93,0,0,0,1.29,2c1,1,.83,1.63,1.25,1.92s.83.33,1,0a4.14,4.14,0,0,1,.92-2.17A8.09,8.09,0,0,1,43.44,54l1.67.29s1,1.42,1.67,1.42a1.57,1.57,0,0,0,1.08-.62s-1.62-.75-1.17-1.87a5.18,5.18,0,0,1,5.21-2.42c2.58.38,4.5,2.92,4.54,4.54A3.7,3.7,0,0,1,53.35,59.25Zm7.79-5.12a9.62,9.62,0,0,1-2.79,4,4.67,4.67,0,0,1-1.46.29s2.08-3.17-.29-6a6.91,6.91,0,0,0-6.37-2.83,3.33,3.33,0,0,1,.25-3.83C51.89,44.29,55.27,44,57,45s2.58,5.46,2.38,6.58a3.14,3.14,0,0,1-1.12,1.79s.13.58.33.63,1-.58,1.33-1.25a10.92,10.92,0,0,0,.46-2.67A3.75,3.75,0,0,1,61.14,54.13Z"
-			/></g
-		></svg
-	>
+<main class="form">
+    <h1>
+        Create new Project <br />
+        <small>Projects contains files, issues</small><br /><small
+            >and more!</small
+        >
+    </h1>
+    <div>
+        <Input
+            placeholder="Project name"
+            validator={validators.validateProjectName}
+            maxlength={50}
+            bind:value={projectName}
+            bind:correct={projectNameValid}
+        >
+            <img src="icons/pen.svg" alt="" />
+        </Input>
+        <CheckBox
+            label="Private"
+            bind:value={isPrivate}
+            border="solid 1px var(--lightBorder)"
+        >
+            <img src="icons/lock.svg" alt="" />
+        </CheckBox>
+        <TextArea
+            width="195px"
+            maxlength={140}
+            bind:value={description}
+            placeholder="Short description - max 140 characters"
+        />
+        <Select
+            text="License"
+            bind:value={license}
+            options={getLicenses()}
+            imgSrc="/icons/license.svg"
+        />
+        <FileInput bind:value={filesToSend} />
+        <SubmitButton
+            text="Create"
+            isValid={isFormValidated}
+            callback={() => createNewProject()}
+            iconUrl="icons/rocket_up.svg"
+        />
+    </div>
 </main>
 
 <style lang="scss">
-	main {
-		width: 90%;
-		max-width: 1100px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		flex-direction: row-reverse;
-		flex-wrap: wrap;
+    .form {
+        background-color: rgb(14, 14, 14);
+        border: solid 1px #ffffff21;
+        border-radius: 10px;
+        margin: 90px auto;
+        width: 450px;
+        height: 620px;
+        position: absolute;
+        padding: 30px 0px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: start;
 
-		svg {
-			fill: #03c95c;
-			width: 350px;
-			height: 350px;
-		}
-	}
-	.form {
-		margin: 90px 40px;
-		width: 270px;
-		height: 600px;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: start;
+        h1 {
+            width: 100%;
+            margin-bottom: 0px;
+            text-align: center;
+            color: #eeeeee;
+            font-family: "Fira sans";
+            line-height: 35px;
 
-		h1 {
-			width: 100%;
-			margin-bottom: 0px;
-			text-align: center;
-			color: #eeeeee;
-			font-family: 'Fira sans';
-			line-height: 35px;
+            small {
+                color: rgb(172, 172, 172);
+                font-size: 18px;
+                line-height: 0px;
+            }
+        }
 
-			small {
-				color: rgb(172, 172, 172);
-				font-size: 18px;
-				line-height: 0px;
-			}
-		}
-
-		img {
-			width: 22px;
-		}
-	}
+        img {
+            width: 22px;
+        }
+    }
 </style>

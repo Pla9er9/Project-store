@@ -7,7 +7,7 @@ export default async function fetchHttp(
 	url: string,
     {
         method = 'GET',
-        body = undefined,
+        body,
         token = '',
         apiUrlPrefix = true,
         server = false,
@@ -55,6 +55,7 @@ export default async function fetchHttp(
 			}
 		});
 	}
+	console.log(res)
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {
 			throw redirect(300, 'login');
@@ -90,10 +91,18 @@ export default async function fetchHttp(
 				ok: res.status === 200,
 			};
 		} catch {
-			return undefined
+			return {
+				body: "",
+				status: res.status,
+				ok: res.status === 200,
+			};
 		}
 	} else {
-		return undefined
+		return {
+			body: "",
+			status: res.status,
+			ok: res.status === 200,
+		};
 	}
 }
 

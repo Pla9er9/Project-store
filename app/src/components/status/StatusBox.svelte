@@ -17,12 +17,12 @@
         margin: 12px;
         display: flex;
         align-items: center;
-        border: solid 1px #ffffff48;
+        border: solid 1px var(--lightBorder);
         border-radius: 5px;
 
         h1 {
             margin: auto 0;
-            font-size: 19px;
+            font-size: 14px;
             color: #fff;
             font-family: sans-serif;
         }
@@ -33,11 +33,10 @@
         }
 
         .statusBar {
-            width: 70px;
-            height: 100%;
-            margin-left: auto;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
+            width: 32px;
+            height: 32px;
+            margin: 0 20px 0 auto;
+            border-radius: 10px;
         }
 
         .working {

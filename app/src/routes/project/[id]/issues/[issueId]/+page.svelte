@@ -36,7 +36,7 @@
 		<Avatar
 			cursor="pointer"
 			margin="0 10px 0 0"
-			imageUrl="{PUBLIC_API_URL}/user/{issue.createdBy.username}/avatar"
+			username={issue.createdBy.username}
 			size="40px"
 		/>
 		<p>{issue.createdBy.username}</p>

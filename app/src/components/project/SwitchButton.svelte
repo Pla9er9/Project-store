@@ -15,12 +15,14 @@
 <style lang="scss">
 	button {
 		width: 120px;
-		height: 35px;
+		height: 40px;
 		margin-bottom: 50px;
 		border: none;
 		color: #fff;
 		font-family: 'Fira sans';
-		outline: solid 1px #ffffff23;
+		border-top: solid 1px var(--lightBorder);
+		border-bottom: solid 1px var(--lightBorder);
+		transition: 150ms ease-in-out;
 		cursor: pointer;
 
 		--margin: 6px;
@@ -28,11 +30,13 @@
 		&:first-child {
 			border-top-left-radius: var(--margin);
 			border-bottom-left-radius: var(--margin);
+			border-left: solid 1px var(--lightBorder);
 		}
 
 		&:last-child {
 			border-top-right-radius: var(--margin);
 			border-bottom-right-radius: var(--margin);
+			border-right: solid 1px var(--lightBorder);
 		}
 	}
 </style>

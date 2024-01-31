@@ -35,12 +35,12 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Query("UPDATE Project p set p.codeSize = p.codeSize + :cs WHERE p.id = :id")
     void updateCodeSize(@Param("id") UUID id, @Param("cs") long codesize);
 
-    @Query("SELECT p FROM Project p WHERE p.name LIKE '%:name%' AND p.isPrivate = FALSE")
-    Page<Set<Project>> searchByName(@Param("name") String name, Pageable pageable);
+    @Query("SELECT p FROM Project p WHERE lower(p.name) LIKE %:name% AND p.isPrivate = FALSE")
+    Page<Project> searchByName(@Param("name") String name, Pageable pageable);
 
     //    @Query("SELECT p FROM Project p WHERE p.tags LIKE '%:tag%' AND p.isPrivate = FALSE")
     @Query("SELECT p FROM Project p WHERE p.isPrivate = FALSE")
-    Page<Set<Project>> searchByTag(@Param("tag") String tag, Pageable pageable);
+    Page<Project> searchByTag(@Param("tag") String tag, Pageable pageable);
 
     @Override
     @Lock(LockModeType.PESSIMISTIC_WRITE)

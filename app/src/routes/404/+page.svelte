@@ -6,7 +6,7 @@
 <main>
 	<h1>404</h1>
 	<h1>Page you are looking for wasnt found <br>
-		<button on:click={() => goto("/")}>Back to home</button>
+		<button on:click={() => goto("/")}>Back home</button>
 	</h1>
 
 </main>
@@ -27,7 +27,7 @@
 			margin: 0;
 
 			&:first-child {
-				background: -webkit-linear-gradient(#eee, #333);
+				background: -webkit-linear-gradient(#eee, #1f1f1f);
 				-webkit-background-clip: text;
 				background-clip: text;
 				-webkit-text-fill-color: transparent;

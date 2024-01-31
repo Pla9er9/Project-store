@@ -5,7 +5,7 @@
     import { alertStore, type Alert as alert } from '$lib/stores/alertStore';
     import Alert from '$components/layout/Alert.svelte';
     import { tokenStore } from '$lib/stores/tokenStore.js';
-    import { afterNavigate, beforeNavigate, goto } from '$app/navigation';
+    import { beforeNavigate, goto } from '$app/navigation';
     import Footer from '$components/layout/Footer.svelte';
 
     export let data;

@@ -47,33 +47,37 @@
 	}
 </script>
 
-<div>
-	<Input
-		placeholder="Project name"
-		validator={validators.validateProjectName}
-		maxlength={50}
-		bind:value={projectName}
-		bind:correct={projectNameValid}
-	>
-		<img src="/icons/pen.svg" alt="">
-	</Input>
-	<CheckBox label="Private" bind:value={isPrivate} border="solid 1px #ffffff23">
-		<img src="/icons/lock.svg" alt="">
-	</CheckBox>
-	<TextArea
-		width="195px"
-		maxlength={140}
-		bind:value={description}
-		placeholder="Short description - max 140 characters"
-	/>
-	<Select text="License" bind:value={license} options={getLicenses()} imgSrc="/icons/license.svg" />
-	<TagInput bind:tags />
-	<br />
-	<SubmitButton text="Confirm" isValid={isFormValidated} callback={editProject}>
-		<img src="/icons/edit.svg" alt="" />
-	</SubmitButton>
+<div class="row" style="margin-top: 40px;">
+	<div class="column">
+		<Input
+			placeholder="Project name"
+			validator={validators.validateProjectName}
+			maxlength={50}
+			bind:value={projectName}
+			bind:correct={projectNameValid}
+		>
+			<img src="/icons/pen.svg" alt="">
+		</Input>
+		<CheckBox label="Private" bind:value={isPrivate} border="solid 1px var(--lightBorder)">
+			<img src="/icons/lock.svg" alt="">
+		</CheckBox>
+		<TextArea
+			width="195px"
+			maxlength={140}
+			bind:value={description}
+			placeholder="Short description - max 140 characters"
+		/>
+	</div>
+	<div class="column">
+		<TagInput bind:tags />
+	</div>
+	<div class="column">
+		<Select text="License" bind:value={license} options={getLicenses()} imgSrc="/icons/license.svg" />
+		<br>
+		<SubmitButton text="Confirm" isValid={isFormValidated} callback={editProject} iconUrl="/icons/edit.svg" />
+		<button id="deleteProject" on:click={deleteProject}>Delete project</button>
+	</div>
 </div>
-<button id="deleteProject" on:click={deleteProject}>Delete project</button>
 
 <style>
 	img {
@@ -83,13 +87,21 @@
 		width: 22px;
 	}
 	#deleteProject {
-		width: 240px;
+		width: 245px;
 		height: 40px;
-		border: solid 1px rgb(255, 0, 0);
+		border: solid 1px var(--danger);
 		margin: 10px 0 25px 0;
 		cursor: pointer;
-		color: #eee;
-		background-color: #f7050560;
+		color: var(--danger);
+		background: inherit;
 		border-radius: 10px;
+
+		&:hover {
+			background-color: #e62f2f60;
+			border: none;
+		}
+	}
+	.column {
+		margin: auto 25px;
 	}
 </style>

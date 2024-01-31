@@ -69,7 +69,7 @@
 </script>
 
 <div class="avatarName">
-	<Avatar size={avatarSize} imageUrl="{PUBLIC_API_URL}/user/{userdata.username}/avatar" />
+	<Avatar size={avatarSize} username={userdata.username} />
 	<div class="textData">
 		<h1>{userdata.username}</h1>
 		<p>{name}</p>

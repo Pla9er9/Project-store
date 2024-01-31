@@ -19,10 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -182,16 +179,13 @@ public class ProjectService {
     }
 
     public Set<ProjectDtoSimple> searchByName(String name) {
-        var p = projectRepository.searchByName(name, PageRequest.of(0, 20)).get()
-                .map(set -> set.stream().map(this::projectEntityToSimpleDto)
-                        .collect(Collectors.toSet())).findAny();
-        return p.orElseGet(Set::of);
+        var p = projectRepository.searchByName(name.toLowerCase(), PageRequest.of(0, 20));
+        return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
     public Set<ProjectDtoSimple> searchByTag(String tag) {
-        return projectRepository.searchByTag(tag, PageRequest.of(0, 20)).stream()
-                .map(set -> set.stream().map(this::projectEntityToSimpleDto)
-                        .collect(Collectors.toSet())).findAny().get();
+        var p = projectRepository.searchByTag(tag, PageRequest.of(0, 20));
+        return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
     public Page<ProjectDTO> getTrending(Integer page) {
@@ -233,6 +227,11 @@ public class ProjectService {
     }
 
     public ProjectDtoSimple projectEntityToSimpleDto(Project project) {
+        Language mainLanguage = null;
+        if (project.getLanguages().size() > 0) {
+            mainLanguage = project.getLanguages().get(0);
+        }
+
         return new ProjectDtoSimple(
                 project.getId(),
                 project.getName(),
@@ -242,7 +241,7 @@ public class ProjectService {
                         project.getOwner().getId(),
                         project.getOwner().getUsername()),
                 project.isPrivate(),
-                project.getLanguages().get(0)
+                mainLanguage
         );
     }
 }

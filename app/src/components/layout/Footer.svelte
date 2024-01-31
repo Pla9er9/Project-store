@@ -8,7 +8,7 @@
 </script>
 
 <footer class="row">
-    <img src="icons/project.svg" alt="">
+    <img src="/icons/project.svg" alt="">
     <p>Project store 2024</p>
     <a href="{host}/status">Server status</a>
     <a href="{host}/explore">Explore</a>
