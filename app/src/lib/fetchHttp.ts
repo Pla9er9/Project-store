@@ -55,7 +55,6 @@ export default async function fetchHttp(
 			}
 		});
 	}
-	console.log(res)
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {
 			throw redirect(300, 'login');

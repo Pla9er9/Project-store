@@ -20,7 +20,10 @@
 			<LinkButton text="Sign up" link="/register" />
 		</div>
 	{:else}
-		<a class="iconBtn" href="/new" style="margin-left: auto;">
+		<a class="iconBtn" href="/explore" style="margin-left: auto;">
+			<img src="/icons/explore.svg" alt="">
+		</a>
+		<a class="iconBtn" href="/new">
 			<img src="/icons/plus.svg" alt="">
 		</a>
 		<button class="iconBtn">

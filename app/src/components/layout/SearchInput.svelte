@@ -19,21 +19,17 @@
     />
     {#if focus && value != ""}
         <div id="searchItems" class="column">
-            <a class="searchItem" href="/search?q={value}" rel="external">
-                <img src="/icons/search_.svg" alt="search icon" />
-                <p>{value}</p>
-            </a>
             <a class="searchItem" href="/search?q={value}&t=users" rel="external">
                 <img src="/icons/user.svg" alt="user icon" />
-                <p>Users by name {value}</p>
+                <p>Users {value}</p>
             </a>
             <a class="searchItem" href="/search?q={value}&t=project-name" rel="external">
                 <img src="/icons/project.svg" alt="tag icon" />
-                <p>Projects by name {value}</p>
+                <p>Projects {value}</p>
             </a>
             <a class="searchItem" href="/search?q={value}&t=project-tag" rel="external">
                 <img src="/icons/tag.svg" alt="tag icon" />
-                <p>Projects by tag {value}</p>
+                <p>Projects with tag {value}</p>
             </a>
         </div>
     {/if}

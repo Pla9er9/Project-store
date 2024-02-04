@@ -184,7 +184,7 @@ public class ProjectService {
     }
 
     public Set<ProjectDtoSimple> searchByTag(String tag) {
-        var p = projectRepository.searchByTag(tag, PageRequest.of(0, 20));
+        var p = projectRepository.findByTagsAndIsPrivateFalse(tag, PageRequest.of(0, 20));
         return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 

@@ -38,9 +38,7 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Query("SELECT p FROM Project p WHERE lower(p.name) LIKE %:name% AND p.isPrivate = FALSE")
     Page<Project> searchByName(@Param("name") String name, Pageable pageable);
 
-    //    @Query("SELECT p FROM Project p WHERE p.tags LIKE '%:tag%' AND p.isPrivate = FALSE")
-    @Query("SELECT p FROM Project p WHERE p.isPrivate = FALSE")
-    Page<Project> searchByTag(@Param("tag") String tag, Pageable pageable);
+    Page<Project> findByTagsAndIsPrivateFalse(String tag, Pageable pageable);
 
     @Override
     @Lock(LockModeType.PESSIMISTIC_WRITE)

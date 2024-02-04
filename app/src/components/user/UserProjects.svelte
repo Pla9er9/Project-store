@@ -1,14 +1,13 @@
 <script lang="ts">
 	export let projects: any[];
-	export let username: string;
 
-	import ProjectRow from '$components/user/ProjectRow.svelte';
+	import Result from '$components/search/Result.svelte';
 </script>
 
 <div id="projects">
 	{#each projects as project}
 		<div style="max-width: 400px;width:95%;margin: 12px;">
-			<ProjectRow {project} {username} />
+			<Result data={project} type="project" wide={false} />
 		</div>
 	{/each}
 </div>

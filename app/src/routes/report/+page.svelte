@@ -19,7 +19,6 @@
         if (res?.ok) {
             await goto("/");
         } else {
-            console.log(res?.status);
             alert("Error");
         }
     }

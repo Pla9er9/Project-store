@@ -29,7 +29,7 @@
 	</div>
 	<SwitchButton bind:currentValue={switchValue} values={['Description', projectSwitchBtnText]} />
 	{#if switchValue === projectSwitchBtnText}
-		<UserProjects projects={data.data.projects} username={data.slug} />
+		<UserProjects projects={data.data.projects} />
 	{:else if switchValue === 'Description'}
 		{#if data.data.description !== null}
 			<Readme html={data.data.description} />

@@ -3,12 +3,13 @@
     export let options: string[]
     export let value: string
     export let imgSrc: string
+    export let onSelect: () => void = () => {}
 </script>
 
 <div>
     <img src="{imgSrc}" alt="icon">
     <p>{text}</p>
-    <select bind:value>
+    <select bind:value on:change={onSelect}>
         {#each options as option}
             <option value="{option}">{option}</option>
         {/each}

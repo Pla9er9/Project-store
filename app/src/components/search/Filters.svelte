@@ -3,11 +3,13 @@
 
     export let query: string | null;
     export let type: string | null;
+    export let onSelect: (e: string) => void = (e) => {}
 
+    let sType: string
     if (type === "" || type === null) {
-        type = "all";
+        sType = "users";
     } else {
-        type = type.replace("-", " ");
+        sType = type.replace("-", " ");
     }
 </script>
 
@@ -15,10 +17,11 @@
     <img src="/icons/search_.svg" alt="" />
     <h1>{query}</h1>
     <Select
-        bind:value={type}
+        bind:value={sType}
         text="Filter"
-        options={["all", "users", "project name", "project tag"]}
+        options={["users", "project name", "project tag"]}
         imgSrc="/icons/filter.svg"
+        onSelect={() => onSelect(sType)}
     />
 </div>
 

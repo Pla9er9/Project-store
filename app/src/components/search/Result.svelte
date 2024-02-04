@@ -3,6 +3,7 @@
 
     export let data;
     export let type: "user" | "project" | "mixed";
+    export let wide: boolean = true;
 
     if (data.mainLanguage === null) {
         data.mainLanguage = "No programing language";
@@ -21,11 +22,13 @@
         </a>
         <div class="column" style="align-items: flex-start;">
             <a href="/{data.username}">{data.username}</a>
-            <small style="margin-left: 0;">{data.firstname} {data.lastname}</small>
+            <small style="margin-left: 0;"
+                >{data.firstname} {data.lastname}</small
+            >
         </div>
-        <img src="/icons/project.svg" alt="" style="margin: 0 8px 0 auto">
+        <img src="/icons/project.svg" alt="" style="margin: 0 8px 0 auto" />
         <p style="margin-right: auto;">{data.projectCount} Projects</p>
-        <img src="/icons/hearth.svg" alt="" style="margin-right: 8px;">
+        <img src="/icons/hearth.svg" alt="" style="margin-right: 8px;" />
         <p>{data.followers} Followers</p>
     {:else if type === "project"}
         <a href="/{data.owner.username}">
@@ -37,10 +40,12 @@
             />
         </a>
         <a href="/project/{data.id}">{data.name}</a>
-        <small>{data.created.slice(0, 10)}</small>
-        <small style="margin: 0 0 0 auto">{data.mainLanguage}</small>
-        <div class="languageBar"></div>
-        <p>{data.likes}</p>
+        {#if wide}
+            <small>{data.created.slice(0, 10)}</small>
+            <small style="margin: 0 0 0 auto">{data.mainLanguage}</small>
+            <div class="languageBar"></div>
+        {/if}
+        <p style="margin-left: {wide ? "0" : "auto"};">{data.likes}</p>
         <img src="/icons/hearth.svg" alt="" />
     {/if}
 </div>
@@ -85,6 +90,11 @@
         img {
             width: 20px;
             margin-left: 10px;
+        }
+
+        p {
+            font-size: 15px;
+            color: rgb(213, 215, 216);
         }
     }
 </style>

@@ -22,13 +22,6 @@ public class SearchController {
     private final ProjectService projectService;
     private final UserService userService;
 
-    @GetMapping("/all/{query}")
-    public List searchAll(
-            @PathVariable String query
-    ) {
-        return List.of();
-    }
-
     @GetMapping("/users/{query}")
     public Set<UserDtoSearch> searchUser(
             @PathVariable String query
