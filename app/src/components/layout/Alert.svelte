@@ -47,6 +47,7 @@
 		align-items: center;
 		border-radius: 10px;
 		color: var(--color);
+		z-index: 99999999;
 
 		svg {
 			width: 20px;

@@ -42,9 +42,11 @@
         a {
             font-family: sans-serif;
             color: #9c9c9c;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: sans-serif;
+            font-weight: 100;
+            font-size: 13px;
             transition: .1s;
-            margin: 5px 18px;
+            margin: 5px 16px;
 
             &:hover {
                 color: rgb(195, 240, 128);

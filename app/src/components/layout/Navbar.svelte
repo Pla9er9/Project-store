@@ -5,10 +5,14 @@
 	import SearchInput from './SearchInput.svelte';
 
 	export let username: string | null;
+	let home = "/"
+	if (username !== null) {
+		home = "/home"
+	}
 </script>
 
 <nav class="row">
-	<a href="/" class="row home">
+	<a href="{home}" class="row home">
 		<img src="/icons/project.svg" alt="">
 		<h1> Project store</h1>
 	</a>

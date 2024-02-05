@@ -12,7 +12,7 @@
         bind:value
         on:focusin={() => (focus = true)}
         on:focusout={async () => {
-            await new Promise((r) => setTimeout(r, 100));
+            await new Promise((r) => setTimeout(r, 200));
             focus = false;
         }}
         placeholder="Search"
