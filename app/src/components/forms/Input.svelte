@@ -18,13 +18,14 @@
     }
 </script>
 
-<div class="column" style="width: {width};">
+<div class="column">
     <div
-        class="input"
+        class="input row"
         style="
-	--state: {correct ? 'var(--mainColor)' : 'var(--danger)'};
-	--border: {correct || !clicked ? 'var(--lightBorder)' : 'var(--danger)'};
-	"
+        --state: {correct ? 'var(--mainColor)' : 'var(--danger)'};
+        --border: {correct || !clicked ? 'var(--lightBorder)' : 'var(--danger)'};
+        width: {width};
+        "
     >
         <slot />
         <input
@@ -48,8 +49,6 @@
         margin: 10px 0;
         padding-left: 24px;
         height: 40px;
-        display: flex;
-        align-items: center;
         border: solid 1px var(--border);
         border-radius: 8px;
         background-color: inherit;
@@ -72,6 +71,7 @@
             pointer-events: auto;
         }
     }
+
     .errorMsg {
         color: var(--dark-danger);
         font-size: 10px;

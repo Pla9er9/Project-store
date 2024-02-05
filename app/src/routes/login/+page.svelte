@@ -33,7 +33,8 @@
 </script>
 
 <main class="form">
-    <h1>Welcome back!</h1>
+    <h1>Project store</h1>
+    <small>Welcome back!</small>
     <Input
         placeholder="username"
         validator={validators.validateUsername}
@@ -64,10 +65,9 @@
     .form {
         width: 400px;
         height: 450px;
-        margin: 100px auto;
-        background-color: rgba(14, 14, 14, 0.425);
-        border: solid 1px #ffffff21;
-        border-radius: 10px;
+        margin: 80px auto;
+        border: solid 1px var(--lightBorder);
+        border-radius: 5px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -76,18 +76,21 @@
         h1 {
             font-size: 40px;
             color: #e5e0f0;
-            margin: 70px 0 60px 0;
+            margin: 70px 0 8px 0;
             font-family: "Inter";
             font-weight: 100;
             text-align: center;
         }
 
-        img {
-            width: 22px;
+        small {
+            font-size: 22px;
+            color: rgb(154, 153, 153);
+            font-family: 'Fira sans';
+            margin-bottom: 40px;
+        }
 
-            &:nth-child(2) {
-                width: 20px;
-            }
+        img {
+            width: 20px;
         }
     }
 </style>

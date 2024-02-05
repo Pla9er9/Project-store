@@ -2,7 +2,7 @@
 	export let text: string;
 	export let callback: () => void;
 	export let isValid: boolean;
-	export let iconUrl: string = undefined
+	export let iconUrl: string | undefined = undefined
 	export let width = "220px"
 
 	if (iconUrl === undefined) {

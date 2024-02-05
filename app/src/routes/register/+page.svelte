@@ -2,6 +2,8 @@
     import { goto } from "$app/navigation";
     import Input from "$components/forms/Input.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
+    import fetchHttp from "$lib/fetchHttp";
+    import { alertStore } from "$lib/stores/alertStore";
     import * as validators from "$lib/validators/registerValidators";
 
     let username = "",
@@ -24,7 +26,7 @@
 
     async function sendForm() {
         if (!isFormValid) return;
-        let res = await fetch("http://localhost:5173/register", {
+        let res = await fetch("/register", {
             method: "post",
             body: JSON.stringify({
                 username: username,
@@ -32,18 +34,24 @@
                 password: password,
                 firstname: firstname,
                 lastname: lastname,
-            }),
-        });
-        if (res.ok) {
+            })
+        })
+        if (res?.status === 200) {
             await goto("/");
             location.reload();
+        } else {
+            alertStore.update(a => {
+                a.color ="red"
+                a.message = "Unabled to create account"
+                return a
+            })
         }
     }
 </script>
 
 <main>
-    <img src="/icons/user_.svg" alt="user icon" style="margin-top: -20px;" />
-    <h1>Registration</h1>
+    <h1>Project store</h1>
+    <small>Registration</small>
     <div class="form">
         <Input
             placeholder="username"
@@ -100,20 +108,30 @@
 <style lang="scss">
     main {
         max-width: 700px;
-		min-height: 600px;
+		min-height: 450px;
         width: 100%;
-        margin: 100px auto;
+        margin: 80px auto;
         display: flex;
         flex-direction: column;
         align-items: center;
 		justify-content: center;
-        background-color: rgba(14, 14, 14, 0.425);
-        border: solid 1px #ffffff21;
-		border-radius: 10px;
+        border: solid 1px var(--lightBorder);
+		border-radius: 5px;
 
         h1 {
+            font-size: 40px;
             color: #e5e0f0;
-			margin: 30px 0 60px 0;
+            margin: 0px 0 8px 0;
+            font-family: "Inter";
+            font-weight: 100;
+            text-align: center;
+        }
+
+        small {
+            font-size: 22px;
+            color: rgb(154, 153, 153);
+            font-family: 'Fira sans';
+            margin-bottom: 40px;
         }
 
         img {
@@ -131,7 +149,7 @@
             margin: 0 auto;
 
             img {
-                width: 22px;
+                width: 20px;
             }
         }
     }
