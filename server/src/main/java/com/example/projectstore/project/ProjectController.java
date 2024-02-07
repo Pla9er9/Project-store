@@ -47,16 +47,18 @@ public class ProjectController {
 
     @GetMapping("/trending")
     public Page<ProjectDTO> getRecommendedProjects(
-            @RequestParam(defaultValue = "0", required = false) Integer page
+            @RequestParam(defaultValue = "0", required = false) Integer page,
+            @RequestParam(defaultValue = "*", required = false) String language
     ) {
-        return projectService.getTrending(page);
+        return projectService.getTrending(page, language);
     }
 
     @GetMapping("/mostLiked")
     public Page<ProjectDTO> getMostLikedProjects(
-            @RequestParam(defaultValue = "0", required = false) Integer page
+            @RequestParam(defaultValue = "0", required = false) Integer page,
+            @RequestParam(defaultValue = "*", required = false) String language
     ) {
-        return projectService.getMostLikedProjects(page);
+        return projectService.getMostLikedProjects(page, language);
     }
 
     @GetMapping("/{id}")

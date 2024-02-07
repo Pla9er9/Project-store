@@ -189,13 +189,29 @@ public class ProjectService {
     }
 
     public Page<ProjectDTO> getTrending(Integer page) {
+        return getTrending(page, "*");
+    }
+
+    public Page<ProjectDTO> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
-        return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        if (!language.equals("*")) {
+            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToDto);
+        } else {
+            return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        }
     }
 
     public Page<ProjectDTO> getMostLikedProjects(Integer page) {
+        return getMostLikedProjects(page, "*");
+    }
+
+    public Page<ProjectDTO> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
-        return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        if (!language.equals("*")) {
+            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToDto);
+        } else {
+            return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        }
     }
 
     public ProjectDTO projectEntityToDto(Project project) {

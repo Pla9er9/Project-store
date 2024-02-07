@@ -31,17 +31,21 @@
         <img src="/icons/hearth.svg" alt="" style="margin-right: 8px;" />
         <p>{data.followers} Followers</p>
     {:else if type === "project"}
-        <a href="/{data.owner.username}">
-            <Avatar
-                username={data.owner.username}
-                size="42px"
-                margin="0 20px 0 0"
-                cursor="pointer"
-            />
-        </a>
-        <a href="/project/{data.id}">{data.name}</a>
+        <div class="row" style="width: 300px;">
+            <a href="/{data.owner.username}">
+                <Avatar
+                    username={data.owner.username}
+                    size="42px"
+                    margin="0 20px 0 0"
+                    cursor="pointer"
+                />
+            </a>
+            <a href="/project/{data.id}">{data.name}</a>
+            {#if wide}
+                <small>{data.created.slice(0, 10)}</small>
+            {/if}
+        </div>
         {#if wide}
-            <small>{data.created.slice(0, 10)}</small>
             <small style="margin: 0 0 0 auto">{data.mainLanguage}</small>
             <div class="languageBar"></div>
         {/if}
@@ -58,7 +62,7 @@
         max-width: 1200px;
         padding: 0 30px;
         border-radius: 4px;
-        height: 100px;
+        height: 90px;
         margin: 8px 0;
 
         a {

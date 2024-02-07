@@ -44,4 +44,9 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @NotNull
     Project save(@NotNull Project project);
+
+//    Page<Project> findByLanguagesByOrderByLikes_size(String language, Pageable pageable);
+
+//    Page<Project> findByLanguagesByOrderByLikesToday(String language, Pageable pageable);
+    Page<Project> findByLanguages(String language, Pageable pageable);
 }
