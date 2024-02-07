@@ -1,10 +1,12 @@
-<div class="spinner"></div>
+<script>
+    export let size = "50px"
+</script>
+
+<div class="spinner" style="width: {size};height: {size}"></div>
 
 <style lang="scss">
     .spinner {
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
+        border-radius: 100%;
         border-left: solid 3px var(--mainColor);
         animation: spin 1s infinite linear;
     }

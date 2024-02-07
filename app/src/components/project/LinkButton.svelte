@@ -17,5 +17,9 @@
 		background-color: #111111;
 		border: solid 1px #ffffff11;
 		border-radius: 9px;
+
+		&:hover {
+			border: solid 1px #504f4f;
+		}
 	}
 </style>

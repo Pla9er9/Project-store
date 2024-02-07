@@ -39,7 +39,7 @@
 		if (body) {
 			body.style.backgroundColor = '#000';
 			body.style.backgroundImage =
-				'radial-gradient(circle, rgba(61, 61, 61, 0.3) 0%, rgba(0, 0, 0, 0) 100%)';
+				'radial-gradient(circle, rgba(61, 61, 61, 0.1) 0%, rgba(0, 0, 0, 0) 100%)';
 		}
 	});
 
@@ -74,7 +74,7 @@
 <main>
 	<div class="messages">
 		{#if messages.length === 0}
-			<h1>There is no <br /> messages yet <br /> 😭😭😭</h1>
+			<h1>There is no <br /> messages yet</h1>
 		{:else}
 			{#each messages as message}
 				<Message {message} {username} />

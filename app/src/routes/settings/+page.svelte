@@ -80,17 +80,17 @@
         await fetchHttp("/account/avatar", {
             token: data.token,
             method: "delete",
-            body: undefined
+            body: undefined,
         });
     }
 </script>
 
-<h1>Edit account</h1>
-<div class="wrapper">
-    <div>
+<h1 class="settingsHeader">Edit account</h1>
+<div class="wrapper column">
+    <div class="row" style="justify-content: space-around;">
         <div class="avatarPanel">
-            <Avatar username="{data.username}" />
-            <div style="width: 180px;">
+            <Avatar username={data.username} margin="0 auto 25px auto" />
+            <div class="row" style="width: 200px;justify-content:space-around">
                 <input
                     type="file"
                     on:change={uploadAvatar}
@@ -100,6 +100,13 @@
                 <button on:click={deleteAvatar}>delete</button>
             </div>
         </div>
+        <TextArea
+            bind:value={description}
+            placeholder="Description"
+            width="195px"
+        />
+    </div>
+    <div class="row">
         <Input
             placeholder="username"
             validator={validators.validateUsername}
@@ -117,6 +124,8 @@
         >
             <img src="/icons/email_outline.svg" alt="" />
         </Input>
+    </div>
+    <div class="row">
         <Input
             placeholder="firstname"
             validator={validators.validateFirstname}
@@ -134,16 +143,15 @@
             <img src="/icons/personal_data_outline.svg" alt="" />
         </Input>
     </div>
-    <div style="align-self: center;margin-top:160px">
-        <TextArea bind:value={description} placeholder="Description" />
-    </div>
-    <div style="align-self: flex-end;">
+    <div class="row">
         <Input placeholder="Link" validator={(s) => ""} bind:value={link1}>
             <img src="/icons/link.svg" alt="link" />
         </Input>
         <Input placeholder="Link" validator={(s) => ""} bind:value={link2}>
             <img src="/icons/link.svg" alt="link" />
         </Input>
+    </div>
+    <div class="row" style="width: 540px;margin-left: 5px">
         <Input placeholder="Link" validator={(s) => ""} bind:value={link3}>
             <img src="/icons/link.svg" alt="link" />
         </Input> <br />
@@ -157,55 +165,59 @@
 </div>
 
 <style lang="scss">
-	h1 {
-		font-family: 'Inter', sans-serif;
-	}
     img {
-        width: 22px;
+        width: 20px;
     }
     .wrapper {
         max-width: 650px;
         width: 100vw;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: start;
+    }
+    .row {
+        width: 550px;
+        justify-content: space-around;
+        flex-wrap: wrap;
     }
     .avatarPanel {
         width: 215px;
         margin-left: 12px;
         margin-bottom: 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
 
         input[type="file"] {
             width: 88px;
             background-color: #000;
+            border-radius: 5px;
 
             &::before {
                 width: 88px;
-                height: 21px;
-                margin-top: 0px;
-                border-radius: 3px;
-                outline: solid 1px #0d638bc2;
+                height: 30px;
+                margin-top: -5px;
+                border-radius: 5px;
+                outline: solid 1px var(--lightBorder);
                 content: "new";
                 position: absolute;
                 color: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: rgb(3, 31, 44);
+                background-color: var(--background);
                 cursor: pointer;
             }
         }
         button {
             width: 88px;
-            height: 24px;
+            height: 30px;
             background-color: rgb(58, 8, 8);
             color: #fff;
             border: solid 1px #ffffff1f;
             border-radius: 4px;
             cursor: pointer;
+
+            &:hover {
+                background-color: rgba(246, 5, 5, 0.364);
+            }
         }
     }
 </style>

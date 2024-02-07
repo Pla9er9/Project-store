@@ -54,7 +54,7 @@
 	.yourMessage {
 		margin-left: auto;
 		margin-right: 15px;
-		border: solid 1px rgb(201, 247, 148);
+		border: solid 1px #fff;
 	}
 
 	.notYourMessage {

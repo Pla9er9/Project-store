@@ -16,7 +16,7 @@
         align-items: center;
         outline: none;
         text-indent: 20px;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-family: sans-serif;
         font-size: 14px;
         color: gray;
     }

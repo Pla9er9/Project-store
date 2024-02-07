@@ -21,7 +21,7 @@
     footer {
         width: 100%;
         padding: 10px 45px;
-        margin-top: auto;
+        margin-top: 80px;
         border-top: 1px solid #202020;
         height: 60px;
         flex-wrap: wrap;

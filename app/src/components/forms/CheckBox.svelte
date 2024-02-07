@@ -1,8 +1,8 @@
 <script lang="ts">
 	export let label: string;
 	export let value: boolean;
-	export let marginLeft = '80px';
-	export let border = 'solid 1px var(--lightBorder);';
+	export let marginLeft = "80px";
+	export let border = "solid 1px var(--lightBorder);";
 </script>
 
 <div
@@ -13,7 +13,11 @@
 >
 	<slot />
 	<p>{label}</p>
-	<button style="margin-left: {marginLeft};" on:click={() => (value = !value)} />
+	<button style="margin-left: {marginLeft};" on:click={() => (value = !value)}>
+		{#if value}
+			<img src="/icons/checkmark_dark.svg" alt="">
+		{/if}
+	</button>
 </div>
 
 <style lang="scss">
@@ -21,29 +25,34 @@
 		display: flex;
 		align-items: center;
 		margin: 10px 0;
-		width: 220px;
+		width: 218px;
 		height: 40px;
 		border-radius: 8px;
 		padding-left: 24px;
 
 		p {
 			color: #ffffff6b;
-			font-family: 'Fira sans';
+			font-family: "Fira sans";
 			font-size: 14px;
 			margin: 0px;
 			text-indent: 35px;
 		}
 
 		button {
-			width: 18px;
-			height: 18px;
+			width: 17px;
+			height: 17px;
 			border: solid 1px #ffffff28;
-			border-radius: 4px;
+			border-radius: 6px;
 			background-color: var(--background);
 			display: flex;
 			justify-content: center;
 			align-items: center;
 			cursor: pointer;
+			transition: 100ms ease;
+
+			img {
+				min-width: 10px;
+			}
 		}
 	}
 </style>

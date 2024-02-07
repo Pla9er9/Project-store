@@ -15,16 +15,18 @@
 </script>
 
 {#if languages.length > 0}
-	<div id="languageBox">
-		<div class="inline">
+	<div id="languageBox" class="column">
+		<div class="inline row">
 			{#each languages as lang}
 				<div class="line" style="width: {lang.filesCount / sum * 100}%;background: {getColorOfLanguage(lang.name)}" />
 			{/each}
 		</div>
-		<div class="inline" style="margin-left: 8px;">
+		<div class="inline row" style="margin-left: 8px;">
 			{#each languages as lang}
-				<div class="circle" style="background: {getColorOfLanguage(lang.name)};" />
-				<p>{lang.name} <span>{lang.filesCount / sum * 100}%</span></p>
+				<div class="row" style="min-width: max-content">
+					<div class="circle" style="background: {getColorOfLanguage(lang.name)};" />
+					<p>{lang.name !== "" ? lang.name : "other"} <span>{String(lang.filesCount / sum * 100).slice(0, 4)}%</span></p>
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -38,15 +40,11 @@
 		background: #111;
 		border: solid 1px #ffffff11;
 		border-radius: 9px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
 		justify-content: space-around;
+		padding-bottom: 8px;
 
 		.inline {
 			width: 94%;
-			display: flex;
-			align-items: center;
 			overflow-x: auto;
 
 			.line {
@@ -55,13 +53,13 @@
 				height: 6px;
 
 				&:first-of-type {
-					border-top-left-radius: 5px;
-					border-bottom-left-radius: 5px;
+					border-top-left-radius: 8px;
+					border-bottom-left-radius: 8px;
 				}
 
 				&:last-of-type {
-					border-top-right-radius: 5px;
-					border-bottom-right-radius: 5px;
+					border-top-right-radius: 8px;
+					border-bottom-right-radius: 8px;
 				}
 			}
 

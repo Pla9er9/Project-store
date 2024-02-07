@@ -4,7 +4,9 @@
     import SubmitButton from "$components/forms/SubmitButton.svelte";
     import TextArea from "$components/forms/TextArea.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
-    import { createEventDispatcher, getContext } from "svelte";
+    import { tokenStore } from "$lib/stores/tokenStore";
+    import { createEventDispatcher } from "svelte";
+    import { get } from "svelte/store";
 
     export let projectId: string;
 
@@ -13,7 +15,7 @@
 
     const dispatch = createEventDispatcher();
 
-    let token = getContext("token");
+    let token = get(tokenStore)
 
     async function createNewIssue() {
         const body = JSON.stringify({
@@ -30,7 +32,7 @@
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + token,
                 },
-            }
+            },
         );
         if (!req.ok) {
             alert("Error with creating project");
@@ -46,7 +48,7 @@
         <h1>New issue</h1>
     </div>
     <Input
-        width="4px"
+        width="300px"
         bind:value={title}
         placeholder="Title"
         validator={(s) => (s.length > 3 && s.length < 50 ? "" : "Wrong length")}
@@ -70,38 +72,42 @@
         text="Create"
         iconUrl="/icons/checkmark.svg"
     />
-</div>
+    </div>
 
 <style lang="scss">
     #newIssueForm {
-        max-width: 750px;
+        max-width: 500px;
         width: 95%;
-        height: 680px;
+        height: 640px;
         position: absolute;
-        top: 100px;
+        top: 0;
+        bottom: 0;
         left: 0;
         right: 0;
-        margin: 0 auto;
+        margin: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background-color: var(--background);
+        background-color: #00000028;
+        backdrop-filter: blur(15px);
+        border: solid 1px var(--lightBorder);
+        border-top: solid 1px #cbcaca45;
         border-radius: 10px;
+        z-index: 99999;
 
         .headline {
             display: flex;
             align-items: center;
-			width: 60%;
-			margin-bottom: 30px;
+            width: 60%;
+            margin-bottom: 30px;
 
-			h1 {
-				font-family: "Fira sans";
-				color: rgb(207, 206, 206);
-				margin-left: 15px;
-			}
+            h1 {
+                font-family: "Fira sans";
+                color: rgb(207, 206, 206);
+                margin-left: 15px;
+            }
         }
-
 
         img {
             width: 24px;

@@ -15,7 +15,7 @@
 
 <style lang="scss">
 	.custom-file-input {
-        margin: 14px 0;
+        margin: 10px 0;
 		color: transparent;
 	}
 	.custom-file-input::-webkit-file-upload-button {

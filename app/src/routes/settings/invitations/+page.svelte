@@ -10,23 +10,25 @@
 
 </script>
 
-<main>
-	<h1>Projects Invitations</h1>
-	{#each data.data as invitation}
-		<Invitation {invitation} on:deleteFromList={deleteFromList} />
-	{/each}
+<main class="column">
+	<h1 class="settingsHeader">Projects Invitations</h1>
+	{#if data.data.length > 0}
+		{#each data.data as invitation}
+			<Invitation {invitation} on:deleteFromList={deleteFromList} />
+		{/each}
+	{:else}
+		<div class="column">
+			<img src="/icons/cross.svg" alt="">
+			<p>No invitations found</p>
+		</div>
+	{/if}
 </main>
 
-<style lang="scss">
-	main {
-		display: flex;
-		flex-direction: column;
-
-		h1 {
-			font-family: 'Inter', sans-serif;
-			font-size: 35px;
-			margin-bottom: 50px;
-			color: #fff;
-		}
+<style>
+	img {
+		width: 100px;
+	}
+	p {
+		font-family: 'Fira sans';
 	}
 </style>

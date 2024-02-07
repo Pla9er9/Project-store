@@ -40,13 +40,14 @@
 		max-width: 1000px;
 		width: 85%;
 		margin: 0 auto;
-		outline: solid 1px #333333;
+		outline: solid 1px var(--lightBorder);
 		border-radius: 5px;
 		background-color: #0a0a0a00;
 		margin-bottom: 40px;
 		
 		a {
 			width: 100%;
+			height: 58px;
 			background-color: inherit;
 			display: flex;
 			align-items: center;
@@ -61,7 +62,7 @@
 
 			img {
 				margin-left: 15px;
-				margin-right: 10px;
+				margin-right: 14px;
 				width: 20px;
 				height: 20px;
 			}

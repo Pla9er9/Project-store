@@ -1,6 +1,7 @@
 <script>
-// @ts-nocheck
-    import StatusBox from "$components/status/StatusBox.svelte";
+    // @ts-nocheck
+    import StatusRow from "$components/status/StatusRow.svelte";
+
     
     let data = [
         ["Auth service", true, "lock.svg"],
@@ -19,7 +20,7 @@
     </div>
     <div class="row statusBoxes">
         {#each data as dt}
-            <StatusBox serviceName={dt[0]} working={dt[1]} iconName={dt[2]} />
+            <StatusRow serviceName={dt[0]} working={dt[1]} iconName={dt[2]} />
         {/each}
     </div>
 </main>
@@ -32,12 +33,13 @@
 
         h1 {
             width: 80%;
-            font-family: monospace;
+            font-family: 'Inter';
+            font-weight: 100;
             font-size: 40px;
         }
 
         img {
-            width: 50px;
+            width: 45px;
             margin-right: 30px;
             animation-name: moving;
             animation-duration: 2.5s;

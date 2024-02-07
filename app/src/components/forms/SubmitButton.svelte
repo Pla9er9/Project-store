@@ -2,11 +2,11 @@
 	export let text: string;
 	export let callback: () => void;
 	export let isValid: boolean;
-	export let iconUrl: string | undefined = undefined
-	export let width = "220px"
+	export let iconUrl: string | undefined = undefined;
+	export let width = "220px";
 
 	if (iconUrl === undefined) {
-		width = "240px"
+		width = "240px";
 	}
 </script>
 
@@ -15,14 +15,17 @@
     --bg: {isValid ? '#88fc0323' : 'inherit'};
     --outlineColor: {isValid ? 'var(--mainColor)' : 'var(--lightBorder)'};
     --cursor: {isValid ? 'pointer' : 'not-allowed'};
-	padding-left: {iconUrl === undefined ? "0" : "24px"};
+	padding-left: {iconUrl === undefined ? '0' : '24px'};
 	width: {width};
     "
 >
 	{#if iconUrl !== undefined}
-		<img src="{iconUrl}" alt="icon">
+		<img src={iconUrl} alt="icon" />
 	{/if}
-	<button style="text-indent: {iconUrl !== undefined ? "-15px" : "35px"};" on:click={() => callback()}>{text}</button>
+	<button
+		style="text-indent: {iconUrl !== undefined ? '-15px' : '35px'};"
+		on:click={() => callback()}>{text}</button
+	>
 </div>
 
 <style lang="scss">
@@ -30,7 +33,7 @@
 		height: 40px;
 		margin: 10px 0;
 		display: flex;
-		transition: 250ms;
+		transition: 250ms ease-in-out;
 		outline: solid 1px var(--outlineColor);
 		border-radius: 8px;
 

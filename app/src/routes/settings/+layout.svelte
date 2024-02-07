@@ -11,8 +11,8 @@
 
 <style>
     main {
-        width: 100vw;
-        height: calc(100vh - 93px);
+        min-height: 100vh;
+        height: max-content;
         display: flex;
     }
 </style>

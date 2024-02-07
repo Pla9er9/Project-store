@@ -1,27 +1,33 @@
 <script lang="ts">
-	import go from 'svelte-highlight/languages/go';
-	import Highlight from 'svelte-highlight';
-	import { githubDark } from 'svelte-highlight/styles';
+	import Highlight, { LineNumbers } from "svelte-highlight";
+	import { windows10 } from "svelte-highlight/styles";
+    import { java } from "svelte-highlight/languages";
 
 	export let code: string;
 </script>
 
 <svelte:head>
-	{@html githubDark}
+	{@html windows10}
 </svelte:head>
 
 <div class="code">
-	<Highlight language={go} {code} />
+	<Highlight
+		language={java}
+		{code}
+		let:highlighted
+		--border-color="var(--lightBorder)"
+		>
+		<LineNumbers {highlighted}/>
+	</Highlight>
 </div>
 
 <style lang="scss">
 	.code {
 		margin: 0 auto;
-		max-width: 1000px;
-		width: 95%;
+		width: 100%;
 		height: max-content;
-		background-color: #0d1117;
-		border: solid 1px rgba(128, 128, 128, 0.233);
+		background-color: var(--background);
+		border: solid 1px var(--lightBorder);
 		border-radius: 5px;
 	}
 </style>

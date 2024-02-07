@@ -1,32 +1,32 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto } from "$app/navigation";
 
-	export let userdata;
-	export let avatarSize = '100px';
+	export let userdata: UserDto;
+	export let avatarSize = "100px";
 
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import fetchHttp from '$lib/fetchHttp';
-	import { get } from 'svelte/store';
-	import Avatar from './Avatar.svelte';
-	import FollowBtn from './user/FollowBtn.svelte';
-	import { tokenStore } from '$lib/stores/tokenStore';
-	import { onMount } from 'svelte';
+	import fetchHttp from "$lib/fetchHttp";
+	import { get } from "svelte/store";
+	import Avatar from "./Avatar.svelte";
+	import FollowBtn from "./user/FollowBtn.svelte";
+	import { tokenStore } from "$lib/stores/tokenStore";
+	import { onMount } from "svelte";
+    import type { UserDto } from "$lib/models/user/UserDto";
 
 	const token = get(tokenStore);
 
-	var name = '';
+	var name = "";
 	if (userdata.firstname !== null && userdata.lastname !== null) {
-		name = userdata.firstname + ' ' + userdata.lastname;
+		name = userdata.firstname + " " + userdata.lastname;
 	}
 
 	async function follow() {
 		if (token === undefined) {
-			await goto('login');
+			await goto("login");
 			return;
 		}
 		await fetchHttp(`/user/${userdata.username}/follow`, {
-			method: 'post',
-			token: token
+			method: "post",
+			token: token,
 		});
 
 		userdata.followed = true;
@@ -35,37 +35,36 @@
 
 	async function unfollow() {
 		if (token === undefined) {
-			await goto('login');
+			await goto("login");
 			return;
 		}
 		await fetchHttp(`/user/${userdata.username}/unfollow`, {
-			method: 'put',
-			token: token
+			method: "put",
+			token: token,
 		});
 
 		userdata.followed = false;
 		userdata.followers -= 1;
 	}
 
-	let followBtnWidth = '120px';
+	let followBtnWidth = "120px";
 
 	onMount(() => {
 		if (window.innerWidth <= 476) {
-			followBtnWidth = '250px'
-			avatarSize = '80px'
+			followBtnWidth = "250px";
+			avatarSize = "80px";
 		}
-		
+
 		onresize = (e) => {
 			if (window.innerWidth <= 476) {
-				followBtnWidth = '250px'
-				avatarSize = '80px'
+				followBtnWidth = "250px";
+				avatarSize = "80px";
 			} else {
-				followBtnWidth = '120px'
-				avatarSize = '100px'
-			}	
-		}
-	})
-
+				followBtnWidth = "120px";
+				avatarSize = "100px";
+			}
+		};
+	});
 </script>
 
 <div class="avatarName">
@@ -78,7 +77,7 @@
 		</div>
 	</div>
 	{#if token !== undefined}
-		{#if userdata.username != JSON.parse(atob(token.split('.')[1])).sub}
+		{#if userdata.username != JSON.parse(atob(token.split(".")[1])).sub}
 			<div id="followBtn_" style="margin-left: auto;">
 				<FollowBtn
 					width={followBtnWidth}
@@ -106,13 +105,13 @@
 			h1 {
 				margin: 0;
 				color: #fff;
-				font-family: 'Fira sans';
+				font-family: "Fira sans";
 			}
 
 			p {
 				margin: 0;
 				margin-left: 1px;
-				font-family: 'Fira sans';
+				font-family: "Fira sans";
 				color: rgb(185, 185, 185);
 			}
 

@@ -7,7 +7,7 @@
 </script>
 
 <div class="line" />
-<div class="line" style="transform: rotate(180deg);" />
+<div class="line" style="transform: rotateX(180deg);" />
 <div class="issueComment">
     <div style="width: 100%;display:flex;align-items:center">
         <a href="/{comment.createdBy.username}">
@@ -24,19 +24,18 @@
             >
         </p>
     </div>
-    <p style="margin-left: 10px;">{comment.comment}</p>
+    <p style="margin-left: 10px;font-family: sans-serif;">{comment.comment}</p>
 </div>
 
 <style lang="scss">
     .line {
-        width: 2px;
+        max-width: 1px;
         height: 50px;
         margin-left: 20px;
-        background: rgb(131, 58, 180);
         background: linear-gradient(
             0deg,
             var(--background) 0%,
-            rgb(12, 229, 245) 0%,
+            rgb(169, 215, 218) 0%,
             var(--background) 100%
         );
     }
@@ -44,7 +43,7 @@
     .issueComment {
         max-width: 1000px;
         width: 90%;
-        padding: 2px 15px;
+        padding: 5px 15px;
         margin: 30px 0;
         outline: solid 1px rgba(105, 105, 105, 0.185);
         border-radius: 10px;

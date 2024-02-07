@@ -6,7 +6,7 @@
 </script>
 
 <button on:click={following ? onUnfollow : onFollow} class={following ? 'following' : ''} style="width: {width};"
-	>{following ? 'Unfollow' : 'Follow'}
+	>{following ? 'Following' : 'Follow'}
 </button>
 
 <style lang="scss">
@@ -15,12 +15,18 @@
 		background: rgb(0, 110, 255);
 		color: #fff;
 		border: none;
-		border-radius: 3px;
+		border-radius: 4px;
 		cursor: pointer;
 	}
 	.following {
 		background-color: inherit;
-		border: 1px solid #16f145;
+		border: 1px solid #fff;
 		color: #d8d8d8;
+		transition: 200ms ease-in-out;
+
+		&:hover {
+			color: var(--danger);
+			border: solid 1px var(--danger);
+		}
 	}
 </style>

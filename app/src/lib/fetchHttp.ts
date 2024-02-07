@@ -16,7 +16,8 @@ export default async function fetchHttp(
 		noContentType = false,
 		redirecting = false,
         contentType = 'application/json;charset=UTF-8',
-        errorMessage = 'Some unexpected error occurred'
+        errorMessage = 'Some unexpected error occurred',
+		headers = {}
     }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<response | undefined> {
@@ -43,7 +44,8 @@ export default async function fetchHttp(
 			body: method === "GET" ? null : stringify ? stringBody : body,
 			headers: {
 				Authorization: auth,
-			}
+				...headers
+			},
 		});
 	} else {
 		res = await fetch(apiPrefix + url, {
@@ -51,7 +53,8 @@ export default async function fetchHttp(
 			body: method === "GET" ? null : stringify ? stringBody : body,
 			headers: {
 				Authorization: auth,
-				'Content-type': contentType
+				'Content-type': contentType,
+				...headers
 			}
 		});
 	}

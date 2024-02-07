@@ -20,7 +20,7 @@
     }
 
     async function change() {
-        apiPage = 0;
+        apiPage = 1;
         projects = [];
         await getMore();
     }
@@ -29,10 +29,9 @@
 </script>
 
 <main>
-    <h1><span style="text-transform: capitalize;">{showBy}</span> projects</h1>
     <div id="trending">
         <div id="filters">
-            <p style="margin-right: auto;">Filters</p>
+            <p style="margin-right: auto;">Explore projects</p>
             <div style="display: flex;align-items:center;">
                 <div style="margin: 0 10px;">
                     <Select
@@ -73,7 +72,7 @@
                 </div>
             </div>
         </div>
-        {#if projects !== undefined}
+        {#if projects !== undefined && projects.length !== 0}
             {#each projects as project}
                 <Result data={project} type="project" />
             {/each}
@@ -94,14 +93,8 @@
         width: 95%;
         max-width: 1000px;
         margin: 0 auto;
-        margin-top: 70px;
+        margin-top: 60px;
         margin-bottom: 60px;
-
-        h1 {
-            font-family: "Inter", sans-serif;
-            margin-left: 20px;
-            margin-bottom: 30px;
-        }
 
         #trending {
             width: 100%;
@@ -117,16 +110,15 @@
                 height: 35px;
                 margin-top: 20px;
                 color: #fff;
-                font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
-                    sans-serif;
+                font-family: sans-serif;
                 font-weight: 500;
-                background: #cb80fd48;
+                background: #376eeea7;
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
 
                 &:hover {
-                    background: #cb80fd6b;
+                    background: #4c7df1a7;
                 }
             }
 
@@ -143,9 +135,8 @@
                 border: solid 1px var(--lightBorder);
 
                 p {
-                    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
-                        sans-serif;
-                    color: rgb(114, 114, 114);
+                    font-family: sans-serif;
+                    color: rgb(158, 157, 157);
 
                     &:first-of-type {
                         margin-left: 20px;

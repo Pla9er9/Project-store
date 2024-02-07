@@ -1,31 +1,31 @@
 <script>
-	import { validatePassword } from '$lib/validators/registerValidators';
-	import Input from '$components/forms/Input.svelte';
-	import SubmitButton from '$components/forms/SubmitButton.svelte';
-	import fetchHttp from '$lib/fetchHttp';
-	import { get } from 'svelte/store';
-	import { tokenStore } from '$lib/stores/tokenStore';
+	import { validatePassword } from "$lib/validators/registerValidators";
+	import Input from "$components/forms/Input.svelte";
+	import SubmitButton from "$components/forms/SubmitButton.svelte";
+	import fetchHttp from "$lib/fetchHttp";
+	import { get } from "svelte/store";
+	import { tokenStore } from "$lib/stores/tokenStore";
 
 	async function resetPassword() {
-		await fetchHttp('/account/change-password', {
+		await fetchHttp("/account/change-password", {
 			method: "put",
 			body: JSON.stringify({
-				password: input1_
+				password: input1_,
 			}),
-			token: get(tokenStore)
-		})
+			token: get(tokenStore),
+		});
 	}
 
 	let input1 = false;
 	let input2 = false;
-	let input1_ = ""
-	let input2_ = ""
+	let input1_ = "";
+	let input2_ = "";
 
-	$: isValid = input1 && input2 && (input1_ === input2_);
+	$: isValid = input1 && input2 && input1_ === input2_;
 </script>
 
 <main>
-	<h1>Change password</h1>
+	<h1 class="settingsHeader">Change password</h1>
 	<br />
 	<Input
 		placeholder="New Password"
@@ -42,16 +42,16 @@
 		validator={validatePassword}
 	>
 		<img src="/icons/password.svg" alt="password icon" />
-	</Input> <br />
-	<SubmitButton text="Zresetuj" {isValid} callback={resetPassword}>
-		<img src="/icons/checkmark.svg" alt="checkmark icon" />
-	</SubmitButton>
+	</Input>
+	<SubmitButton
+		text="Zresetuj"
+		{isValid}
+		callback={resetPassword}
+		iconUrl="/icons/checkmark.svg"
+	/>
 </main>
 
 <style>
-	h1 {
-		font-family: 'Inter', sans-serif;
-	}
 	img {
 		width: 20px;
 	}

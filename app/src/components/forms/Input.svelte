@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="column">
+<div class="column" style="width: max-content;">
     <div
         class="input row"
         style="

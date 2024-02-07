@@ -14,7 +14,7 @@
 <nav class="row">
 	<a href="{home}" class="row home">
 		<img src="/icons/project.svg" alt="">
-		<h1> Project store</h1>
+		<h1>Project store</h1>
 	</a>
 	<SearchInput />
 	{#if username === null}

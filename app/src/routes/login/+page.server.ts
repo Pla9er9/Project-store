@@ -2,17 +2,21 @@ import type { Actions } from '@sveltejs/kit';
 import fetchHttp from '$lib/fetchHttp';
 
 export const actions: Actions = {
-	default: async ({ request, cookies }) => {
-		const data = await request.json();
+	default: async (event) => {
+		const data = await event.request.json();
 		const response = await fetchHttp("/auth/signin", {
 			method: 'POST',
 			body: data,
-			server: true
+			server: true,
+			headers: {
+				Addr: event.getClientAddress(),
+				"User-Agent": event.request.headers.get("User-Agent")
+			}
 		})
 		if (!response?.body) {
-			return
+			return { status: 404 }
 		}
-		cookies.set('jwtToken', response.body.token, {
+		event.cookies.set('jwtToken', response.body.token, {
 			path: '/',
 			httpOnly: true,
 			sameSite: 'strict',

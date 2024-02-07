@@ -24,7 +24,7 @@
     }
 </script>
 
-<main class="column">
+<main class="column" style="align-items: start;">
     <div class="row" style="width: 100%;">
         <img class="bugIcon" src="/icons/bug.svg" alt="" />
         <h1>Report error</h1>
@@ -33,7 +33,7 @@
         bind:value={title}
         validator={() => (title.length > 0 ? "" : "Title length cannot be 0")}
         placeholder="Title"
-        width="calc(90% + 30px)"
+        width="400px"
     >
         <img src="icons/t_letter.svg" alt="" />
     </Input>

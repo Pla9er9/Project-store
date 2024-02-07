@@ -36,7 +36,7 @@
 
 </script>
 
-<div id="sidebar">
+<div id="sidebar" class="colun">
 	<div class="row">
 		<img src="/icons/settings.svg" alt="settings" />
 		<a href="/settings">General</a>
@@ -55,31 +55,31 @@
 	</div>
 	<div class="row">
 		<img src="/icons/logout.svg" alt="logout" />
-		<button on:click={logout}>Logout</button>
+		<button class="danger" on:click={logout}>Logout</button>
 	</div>
 	<div class="row">
 		<img src="/icons/delete.svg" alt="delete account" />
-		<button id="del" on:click={deleteAccount}>Delete account</button>
+		<button class="danger" on:click={deleteAccount}>Delete account</button>
 	</div>
 </div>
 
 <style lang="scss">
 	#sidebar {
-		width: 280px;
-		border-right: 1px solid #202020;
+		width: 240px;
+		min-height: 100vh;
 		height: 100%;
-		display: flex;
+		border-right: 1px solid #202020;
+		border-bottom: 1px solid #202020;
+		border-bottom-right-radius: 5px;
 		padding-top: 30px;
-		flex-direction: column;
-		align-items: center;
+		align-items: start;
 
 		.row {
 			height: 40px;
 			width: 70%;
-			padding-left: 15px;
 			display: flex;
 			align-items: center;
-			margin: 12px 0;
+			margin: 22px 0 22px 30px;
 			border-radius: 10px;
 
 			img {
@@ -88,13 +88,14 @@
 			}
 
 			a, button {
-				font-size: 17px;
-				font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-				color: #a1a1a1;
+				font-size: 15px;
+				font-family: sans-serif;
+				color: #888888;
                 cursor: pointer;
+				transition: 100ms ease-in-out;
 
                 &:hover {
-                    color: #fff;
+					color: #fff;
                 }
 			}
 
@@ -104,7 +105,7 @@
 				padding: 0;
 			}
 
-			#del:hover {
+			.danger:hover {
 				color: rgb(228, 78, 78);
 			}
 		}

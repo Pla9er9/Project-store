@@ -28,11 +28,15 @@
 		bottom: 15px;
 		margin: 0 auto;
 		display: flex;
-		outline: solid 1px rgba(128, 128, 128, 0.5);
+		outline: solid 1px var(--lightBorder);
 		border-radius: 10px;
 
 		* {
 			border-radius: 10px;
+		}
+
+		&:has(input:focus) {
+			outline: solid 1px #c5c4c4;
 		}
 
 		input {

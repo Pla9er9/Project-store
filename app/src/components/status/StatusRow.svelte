@@ -40,11 +40,11 @@
         }
 
         .working {
-            background-image: linear-gradient(90deg, rgb(40, 161, 46), var(--mainColor));
+            background-image: linear-gradient(90deg, rgb(64, 199, 71), var(--mainColor));
         }
 
         .notworking {
-            background-image: linear-gradient(90deg, rgb(223, 46, 105), rgb(255, 38, 0));
+            background-image: linear-gradient(270deg, rgb(223, 46, 105), rgb(248, 91, 64));
         }
     }
 </style>

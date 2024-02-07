@@ -3,7 +3,6 @@ package com.example.projectstore.auth;
 import com.example.projectstore.logged_In_Device.LoggedInDeviceService;
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ public class AuthController {
     @PostMapping("/signup")
     public AuthResponse SignUp(
             @Valid @RequestBody SignUpRequest signUpRequest,
-            HttpServletResponse response,
             HttpServletRequest request
     ) {
         var res = authService.signUp(signUpRequest);

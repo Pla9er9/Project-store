@@ -86,6 +86,7 @@
             margin-top: 80px;
         }
         p {
+            font-family: sans-serif;
             color: rgb(161, 161, 161);
         }
         span {

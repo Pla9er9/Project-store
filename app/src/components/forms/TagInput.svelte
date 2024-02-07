@@ -81,7 +81,7 @@
 			width: 100px;
 			margin: 0 8px;
 			height: 22px;
-			background-color: rgba(17, 80, 252, 0.281);
+			background-color: rgba(17, 80, 252, 0.193);
 			color: rgb(0, 89, 255);
 			font-size: 13px;
 			font-family: 'Fira sans';

@@ -9,6 +9,7 @@ type UserDto = {
     isFollowed: boolean;
     followers: number;
     following: number;
+    followed: boolean | undefined;
     personalLinks: string[];
     projects: ProjectDtoSimple[];
 };
