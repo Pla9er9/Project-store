@@ -228,7 +228,7 @@ public class ProjectService {
 
     public ProjectDtoSimple projectEntityToSimpleDto(Project project) {
         Language mainLanguage = null;
-        if (project.getLanguages().size() > 0) {
+        if (!project.getLanguages().isEmpty()) {
             mainLanguage = project.getLanguages().get(0);
         }
 

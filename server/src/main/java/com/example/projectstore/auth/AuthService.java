@@ -57,14 +57,14 @@ public class AuthService {
     }
 
     public AuthResponse signIn(SignInRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword())
         );
-
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()

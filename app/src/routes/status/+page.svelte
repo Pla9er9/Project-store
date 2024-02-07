@@ -1,15 +1,16 @@
 <script>
     // @ts-nocheck
     import StatusRow from "$components/status/StatusRow.svelte";
-
     
-    let data = [
-        ["Auth service", true, "lock.svg"],
-        ["Project service", true, "project_gray.svg"],
-        ["Files service", false, "file.svg"],
-        ["Chat service", false, "message.svg"],
-        ["Search service", true, "search_gray.svg"],
-        ["Database", true, "db.svg"],
+    export let data
+
+    let _data = [
+        ["Auth service", data.res.auth, "lock.svg"],
+        ["Project service", data.res.project, "project_gray.svg"],
+        ["Files service", data.res.files, "file.svg"],
+        ["Chat service", data.res.chat, "message.svg"],
+        ["Search service", data.res.search, "search_gray.svg"],
+        ["Database", data.res.database, "db.svg"],
     ]
 </script>
 
@@ -19,7 +20,7 @@
         <h1>Server services status</h1>
     </div>
     <div class="row statusBoxes">
-        {#each data as dt}
+        {#each _data as dt}
             <StatusRow serviceName={dt[0]} working={dt[1]} iconName={dt[2]} />
         {/each}
     </div>
