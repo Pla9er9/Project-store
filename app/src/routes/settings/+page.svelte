@@ -85,6 +85,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Account settings</title>
+</svelte:head>
+
 <h1 class="settingsHeader">Edit account</h1>
 <div class="wrapper column">
     <div class="row" style="justify-content: space-around;">

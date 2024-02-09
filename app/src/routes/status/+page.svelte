@@ -14,6 +14,10 @@
     ]
 </script>
 
+<svelte:head>
+    <title>Server status</title>
+</svelte:head>
+
 <main class="column">
     <div class="row" style="width: 90%;">
         <img src="icons/status.svg" alt="">

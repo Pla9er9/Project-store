@@ -49,6 +49,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Sign up</title>
+</svelte:head>
+
 <main>
     <h1>Project store</h1>
     <small>Registration</small>

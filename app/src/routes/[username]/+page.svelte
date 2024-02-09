@@ -12,6 +12,10 @@
 	let projectSwitchBtnText = `Projects (${data.data.projects.length})`;
 </script>
 
+<svelte:head>
+	<title>{data.data.username}</title>
+</svelte:head>
+
 <main>
 	<AvatarName userdata={data.data} avatarSize="130px" />
 	<!-- {#if data.data.description !== null}

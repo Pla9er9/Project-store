@@ -71,6 +71,10 @@
 	}
 </script>
 
+<svelte:head>
+    <title>Chat - {data.username}</title>
+</svelte:head>
+
 <main>
 	<div class="messages">
 		{#if messages.length === 0}

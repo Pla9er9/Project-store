@@ -2,6 +2,10 @@
     import { goto } from "$app/navigation";
 </script>
 
+<svelte:head>
+    <title>404 - Not found</title>
+</svelte:head>
+
 <main>
     <h1>404</h1>
     <h1>

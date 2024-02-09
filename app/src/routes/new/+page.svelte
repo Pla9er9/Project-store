@@ -86,6 +86,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>New project</title>
+</svelte:head>
+
 <main class="form">
     <h1>
         Create new Project <br />

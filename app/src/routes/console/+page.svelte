@@ -9,12 +9,13 @@
     ];
 </script>
 
+<svelte:head>
+    <title>Console</title>
+</svelte:head>
+
 <main class="column" style="align-items: flex-start;">
-    <div class="row" style="align-self: flex-start;margin-bottom: 35px;">
-        <img src="/icons/console.svg" alt="" style="margin: 0 15px 0 0;" />
-        <h1>Dev console</h1>
-    </div>
-    <div class="column" style="align-items: flex-start;margin-left: 15px;">
+    <h1 style="margin-bottom: 35px;">Dev console</h1>
+    <div class="column" style="align-items: flex-start;">
         <div class="row">
             <img
                 src="/icons/application.svg"
@@ -23,10 +24,10 @@
             />
             <h2>Applications</h2>
         </div>
-        <div class="row">
+        <div class="row" style="margin: 20px 0 0 50px;">
             <NewApplication />
             {#each data as d}
-                <Application name={d[0]} date={d[1]} />
+                <Application name={d[0]} date={d[1]} id="213" />
             {/each}
         </div>
     </div>
@@ -42,15 +43,16 @@
         margin: 40px auto;
 
         h1 {
-            color: #fff;
+            color: #dbd7d7;
             font-size: 38px;
             font-family: "Inter";
         }
 
         h2 {
             color: rgb(224, 209, 209);
-            font-family: "Fira sans";
-            font-size: 28px;
+            font-family: sans-serif;
+            font-weight: 100;
+            font-size: 26px;
         }
 
         .row {

@@ -24,6 +24,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Report error</title>
+</svelte:head>
+
 <main class="column" style="align-items: start;">
     <div class="row" style="width: 100%;">
         <img class="bugIcon" src="/icons/bug.svg" alt="" />

@@ -28,6 +28,10 @@
     let projects: ProjectDtoSimple[] = data.data?.body.content;
 </script>
 
+<svelte:head>
+    <title>Explore</title>
+</svelte:head>
+
 <main>
     <div id="trending">
         <div id="filters">

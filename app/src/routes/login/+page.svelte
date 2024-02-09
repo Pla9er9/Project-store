@@ -32,6 +32,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Sign in</title>
+</svelte:head>
+
 <main class="form">
     <h1>Project store</h1>
     <small>Welcome back!</small>

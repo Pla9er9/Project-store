@@ -36,6 +36,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>Search - {data.query}</title>
+</svelte:head>
+
 <main class="column">
     <Filters query={data.query} type={data.type} onSelect={loadNewData} />
     {#if loading}

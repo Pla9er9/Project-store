@@ -27,6 +27,10 @@
     }
 </script>
 
+<svelte:head>
+    <title>{data.data.info.name}</title>
+</svelte:head>
+
 <main>
     <h1>{info.name}</h1>
     <DownloadButton link="{PUBLIC_API_URL}/project/{data.slug}/download" />

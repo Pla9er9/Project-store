@@ -15,6 +15,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Project store</title>
+</svelte:head>
+
 <main>
     <MainText />
     <AnimatedPanel />
