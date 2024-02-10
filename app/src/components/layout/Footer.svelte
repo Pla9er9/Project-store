@@ -21,7 +21,9 @@
 <style lang="scss">
     footer {
         width: 100%;
+        box-sizing: border-box;
         padding: 10px 45px;
+        min-height: 80px;
         margin-top: 80px;
         border-top: 1px solid #202020;
         height: 60px;

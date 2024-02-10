@@ -45,10 +45,10 @@ bind:color={currentAlert.color}
 />
 {/if}
 <Toast />
-<div style="min-height: 100vh;">
+<div>
 	<slot />
 </div>
-<Footer></Footer>
+<Footer />
 
 <style>
 	div {
