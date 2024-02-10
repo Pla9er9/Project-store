@@ -2,7 +2,7 @@
     import { beforeNavigate } from "$app/navigation";
     import Avatar from "../Avatar.svelte";
     import LinkButton from "./LinkButton.svelte";
-    import MobileLinks from "./MobileLinks.svelte";
+    import MobileExpandScreen from "./MobileExpandScreen.svelte";
     import SearchInput from "./SearchInput.svelte";
 
     export let username: string | null;
@@ -69,7 +69,7 @@
 	</button>
 </nav>
 {#if menuOpen}
-    <MobileLinks {username} />
+    <MobileExpandScreen {username} />
 {/if}
 
 <style lang="scss">
