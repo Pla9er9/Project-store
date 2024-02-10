@@ -20,9 +20,10 @@
 		width: 100%;
 		padding: 15px 25px;
 		overflow: auto;
-		color: #fff;
+		color: #c2c0c0;
 		outline: none;
-		font-family: monospace;
+		font-size: 14px;
+		font-family: sans-serif;
 		margin: 10px 0;
 		border: solid 1px var(--lightBorder);
 		border-radius: 8px;
