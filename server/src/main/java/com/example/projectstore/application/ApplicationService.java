@@ -66,8 +66,7 @@ public class ApplicationService {
                 app.getName(),
                 app.getNumberOfUses(),
                 app.isCommercial(),
-                app.getCreated(),
-                app.getSecret()
+                app.getCreated()    
         );
     }
 

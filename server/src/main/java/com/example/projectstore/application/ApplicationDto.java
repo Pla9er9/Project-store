@@ -18,5 +18,4 @@ public class ApplicationDto {
     private long numberOfUses;
     private boolean isCommercial;
     private LocalDateTime created;
-    private String secret;
 }
