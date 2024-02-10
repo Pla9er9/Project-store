@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let gradientColor = "rgb(48, 126, 242)"
+    export let gradientColor: string;
     export let link: string;
     export let icon: string;
     export let header: string;
@@ -25,23 +25,19 @@
         background: linear-gradient(
             130deg,
             var(--background) 0%,
-            var(--grad) 1500%
+            var(--grad) 1400%
         );
         transition: border 100ms ease-in-out;
 
         &:hover {
             border: solid 1px #8f8f8f;
-            background: linear-gradient(
-                0deg,
-                var(--background) 0%,
-                var(--grad) 1000%
-            );
         }
 
         h1 {
             font-family: "Inter";
             font-weight: 100;
             line-height: 30px;
+            font-size: 28px;
 
             span {
                 font-size: 20px;

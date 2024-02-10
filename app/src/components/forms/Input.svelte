@@ -51,7 +51,6 @@
         height: 40px;
         border: solid 1px var(--border);
         border-radius: 8px;
-        background-color: inherit;
         pointer-events: none;
         transition: 250ms;
 

@@ -3,13 +3,35 @@
     import Input from "$components/forms/Input.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
     import CheckBox from "$components/forms/CheckBox.svelte";
+    import fetchHttp from "$lib/fetchHttp";
+    import { get } from "svelte/store";
+    import { tokenStore } from "$lib/stores/tokenStore";
+
+    let name = ""
+    let redirectUrl1 = ""
+    let redirectUrl2 = ""
+    let isCommercial = false
 
     async function back() {
-        const sure = confirm("Are you sure you want cancel form");
-        if (sure) {
-            await goto("/console");
+        await goto("/console");
+    }
+
+    async function submit() {
+        const res = await fetchHttp("/dev/application", {
+            method: "POST",
+            token: get(tokenStore),
+            body: JSON.stringify({
+                name: name,
+                isCommercial: isCommercial,
+                allowedRedirectUrls: [redirectUrl1, redirectUrl2]
+            })
+        })
+
+        if (res?.ok) {
+            await goto("/console")
         }
     }
+
 </script>
 
 <main class="column">
@@ -19,20 +41,24 @@
         </button>
         <p style="margin: 0 auto;">New application</p>
     </div>
-    <Input placeholder="Name">
+    <Input placeholder="Name" bind:value={name}>
         <img src="/icons/application.svg" alt="" style="width: 18px;" />
     </Input>
-    <Input placeholder="Redirect URL">
+    <Input placeholder="Redirect URL" bind:value={redirectUrl1} >
         <img src="/icons/link.svg" alt="" style="width: 18px;" />
     </Input>
-    <Input placeholder="Redirect URL">
+    <Input placeholder="Redirect URL" bind:value={redirectUrl2}>
         <img src="/icons/link.svg" alt="" style="width: 18px;" />
     </Input>
-    <CheckBox label="Commercial use" value={false} border="solid 1px var(--lightBorder)" /> <br>
+    <CheckBox
+        label="Commercial use"
+        bind:value={isCommercial}
+        border="solid 1px var(--lightBorder)"
+    /> <br />
     <SubmitButton
         text="Create"
         iconUrl="/icons/checkmark.svg"
-        callback={() => {}}
+        callback={submit}
         isValid={true}
     />
 </main>
@@ -71,6 +97,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 150ms ease-in-out;
 
             &:hover {
                 background: rgba(128, 128, 128, 0.062);

@@ -1,12 +1,8 @@
 <script>
+    export let data;
+
     import Application from "$components/console/Application.svelte";
     import NewApplication from "$components/console/NewApplication.svelte";
-
-    let data = [
-        ["Apple", "07.02.2024"],
-        ["Google", "07.02.2024"],
-        ["Facebook", "07.02.2024"],
-    ];
 </script>
 
 <svelte:head>
@@ -26,8 +22,8 @@
         </div>
         <div class="row" style="margin: 20px 0 0 50px;">
             <NewApplication />
-            {#each data as d}
-                <Application name={d[0]} date={d[1]} id="213" />
+            {#each data.data as d}
+                <Application name={d.name} date={d.created} id={d.id} />
             {/each}
         </div>
     </div>

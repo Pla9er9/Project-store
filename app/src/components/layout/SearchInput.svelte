@@ -49,7 +49,7 @@
         input {
             width: 25vw;
             max-width: 300px;
-            height: 28px;
+            height: 32px;
             justify-self: center;
             text-align: start;
             color: #dddcdc;
@@ -126,7 +126,7 @@
             align-items: center;
             justify-content: center;
             width: 30px;
-            height: 30px;
+            height: 34px;
             background-color: #141313;
             border: solid 1px var(--lightBorder);
             border-right: none;

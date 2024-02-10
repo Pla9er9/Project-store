@@ -35,7 +35,7 @@
 			font-family: "Fira sans";
 			font-size: 14px;
 			margin: 0px;
-			text-indent: 35px;
+			text-indent: 15px;
 		}
 
 		button {
@@ -51,7 +51,7 @@
 			transition: 100ms ease;
 
 			img {
-				min-width: 10px;
+				min-width: 12px;
 			}
 		}
 	}

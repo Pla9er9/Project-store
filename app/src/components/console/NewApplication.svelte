@@ -7,4 +7,5 @@
     icon="/icons/plus.svg"
     header="New"
     smallText="application"
+    gradientColor="#bd7ef7"
 />

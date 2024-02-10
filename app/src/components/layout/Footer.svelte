@@ -15,6 +15,7 @@
     <a href="{host}/login">Sign in</a>
     <a href="{host}/register">Sign up</a>
     <a href="{host}/report">Report error</a>
+    <a href="{host}/console">Console</a>
 </footer>
 
 <style lang="scss">

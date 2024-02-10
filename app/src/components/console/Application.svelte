@@ -3,12 +3,13 @@
 
     export let name: string;
     export let date: string;
+    export let id: string;
 </script>
 
 <Block
-    link="/console/new"
+    link="/console/app/{id}"
     icon="/icons/application.svg"
     header="{name}"
-    smallText="{date}"
-    gradientColor="#bd7ef7"
+    smallText="{date.slice(0, 10)}"
+    gradientColor="gray"
 />

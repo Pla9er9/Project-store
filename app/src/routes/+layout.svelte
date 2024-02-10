@@ -39,10 +39,10 @@
 
 <Navbar username={data.username}></Navbar>
 {#if currentAlert.message !== ""}
-	<Alert
-		bind:message={currentAlert.message}
-		bind:color={currentAlert.color}
-	/>
+<Alert
+bind:message={currentAlert.message}
+bind:color={currentAlert.color}
+/>
 {/if}
 <Toast />
 <div style="min-height: 100vh;">

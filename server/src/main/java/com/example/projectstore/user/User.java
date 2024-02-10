@@ -1,5 +1,6 @@
 package com.example.projectstore.user;
 
+import com.example.projectstore.application.Application;
 import com.example.projectstore.project.Project;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @NamedEntityGraph(
@@ -53,6 +55,8 @@ public class User implements UserDetails {
     private List<Project> projects = List.of();
     @ManyToMany
     private List<Project> likedProjects = List.of();
+    @OneToMany
+    private Set<Application> applications = Set.of();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
