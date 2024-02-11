@@ -48,20 +48,20 @@
         width="90%"
         height="400px"
     />
-    <div class="row btnsDown">
-        <SubmitButton
-            callback={() => send()}
-            isValid={true}
-            text="Send"
-            iconUrl="icons/checkmark.svg"
-        />
-    </div>
+    <SubmitButton
+        callback={() => send()}
+        isValid={true}
+        text="Send"
+        iconUrl="icons/checkmark.svg"
+    />
 </main>
 
 <style lang="scss">
     main {
         width: 100%;
         max-width: 1200px;
+        padding: 0 30px;
+        box-sizing: border-box;
         margin: 50px auto;
 
         h1 {
@@ -77,10 +77,15 @@
         img {
             width: 18px;
         }
-
-        .btnsDown {
-            width: calc(90% + 40px);
-            margin-top: 10px;
-        }
     }
+
+    @media screen and (max-width: 476px) {
+		main {
+            align-items: center !important;
+        
+            .row img {
+                margin-left: 0;
+            }
+        }
+	}
 </style>

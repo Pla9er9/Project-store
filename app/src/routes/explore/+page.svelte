@@ -6,10 +6,12 @@
     import Select from "$components/forms/Select.svelte";
     import fetchHttp from "$lib/fetchHttp.js";
     import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple.js";
+    import { onMount } from "svelte";
 
     let apiPage = 1;
     let loading = false;
     let showBy = "trending";
+    let isWide = true
 
     async function getMore() {
         loading = true;
@@ -25,6 +27,12 @@
         await getMore();
     }
 
+    onMount(() => {
+        if (window.screenX <= 540) {
+            isWide = false
+        }
+    })
+
     let projects: ProjectDtoSimple[] = data.data?.body.content;
 </script>
 
@@ -36,7 +44,7 @@
     <div id="trending">
         <div id="filters">
             <p style="margin-right: auto;">Explore projects</p>
-            <div style="display: flex;align-items:center;">
+            <div style="flex-wrap: wrap;justify-content: center" class="row">
                 <div style="margin: 0 10px;">
                     <Select
                         text="Show"
@@ -78,7 +86,7 @@
         </div>
         {#if projects !== undefined && projects.length !== 0}
             {#each projects as project}
-                <Result data={project} type="project" />
+                <Result data={project} type="project" wide={isWide} />
             {/each}
             {#if apiPage !== data.totalPages}
                 <button on:click={getMore}>Load more</button>
@@ -116,7 +124,11 @@
                 color: #fff;
                 font-family: sans-serif;
                 font-weight: 500;
-                background: #376eeea7;
+                background: linear-gradient(
+                    180deg,
+                    rgb(0, 153, 255),
+                    #4f84ffa7
+                );
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;

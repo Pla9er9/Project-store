@@ -1,20 +1,21 @@
-export default function getColorOfLanguage(lang: string) {
+export default function getColorOfLanguage(lang: string): string {
     const arr = [lang.toUpperCase(), lang.toLowerCase()]
 
     const temp = lang.charAt(0).toUpperCase()
-    let l = lang.toLowerCase().slice(1)
+    const l = lang.toLowerCase().slice(1)
     arr.push(temp + l)
 
     for (let i = 0; i < arr.length; i++) {
         const x = arr[i]
-        if (langs.get(x) !== undefined) {
-            return langs.get(x)
+        const g = langs.get(x)
+        if (g !== undefined) {
+            return g
         }
     }
     return "#" + Math.floor(Math.random()*16777215).toString(16);
 }
 
-let langs = new Map(Object.entries({
+const langs = new Map(Object.entries({
     ABAP: "#E8274B",
     ActionScript: "#882B0F",
     ADA: "#02f88c",
@@ -195,7 +196,7 @@ let langs = new Map(Object.entries({
     Tcl: "#e4cc98",
     TeX: "#3D6117",
     Turing: "#45f715",
-    TS: "#2b7489",
+    TS: "#3178c6",
     Unified_Parallel_C: "#4e3617",
     Unity3D_Asset: "#ab69a1",
     UnrealScript: "#a54c4d",

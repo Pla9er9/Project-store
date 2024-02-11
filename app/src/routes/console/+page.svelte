@@ -11,7 +11,7 @@
 
 <main class="column" style="align-items: flex-start;">
     <h1 style="margin-bottom: 35px;">Dev console</h1>
-    <div class="column" style="align-items: flex-start;">
+    <div class="column applications" style="align-items: flex-start;">
         <div class="row">
             <img
                 src="/icons/application.svg"
@@ -20,7 +20,7 @@
             />
             <h2>Applications</h2>
         </div>
-        <div class="row" style="margin: 20px 0 0 50px;">
+        <div class="row" style="margin: 20px 0 0 0px;">
             <NewApplication />
             {#each data.data as d}
                 <Application name={d.name} date={d.created} id={d.id} />
@@ -31,7 +31,7 @@
 
 <style lang="scss">
     main {
-        width: 100%;
+        width: 95%;
         max-width: 1250px;
         padding: 0 24px;
         box-sizing: border-box;
@@ -58,4 +58,20 @@
             align-self: center;
         }
     }
+
+    @media screen and (max-width: 400px) {
+		
+        h1 {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .applications {
+            margin-left: -30px;
+
+            .row {
+                align-self: center;
+            }
+        }
+	}
 </style>

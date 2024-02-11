@@ -38,7 +38,7 @@
 <style lang="scss">
 	.directoryView {
 		max-width: 1000px;
-		width: 85%;
+		width: 90%;
 		margin: 0 auto;
 		outline: solid 1px var(--lightBorder);
 		border-radius: 5px;
@@ -47,7 +47,7 @@
 		
 		a {
 			width: 100%;
-			height: 58px;
+			height: 55px;
 			background-color: inherit;
 			display: flex;
 			align-items: center;
