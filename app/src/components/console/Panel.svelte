@@ -34,9 +34,11 @@
             max-width: 50%;
             margin: 0 10px 0 auto;
             width: max-content;
+            max-height: 30px;
             overflow-x: auto;
             font-family: monospace;
             font-size: 15px;
+            white-space: nowrap;
             color: var(--mainColor);
         }
 

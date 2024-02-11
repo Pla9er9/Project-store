@@ -10,7 +10,7 @@
 <main>
     <div class="row" style="margin: 10px;">
         <BackBtn callback={() => goto("/console")} />
-        <h1>{data.data.name}</h1>
+        <h1>{data.data.name} i taka nazwa dluga</h1>
         <small>{data.data.created.slice(0, 10)}</small>
     </div>
     <div class="row" style="flex-wrap: wrap;margin-top: 50px;">
@@ -21,31 +21,35 @@
         value={data.data.commercial}
         icon="/icons/dolar.svg"
         />
-        <Panel label="redirect urls" value={[data.data.redirectUrls.join(" | "), "LOLdsadasdasdasdas"]} icon="/icons/personal_data_outline.svg" width="100%" />
+        <Panel label="redirect urls" value={[data.data.redirectUrls.join(" | ")]} icon="/icons/personal_data_outline.svg" width="100%" />
     </div>
 </main>
 
 <style lang="scss">
     main {
         max-width: 800px;
-        width: 100%;
+        width: 90%;
         min-height: 480px;
         box-sizing: border-box;
-        padding: 30px;
+        padding: 10px;
         border: solid 1px var(--lightBorder);
         border-radius: 5px;
         margin: 60px auto;
 
         .row {
             h1 {
+                overflow-x: auto;
                 margin: 0 auto 0 0;
                 font-family: "Fira sans";
+                white-space: nowrap;
             }
 
             small {
+                min-width: max-content;
                 font-size: 14px;
                 font-family: sans-serif;
                 color: rgb(162, 161, 161);
+                margin-left: 15px;
             }
         }
     }

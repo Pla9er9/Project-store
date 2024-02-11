@@ -53,6 +53,7 @@
         label="Commercial use"
         bind:value={isCommercial}
         border="solid 1px var(--lightBorder)"
+        marginLeft="65px"
     /> <br />
     <SubmitButton
         text="Create"
@@ -65,7 +66,7 @@
 <style lang="scss">
     main {
         max-width: 500px;
-        width: 100%;
+        width: 90%;
         min-height: 480px;
         box-sizing: border-box;
         padding: 30px 20px;
