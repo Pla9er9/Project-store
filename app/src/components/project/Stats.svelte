@@ -43,8 +43,7 @@
 
 <style lang="scss">
 	.stats {
-		margin: 20px auto 20px auto;
-		margin-right: auto;
+		margin: 20px auto 20px 5px;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

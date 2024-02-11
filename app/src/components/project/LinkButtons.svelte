@@ -98,7 +98,7 @@
 		margin: 25px auto 40px 0;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
+		justify-content: start;
 
 		span {
 			color: #fff;

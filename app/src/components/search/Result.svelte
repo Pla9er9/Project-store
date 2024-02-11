@@ -63,7 +63,6 @@
         padding: 0 30px;
         border-radius: 4px;
         height: 90px;
-        margin: 8px 0;
 
         a {
             font-family: "Fira sans";

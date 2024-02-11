@@ -20,7 +20,8 @@
 		width: calc(85% - 40px);
 		margin: 0 auto;
 		border-radius: 10px;
-		background-color: #0f0f0f;
+		background-color: var(--background);
+		border: solid 1px var(--lightBorder);
 		padding: 18px 20px;
 		color: #dbdbdb;
 		overflow-y: auto;

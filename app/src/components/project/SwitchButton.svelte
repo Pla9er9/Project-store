@@ -3,7 +3,7 @@
     export let currentValue: string;
 </script>
 
-<div>
+<div class="{values.length > 2 ? 'large' : ''}">
     {#each values as value}
         <button
             style="background: {currentValue === value
@@ -18,7 +18,7 @@
     button {
         width: 120px;
         height: 40px;
-        margin: 50px 0 40px 0;
+        margin: 50px 0 50px 0;
         border: none;
         color: #fff;
         font-family: "Fira sans";
@@ -42,33 +42,31 @@
     }
 
     @media screen and (max-width: 800px) {
-		div {
-            max-width: 400px;
+        .large {
             width: 90%;
             margin: 40px auto 50px auto;
 
-			button {
-				max-width: 400px;
-				width: 100%;
-				height: 45px;
-				border: solid 1px var(--lightBorder);
-				margin: 0;
-				border-radius: 0 !important;
+            button {
+                width: 100%;
+                height: 45px;
+                border: solid 1px var(--lightBorder);
+                margin: 0;
+                border-radius: 0 !important;
                 text-align: start;
                 text-indent: 20px;
 
-				&:first-child {
-					border-top-left-radius: 5px !important;
-					border-top-right-radius: 5px !important;
-					border-left: solid 1px var(--lightBorder);
-				}
-	
-				&:last-child {
-					border-bottom-left-radius: 5px !important;
-					border-bottom-right-radius: 5px !important;
-					border-right: solid 1px var(--lightBorder);
-				}
-			}
-		}
+                &:first-child {
+                    border-top-left-radius: 5px !important;
+                    border-top-right-radius: 5px !important;
+                    border-left: solid 1px var(--lightBorder);
+                }
+
+                &:last-child {
+                    border-bottom-left-radius: 5px !important;
+                    border-bottom-right-radius: 5px !important;
+                    border-right: solid 1px var(--lightBorder);
+                }
+            }
+        }
     }
 </style>

@@ -6,7 +6,7 @@
 
 <div id="projects">
 	{#each projects as project}
-		<div style="max-width: 400px;width:95%;margin: 12px;">
+		<div style="max-width: 400px;width:95%;margin: 8px 0;">
 			<Result data={project} type="project" wide={false} />
 		</div>
 	{/each}
