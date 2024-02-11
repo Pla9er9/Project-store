@@ -57,7 +57,7 @@
         <a class="iconBtn" href="/settings">
             <img src="/icons/settings.svg" alt="" />
         </a>
-        <a href="/{username}" style="margin: 0 20px;">
+        <a href="/{username}" style="margin: 0 20px;" id="avatarLink">
             <Avatar size="40px" cursor="pointer" margin="0" {username} />
         </a>
     {/if}
@@ -142,7 +142,7 @@
     }
 
     @media only screen and (max-width: 600px) {
-        .iconBtn, a:last-of-type, #authBar {
+        .iconBtn, #avatarLink, #authBar {
             display: none !important;
         }
         button {
