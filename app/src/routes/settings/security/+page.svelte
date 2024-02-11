@@ -6,7 +6,7 @@
     let expand = false;
 </script>
 
-<main>
+<main class="column">
     <h1 class="settingsHeader">Security</h1>
     <div class="column section">
         <div class="row top" style="margin: 0 0 8px 30px;">
@@ -14,7 +14,9 @@
                 <img src="/icons/key_green.svg" width="24px" alt="key" />
                 <p>Logged in devices</p>
             </div>
-            <button on:click={() => expand = !expand}>{expand ? "hide" : "show"}</button>
+            <button on:click={() => (expand = !expand)}
+                >{expand ? "hide" : "show"}</button
+            >
         </div>
         <DevicesList deviceList={data.data} {expand} />
     </div>
@@ -22,11 +24,16 @@
 
 <style lang="scss">
     main {
+
+        h1 {
+            margin-right: auto;
+        }
+
         p {
             margin-left: 14px;
             font-size: 18px;
             color: rgb(188, 185, 185);
-            font-family: 'Fira sans';
+            font-family: "Fira sans";
         }
 
         .section {
@@ -35,7 +42,8 @@
         }
 
         .top {
-            width: 100%;
+            width: 85%;
+            align-self: flex-start;
             justify-content: space-between;
 
             button {
@@ -43,7 +51,7 @@
                 height: 30px;
                 border: solid 1px var(--lightBorder);
                 background: none;
-                border-radius: 5px;                
+                border-radius: 5px;
                 color: var(--mainColor);
                 transition: 150ms;
                 cursor: pointer;
@@ -54,6 +62,5 @@
                 }
             }
         }
-
     }
 </style>

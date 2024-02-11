@@ -6,33 +6,32 @@
 
 	export let invitation;
 
-    var dispatch = createEventDispatcher()
+	var dispatch = createEventDispatcher();
 
 	async function acceptInvitation() {
-        let res = await fetchHttp(`/invitation/${invitation.id}/accept`, {
-            token: get(tokenStore)
-        })
-        if (res != undefined && res.status === 200) {
-            deleteFromList()
-        }
-    }
-    
+		let res = await fetchHttp(`/invitation/${invitation.id}/accept`, {
+			token: get(tokenStore),
+		});
+		if (res != undefined && res.status === 200) {
+			deleteFromList();
+		}
+	}
+
 	async function rejectInvitation() {
-        let res = await fetchHttp(`/invitation/${invitation.id}`, {
-            method: 'delete',
-            token: get(tokenStore)
-        })
-        if (res != undefined && res.status === 200) {
-            deleteFromList()
-        }
-    }
+		let res = await fetchHttp(`/invitation/${invitation.id}`, {
+			method: "delete",
+			token: get(tokenStore),
+		});
+		if (res != undefined && res.status === 200) {
+			deleteFromList();
+		}
+	}
 
-    function deleteFromList() {
-        dispatch('deleteFromList', {
-            id: invitation.id
-        })
-    }
-
+	function deleteFromList() {
+		dispatch("deleteFromList", {
+			id: invitation.id,
+		});
+	}
 </script>
 
 <div class="invitation">
@@ -52,7 +51,7 @@
 		margin-left: 30px;
 		margin: 10px 0;
 		border-radius: 5px;
-		width: 100vw;
+		width: 85vw;
 		max-width: 550px;
 		height: 45px;
 		border: solid 1px #474747;
@@ -76,7 +75,8 @@
 			margin-top: 5px;
 			margin-left: auto;
 			color: rgb(110, 110, 110);
-			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+			font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
+				sans-serif;
 		}
 
 		button {

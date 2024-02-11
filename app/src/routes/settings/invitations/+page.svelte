@@ -3,11 +3,10 @@
 
 	export let data;
 
-	function deleteFromList(e) {
-		let invitationId = e.detail.id
-		data.data.filter((i) => i.id == invitationId)
+	function deleteFromList(e: CustomEvent) {
+		let invitationId = e.detail.id;
+		data.data.filter((i: any) => i.id == invitationId);
 	}
-
 </script>
 
 <main class="column">
@@ -18,7 +17,7 @@
 		{/each}
 	{:else}
 		<div class="column">
-			<img src="/icons/cross.svg" alt="">
+			<img src="/icons/cross.svg" alt="" />
 			<p>No invitations found</p>
 		</div>
 	{/if}
@@ -29,6 +28,6 @@
 		width: 100px;
 	}
 	p {
-		font-family: 'Fira sans';
+		font-family: "Fira sans";
 	}
 </style>

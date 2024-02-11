@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import fetchHttp from '$lib/fetchHttp';
-	import { tokenStore } from '$lib/stores/tokenStore';
-	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
+	import { goto } from "$app/navigation";
+	import fetchHttp from "$lib/fetchHttp";
+	import { tokenStore } from "$lib/stores/tokenStore";
+	import { onMount } from "svelte";
+	import { get } from "svelte/store";
 
 	async function deleteAccount() {
 		let sure = confirm(
-			"Are you sure you want to delete account? You won't be able to undo the changes"
+			"Are you sure you want to delete account? You won't be able to undo the changes",
 		);
 		if (sure) {
-			await fetchHttp('/account', {
-				method: 'delete',
-				token: get(tokenStore)
+			await fetchHttp("/account", {
+				method: "delete",
+				token: get(tokenStore),
 			});
 			await goto(location.host);
 		}
@@ -21,22 +21,21 @@
 	async function logout() {
 		await fetchHttp(`${location.protocol}//${location.host}/logout`, {
 			method: "post",
-			apiUrlPrefix: false
-		})
-		
-		await goto("/")
-		location.reload()
+			apiUrlPrefix: false,
+		});
+
+		await goto("/");
+		location.reload();
 	}
 
-	let url: string = ""
+	let url: string = "";
 
 	onMount(() => {
-		url = `${location.protocol}//${location.host}/settings`
-	})
-
+		url = `${location.protocol}//${location.host}/settings`;
+	});
 </script>
 
-<div id="sidebar" class="colun">
+<div id="sidebar" class="column">
 	<div class="row">
 		<img src="/icons/settings.svg" alt="settings" />
 		<a href="/settings">General</a>
@@ -47,7 +46,7 @@
 	</div>
 	<div class="row">
 		<img src="/icons/password.svg" alt="invitations" />
-		<a href="{url}/change-password">Change <br> password</a>
+		<a href="{url}/change-password">Change <br /> password</a>
 	</div>
 	<div class="row">
 		<img src="/icons/letter.svg" alt="invitations" />
@@ -79,7 +78,7 @@
 			width: 70%;
 			display: flex;
 			align-items: center;
-			margin: 22px 0 22px 30px;
+			margin: 20px 0 20px 30px;
 			border-radius: 10px;
 
 			img {
@@ -87,16 +86,18 @@
 				margin-right: 15px;
 			}
 
-			a, button {
+			a,
+			button {
 				font-size: 15px;
 				font-family: sans-serif;
+				min-width: max-content;
 				color: #888888;
-                cursor: pointer;
+				cursor: pointer;
 				transition: color 100ms ease-in-out;
 
-                &:hover {
+				&:hover {
 					color: #fff;
-                }
+				}
 			}
 
 			button {
@@ -107,6 +108,22 @@
 
 			.danger:hover {
 				color: rgb(228, 78, 78);
+			}
+		}
+	}
+
+	@media screen and (max-width: 930px) {
+		#sidebar {
+			min-width: 100vw;
+			min-height: 25px;
+			height: max-content;
+			flex-direction: row;
+			overflow-x: auto;
+			border-bottom: solid 1px var(--lightBorder);
+			padding: 12px 0;
+
+			.row {
+				margin: 0 22px;
 			}
 		}
 	}

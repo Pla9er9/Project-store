@@ -61,12 +61,9 @@
             <Avatar size="40px" cursor="pointer" margin="0" {username} />
         </a>
     {/if}
-	<button on:click={changeNavVisibility}>
-		<img
-			src="/icons/{menuOpen ? 'cross_white' : 'menu'}.svg"
-			alt=""
-		/>
-	</button>
+    <button on:click={changeNavVisibility}>
+        <img src="/icons/{menuOpen ? 'cross_white' : 'menu'}.svg" alt="" />
+    </button>
 </nav>
 {#if menuOpen}
     <MobileExpandScreen {username} />
@@ -77,12 +74,13 @@
         width: 100%;
         height: 50px;
         padding: 10px 0;
+        background-color: var(--background);
         border-bottom: 1px solid #202020;
         z-index: 99999999;
 
         .home {
-			margin-right: auto;
-			
+            margin-right: auto;
+
             img {
                 width: 22px;
                 margin: 0 12px 0 25px;
@@ -142,7 +140,9 @@
     }
 
     @media only screen and (max-width: 600px) {
-        .iconBtn, #avatarLink, #authBar {
+        .iconBtn,
+        #avatarLink,
+        #authBar {
             display: none !important;
         }
         button {

@@ -13,7 +13,7 @@
     }
 </script>
 
-<div class="row" style="width: 100%;">
+<div class="row" style="width: 100%;flex-wrap: wrap;justify-content:center">
     <img src="/icons/search_.svg" alt="" />
     <h1>{query}</h1>
     <Select
@@ -28,22 +28,23 @@
 <style lang="scss">
     div {
         width: 100%;
-        height: 70px;
-        margin-bottom: 8px;
+        min-height: 70px;
+        margin-bottom: 0;
         border: solid 1px var(--lightBorder);
         border-top-right-radius: 5px;
         border-top-left-radius: 5px;
-        padding: 0 15px;
+        padding: 10px 15px;
         box-sizing: border-box;
 
         h1 {
             font-family: "Fira sans";
             font-size: 20px;
             margin-right: auto;
+            min-width: 120px;
         }
 
         img {
-            width: 24px;
+            width: 20px;
             margin: 0 18px;
         }
     }

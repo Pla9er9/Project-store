@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-    <title>Search - {data.query}</title>
+    <title>Search {data.query}</title>
 </svelte:head>
 
 <main class="column">
@@ -57,7 +57,7 @@
 
 <style lang="scss">
     main {
-        width: 100%;
+        width: 95%;
         max-width: 1200px;
         margin: 50px auto;
 

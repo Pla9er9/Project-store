@@ -7,7 +7,7 @@ export default async function fetchHttp(
 	url: string,
     {
         method = 'GET',
-        body,
+        body = undefined,
         token = '',
         apiUrlPrefix = true,
         server = false,

@@ -24,7 +24,7 @@
 	$: isValid = input1 && input2 && input1_ === input2_;
 </script>
 
-<main>
+<main class="column">
 	<h1 class="settingsHeader">Change password</h1>
 	<br />
 	<Input

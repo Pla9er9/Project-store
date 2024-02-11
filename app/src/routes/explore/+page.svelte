@@ -88,7 +88,7 @@
             {#each projects as project}
                 <Result data={project} type="project" wide={isWide} />
             {/each}
-            {#if apiPage !== data.totalPages}
+            {#if apiPage !== data.data?.body.totalPages}
                 <button on:click={getMore}>Load more</button>
             {/if}
             {#if loading}
@@ -147,7 +147,7 @@
                 align-items: center;
                 border-top-right-radius: 8px;
                 border-top-left-radius: 8px;
-                background-color: #111010;
+                background-color: var(--background);
                 border: solid 1px var(--lightBorder);
 
                 p {
