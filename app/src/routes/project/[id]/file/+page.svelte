@@ -70,7 +70,7 @@
 				font-family: "Fira sans";
 				font-size: 15px;
 				color: #dfdcdc;
-				transition: 150ms;
+				transition: text-decoration 150ms;
 
 				&:first-child {
 					margin: 0px;

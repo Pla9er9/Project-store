@@ -92,7 +92,7 @@
 				font-family: sans-serif;
 				color: #888888;
                 cursor: pointer;
-				transition: 100ms ease-in-out;
+				transition: color 100ms ease-in-out;
 
                 &:hover {
 					color: #fff;

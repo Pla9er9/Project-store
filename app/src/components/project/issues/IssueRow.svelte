@@ -28,7 +28,7 @@
 		align-items: center;
 		outline: solid 1px #ffffff38;
 		margin: 1px 0;
-		transition: 100ms ease-in-out;
+		transition: background-color 100ms ease-in-out;
 
 		&:hover {
 			background-color: #ffffff09;

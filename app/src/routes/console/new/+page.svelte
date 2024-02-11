@@ -97,7 +97,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 150ms ease-in-out;
+            transition: background 150ms ease-in-out;
 
             &:hover {
                 background: rgba(128, 128, 128, 0.062);
