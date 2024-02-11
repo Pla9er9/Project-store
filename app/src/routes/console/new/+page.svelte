@@ -6,6 +6,7 @@
     import fetchHttp from "$lib/fetchHttp";
     import { get } from "svelte/store";
     import { tokenStore } from "$lib/stores/tokenStore";
+    import BackBtn from "$components/BackBtn.svelte";
 
     let name = ""
     let redirectUrl1 = ""
@@ -36,9 +37,7 @@
 
 <main class="column">
     <div class="row" style="margin-bottom: 30px;width: 100%">
-        <button class="backBtn" on:click={back}>
-            <img src="/icons/btn_back.svg" alt="" />
-        </button>
+        <BackBtn callback={back}/>
         <p style="margin: 0 auto;">New application</p>
     </div>
     <Input placeholder="Name" bind:value={name}>
@@ -84,29 +83,6 @@
             margin: 0;
             font-family: "Fira sans";
             font-size: 24px;
-        }
-
-        .backBtn {
-            width: 40px;
-            height: 40px;
-            margin-right: 20px;
-            border-radius: 100%;
-            background: inherit;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 150ms ease-in-out;
-
-            &:hover {
-                background: rgba(128, 128, 128, 0.062);
-            }
-
-            img {
-                width: 18px;
-                margin-left: 6px;
-            }
         }
     }
 </style>

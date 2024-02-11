@@ -2,17 +2,15 @@ package com.example.projectstore.application;
 
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +39,7 @@ public class ApplicationService {
                 request.isCommercial(),
                 LocalDateTime.now(),
                 generateSecret(),
+                request.getAllowedRedirectUrls(),
                 user
         );
         applicationRepository.save(app);
@@ -66,15 +65,18 @@ public class ApplicationService {
                 app.getName(),
                 app.getNumberOfUses(),
                 app.isCommercial(),
-                app.getCreated()    
+                app.getCreated(),
+                Set.copyOf(app.getAllowedUrls())
         );
     }
 
-    public void newSecret(UUID id, String username) {
+    public String newSecret(UUID id, String username) {
         var app = applicationRepository.findByIdAndOwner_Username(id, username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        app.setSecret(generateSecret());
+        var secret = generateSecret();
+        app.setSecret(secret);
         applicationRepository.save(app);
+        return secret;
     }
 
     public void deleteApplication(UUID id, String username) {
@@ -82,9 +84,8 @@ public class ApplicationService {
     }
 
     public String generateSecret() {
-        Random random = new SecureRandom();
-        IntStream specialChars = random.ints(32, 33, 45);
-        return specialChars.mapToObj(data -> (char) data)
-                .map(Object::toString).collect(Collectors.joining());
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45)
+                .build();
+        return pwdGenerator.generate(32);
     }
 }

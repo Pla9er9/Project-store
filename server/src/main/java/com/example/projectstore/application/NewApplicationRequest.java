@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -14,5 +15,5 @@ public class NewApplicationRequest {
     private String name;
     private boolean isCommercial;
     @NotEmpty
-    private Set<String> allowedRedirectUrls;
+    private List<String> allowedRedirectUrls;
 }
