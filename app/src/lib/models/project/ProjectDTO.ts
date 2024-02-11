@@ -1,4 +1,5 @@
 import type { UserDtoSimple } from '../user/UserDtoSimple';
+import type { Language } from './Language';
 
 type ProjectDTO = {
 	id: string;
@@ -13,7 +14,7 @@ type ProjectDTO = {
 	creators: UserDtoSimple[];
 	isPrivate: boolean;
 	latestReleaseVersion: string;
-	languages: string[];
+	languages: Language[];
 	tags: string[];
 };
 

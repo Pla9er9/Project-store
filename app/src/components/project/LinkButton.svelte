@@ -11,7 +11,7 @@
 	.linkButton {
 		width: 160px;
 		height: 40px;
-		margin: 8px 0;
+		margin: 8px 5px;
 		display: flex;
 		align-items: center;
 		background-color: #111111;

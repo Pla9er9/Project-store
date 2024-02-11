@@ -48,7 +48,7 @@
 			justify-content: center;
 			align-items: center;
 			cursor: pointer;
-			transition: 100ms ease;
+			transition: min-width 100ms ease;
 
 			img {
 				min-width: 12px;

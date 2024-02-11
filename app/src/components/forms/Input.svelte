@@ -18,13 +18,13 @@
     }
 </script>
 
-<div class="column" style="width: max-content;">
+<div class="column">
     <div
         class="input row"
         style="
         --state: {correct ? 'var(--mainColor)' : 'var(--danger)'};
         --border: {correct || !clicked ? 'var(--lightBorder)' : 'var(--danger)'};
-        width: {width};
+        max-width: {width};
         "
     >
         <slot />
@@ -45,14 +45,14 @@
 
 <style lang="scss">
     .input {
-        width: 100%;
+        width: 80vw;
         margin: 10px 0;
         padding-left: 24px;
         height: 40px;
         border: solid 1px var(--border);
         border-radius: 8px;
         pointer-events: none;
-        transition: 250ms;
+        transition: border 250ms;
 
         &:focus-within {
             border: solid 1px var(--state);

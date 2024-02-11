@@ -66,7 +66,7 @@
 		font-size: 15px;
 		font-family: monospace;
 		cursor: pointer;
-		transition: 200ms;
+		transition: background-color 200ms;
 
 		&:hover {
 			background-color: #ffffff0c;

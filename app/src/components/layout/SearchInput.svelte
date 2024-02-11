@@ -1,39 +1,70 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
     let value = "";
     let focus = false;
+
+    let isBottom = false
+    let show = true
+
+    function click() {
+        isBottom = !isBottom
+        const input = document.getElementById("searchInput")
+        if (input) {
+            if (isBottom) {
+                input.style.display = "flex"
+            } else {
+                input.style.display = "none"                
+            }
+        }
+    }
+
+    onMount(() => {
+        setInterval(() => {
+            if (window.screenX >= 600) {
+                isBottom = false
+            }
+        }, 50)
+    })
+
 </script>
 
-<div id="searchInput">
-    <div class="icon">
-        <img src="/icons/search_.svg" alt="" />
-    </div>
-    <input
-        type="text"
-        bind:value
-        on:focusin={() => (focus = true)}
-        on:focusout={async () => {
-            await new Promise((r) => setTimeout(r, 500));
-            focus = false;
-        }}
-        placeholder="Search"
-    />
-    {#if focus && value != ""}
-        <div id="searchItems" class="column">
-            <a class="searchItem" href="/search?q={value}&t=users" rel="external">
-                <img src="/icons/user.svg" alt="user icon" />
-                <p>Users {value}</p>
-            </a>
-            <a class="searchItem" href="/search?q={value}&t=project-name" rel="external">
-                <img src="/icons/project.svg" alt="tag icon" />
-                <p>Projects {value}</p>
-            </a>
-            <a class="searchItem" href="/search?q={value}&t=project-tag" rel="external">
-                <img src="/icons/tag.svg" alt="tag icon" />
-                <p>Projects with tag {value}</p>
-            </a>
+{#if show}
+    <div id="searchInput" style="top: {isBottom ? '80px' : '15px'};">
+        <div class="icon">
+            <img src="/icons/search_.svg" alt="" />
         </div>
-    {/if}
-</div>
+        <input
+            type="text"
+            bind:value
+            on:focusin={() => (focus = true)}
+            on:focusout={async () => {
+                await new Promise((r) => setTimeout(r, 500));
+                focus = false;
+            }}
+            placeholder="Search"
+        />
+        {#if focus && value != ""}
+            <div id="searchItems" class="column">
+                <a class="searchItem" href="/search?q={value}&t=users" rel="external">
+                    <img src="/icons/user.svg" alt="user icon" />
+                    <p>Users {value}</p>
+                </a>
+                <a class="searchItem" href="/search?q={value}&t=project-name" rel="external">
+                    <img src="/icons/project.svg" alt="tag icon" />
+                    <p>Projects {value}</p>
+                </a>
+                <a class="searchItem" href="/search?q={value}&t=project-tag" rel="external">
+                    <img src="/icons/tag.svg" alt="tag icon" />
+                    <p>Projects with tag {value}</p>
+                </a>
+            </div>
+        {/if}
+    </div>
+{/if}
+<button id="searchIcon" on:click={click}>
+    <img src="/icons/{isBottom ? 'cross_white' : 'search_'}.svg" alt="">
+</button>
 
 <style lang="scss">
     #searchInput {
@@ -139,9 +170,33 @@
             }
         }
     }
-    @media screen and (max-width: 700px) {
+
+    button {
+        display: none;
+        background-color: var(--background);
+        border: none;
+
+        img {
+            width: 18px;
+            margin-top: 3px;
+            margin-right: 10px;
+        }
+    }
+
+    @media screen and (max-width: 980px) {
         #searchInput {
             display: none;
+
+            input {
+                width: 90vw;
+            }
+
+            #searchItems .searchItem {
+                width: 90vw;
+            }
+        }
+        #searchIcon {
+            display: block !important;
         }
     }
 </style>

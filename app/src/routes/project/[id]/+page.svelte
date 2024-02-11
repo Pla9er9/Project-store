@@ -32,9 +32,13 @@
 </svelte:head>
 
 <main>
-    <h1>{info.name}</h1>
-    <DownloadButton link="{PUBLIC_API_URL}/project/{data.slug}/download" />
-    <p>{info.description}</p>
+    <div class="row" style="justify-content: space-between; height: max-content;margin-top: 40px;">
+        <div class="column">
+            <h1>{info.name}</h1>
+            <p>{info.description}</p>
+        </div>
+        <DownloadButton link="{PUBLIC_API_URL}/project/{data.slug}/download" />
+    </div>
     <Stats
         owner={info.owner.username}
         isPrivate={info.isPrivate}
@@ -87,9 +91,11 @@
         margin: 0 auto;
 
         h1 {
-            margin-top: 80px;
+            margin-bottom: 10px;
         }
+
         p {
+            margin-top: 0;
             font-family: sans-serif;
             color: rgb(161, 161, 161);
         }

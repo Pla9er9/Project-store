@@ -90,12 +90,12 @@
     <title>New project</title>
 </svelte:head>
 
-<main class="form">
+<main>
     <h1>
         Create new Project <br />
         <small>Projects contains files, issues and more!</small>
     </h1>
-    <div class="row">
+    <div class="row" style="flex-wrap: wrap;justify-content: center">
         <div class="column" style="align-items: start;">
             <Input
                 placeholder="Project name"
@@ -139,11 +139,11 @@
 </main>
 
 <style lang="scss">
-    .form {
-        border: solid 1px #ffffff21;
+    main {
+        border: solid 1px var(--lightBorder);
         border-radius: 5px;
         margin: 60px auto;
-        width: 100%;
+        width: 95%;
         max-width: 720px;
         min-height: 400px;
         position: absolute;
@@ -157,7 +157,7 @@
 
         h1 {
             width: 100%;
-            margin-bottom: 0px;
+            margin-bottom: 25px;
             text-align: center;
             color: #eeeeee;
             font-family: "Fira sans";
@@ -181,4 +181,11 @@
             width: 20px;
         }
     }
+
+    @media screen and (max-width: 400px) {
+		main {
+            margin-top: 30px;
+            border: none;
+        }
+	}
 </style>

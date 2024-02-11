@@ -34,7 +34,7 @@
     main {
         width: 100%;
         max-width: 1200px;
-        margin: 80px auto;
+        margin: 40px auto;
 
         h1 {
             width: 80%;
@@ -66,4 +66,10 @@
             flex-wrap: wrap;
         }
     }
+
+    @media screen and (max-width: 568px) {
+		h1 {
+            font-size: 30px !important;
+        }
+	}
 </style>

@@ -17,7 +17,7 @@
 
 <style lang="scss">
 	textarea {
-		width: 100%;
+		width: 80vw;
 		padding: 15px 25px;
 		overflow: auto;
 		color: #c2c0c0;

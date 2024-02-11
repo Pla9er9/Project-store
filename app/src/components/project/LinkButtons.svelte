@@ -95,10 +95,10 @@
 		max-width: 730px;
 		width: 100%;
 		height: max-content;
-		margin: 25px 0 40px 0;
+		margin: 25px auto 40px 0;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: center;
 
 		span {
 			color: #fff;
