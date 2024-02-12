@@ -1,14 +1,11 @@
 <script lang="ts">
     import Avatar from "$components/Avatar.svelte";
     import getColorOfLanguage from "$lib/colorOfLanguage";
+    import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple";
 
-    export let data;
+    export let data: ProjectDtoSimple;
     export let type: "user" | "project" | "mixed";
     export let wide: boolean = true;
-
-    if (data.mainLanguage === null) {
-        data.mainLanguage = "No programing language";
-    }
 </script>
 
 <div class="result row">
@@ -28,7 +25,7 @@
             >
         </div>
         <div class="row projects">
-            <img src="/icons/project.svg" alt="" style="margin-right: 8px"/>
+            <img src="/icons/project.svg" alt="" style="margin-right: 8px" />
             <p style="margin-right: auto;">{data.projectCount} Projects</p>
         </div>
         <div class="row followers">
@@ -54,11 +51,16 @@
         </div>
         {#if wide && data.mainLanguage && data.mainLanguage.name !== ""}
             <div class="row language">
+                <div
+                    class="languageBar"
+                    style="background-color: {getColorOfLanguage(
+                        data.mainLanguage.name,
+                    )};"
+                ></div>
                 <small>{data.mainLanguage.name}</small>
-                <div class="languageBar" style="background-color: {getColorOfLanguage(data.mainLanguage.name)};"></div>
             </div>
         {/if}
-        <p style="margin-left: {wide ? "0" : "auto"};">{data.likes}</p>
+        <p style="margin-left: {wide ? '0' : 'auto'};">{data.likes}</p>
         <img src="/icons/hearth.svg" alt="" />
     {/if}
 </div>
@@ -90,14 +92,13 @@
         }
         .language {
             margin-right: auto;
+            width: 100px;
 
             .languageBar {
                 width: 16px;
                 height: 16px;
                 border-radius: 50%;
-                border: solid 1px gray;
-                margin-left: 10px;
-                margin-right: auto;
+                margin-right: 12px;
             }
         }
 

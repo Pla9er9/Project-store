@@ -1,4 +1,5 @@
 import type { UserDtoSimple } from '../user/UserDtoSimple';
+import type { Language } from './Language';
 
 type ProjectDtoSimple = {
 	id: string;
@@ -7,7 +8,7 @@ type ProjectDtoSimple = {
 	created: string;
 	owner: UserDtoSimple;
 	isPrivate: boolean;
-	mainLanguage: string;
+	mainLanguage: Language;
 };
 
 export type { ProjectDtoSimple };
