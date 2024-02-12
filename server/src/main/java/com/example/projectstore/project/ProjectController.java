@@ -46,7 +46,7 @@ public class ProjectController {
     }
 
     @GetMapping("/trending")
-    public Page<ProjectDTO> getRecommendedProjects(
+    public Page<ProjectDtoSimple> getRecommendedProjects(
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "*", required = false) String language
     ) {
@@ -54,7 +54,7 @@ public class ProjectController {
     }
 
     @GetMapping("/mostLiked")
-    public Page<ProjectDTO> getMostLikedProjects(
+    public Page<ProjectDtoSimple> getMostLikedProjects(
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "*", required = false) String language
     ) {

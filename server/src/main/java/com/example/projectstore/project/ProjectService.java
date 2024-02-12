@@ -188,29 +188,29 @@ public class ProjectService {
         return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
-    public Page<ProjectDTO> getTrending(Integer page) {
+    public Page<ProjectDtoSimple> getTrending(Integer page) {
         return getTrending(page, "*");
     }
 
-    public Page<ProjectDTO> getTrending(Integer page, String language) {
+    public Page<ProjectDtoSimple> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToDto);
+            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
-            return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }
     }
 
-    public Page<ProjectDTO> getMostLikedProjects(Integer page) {
+    public Page<ProjectDtoSimple> getMostLikedProjects(Integer page) {
         return getMostLikedProjects(page, "*");
     }
 
-    public Page<ProjectDTO> getMostLikedProjects(Integer page, String language) {
+    public Page<ProjectDtoSimple> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToDto);
+            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
-            return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }
     }
 
