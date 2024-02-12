@@ -8,30 +8,44 @@
     import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple.js";
     import { onMount } from "svelte";
 
-    let apiPage = 1;
+    let apiPage = 0;
     let loading = false;
-    let showBy = "trending";
-    let isWide = true
+    let showBy = "Trending";
+    let language = "any";
+    let apiVariablePath = "trending"
+    let isWide = true;
 
     async function getMore() {
         loading = true;
-        const res = await fetchHttp(`/project/${showBy}?page=${apiPage}`, {});
+        let lang = ""
+        if (language != "any") {
+            lang = "&language=" + language
+        }
+        const res = await fetchHttp(`/project/${apiVariablePath}?page=${apiPage}${lang}`, {});
         projects = projects.concat(res?.body.content);
         loading = false;
         apiPage += 1;
     }
 
     async function change() {
-        apiPage = 1;
+        switch (showBy) {
+            case "Trending":
+                apiVariablePath = "trending"
+                break
+            case "Most likes":
+                apiVariablePath = "mostLiked"
+                break
+        }
+        apiPage = 0;
         projects = [];
         await getMore();
     }
 
     onMount(() => {
-        if (window.screenX <= 540) {
-            isWide = false
+        if (window.innerWidth <= 540) {
+            isWide = false;
         }
-    })
+    });
 
     let projects: ProjectDtoSimple[] = data.data?.body.content;
 </script>
@@ -43,12 +57,13 @@
 <main>
     <div id="trending">
         <div id="filters">
-            <p style="margin-right: auto;">Explore projects</p>
+            <p style="margin-right: auto;color: #fff;">Explore projects</p>
             <div style="flex-wrap: wrap;justify-content: center" class="row">
                 <div style="margin: 0 10px;">
                     <Select
                         text="Show"
                         bind:value={showBy}
+                        onSelect={change}
                         imgSrc="/icons/public.svg"
                         options={["Trending", "Most likes"]}
                     />
@@ -56,29 +71,30 @@
                 <div style="margin: 0 10px;">
                     <Select
                         text="Language"
-                        bind:value={showBy}
+                        bind:value={language}
+                        onSelect={change}
                         imgSrc="/icons/license.svg"
                         options={[
                             "any",
-                            "Javascript",
-                            "TypeScript",
-                            "Python",
-                            "Go",
-                            "Java",
-                            "Kotlin",
-                            "PHP",
-                            "C",
-                            "C++",
-                            "C#",
-                            "Swift",
-                            "R",
-                            "Ruby",
-                            "Rust",
-                            "Scala",
-                            "SQL",
-                            "HTML",
-                            "CSS",
-                            "Perl",
+                            "js",
+                            "ts",
+                            "py",
+                            "go",
+                            "java",
+                            "kt",
+                            "php",
+                            "c",
+                            "cpp",
+                            "cs",
+                            "swift",
+                            "r",
+                            "ruby",
+                            "rs",
+                            "scala",
+                            "sql",
+                            "html",
+                            "css",
+                            "pl",
                         ]}
                     />
                 </div>

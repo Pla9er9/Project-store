@@ -188,14 +188,10 @@ public class ProjectService {
         return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
-    public Page<ProjectDtoSimple> getTrending(Integer page) {
-        return getTrending(page, "*");
-    }
-
     public Page<ProjectDtoSimple> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
             return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }
@@ -208,7 +204,7 @@ public class ProjectService {
     public Page<ProjectDtoSimple> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
             return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }

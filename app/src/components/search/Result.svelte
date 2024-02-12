@@ -29,7 +29,7 @@
             <p style="margin-right: auto;">{data.projectCount} Projects</p>
         </div>
         <div class="row followers">
-            <img src="/icons/hearth.svg" alt="" style="margin-right: 8px;" />
+            <img src="/icons/hearthOutline.svg" alt="" style="margin-right: 8px;" />
             <p>{data.followers} Followers</p>
         </div>
     {:else if type === "project"}
@@ -61,7 +61,7 @@
             </div>
         {/if}
         <p style="margin-left: {wide ? '0' : 'auto'};">{data.likes}</p>
-        <img src="/icons/hearth.svg" alt="" />
+        <img src="/icons/hearthOutline.svg" alt="" />
     {/if}
 </div>
 
@@ -99,6 +99,10 @@
                 height: 16px;
                 border-radius: 50%;
                 margin-right: 12px;
+            }
+
+            small {
+                margin-top: -1px;
             }
         }
 

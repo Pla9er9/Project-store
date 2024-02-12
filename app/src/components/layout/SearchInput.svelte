@@ -21,12 +21,11 @@
 
     onMount(() => {
         setInterval(() => {
-            if (window.screenX >= 600) {
+            if (window.innerWidth >= 600) {
                 isBottom = false
             }
         }, 50)
     })
-
 </script>
 
 {#if show}
