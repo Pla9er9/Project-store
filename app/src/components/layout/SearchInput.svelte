@@ -186,9 +186,14 @@
     @media screen and (max-width: 980px) {
         #searchInput {
             display: none;
+            top: 0 !important;
+            height: 70px;
+            right: auto;
+            left: 20px;
+            max-width: 300px;
 
             input {
-                width: 90vw;
+                width: 55vw;
             }
 
             #searchItems .searchItem {
