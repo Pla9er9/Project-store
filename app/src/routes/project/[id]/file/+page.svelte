@@ -32,29 +32,28 @@
 </script>
 
 <main class="column">
+	<div class="row">
+		<a href=".">..</a>
+		{#each folderStructure as folder, i (i)}
+			<img src="/icons/arrow_right.svg" alt="" />
+			<a
+				href="?path={folderStructure.slice(0, i + 1).join('/')}"
+				data-sveltekit-reload>{folder.replaceAll("/", "")}</a
+			>
+		{/each}
+	</div>
 	{#if isFile}
-		<div class="row">
-			<a href=".">..</a>
-			{#each folderStructure as folder, i (i)}
-				<img src="/icons/arrow_right.svg" alt="" />
-				<a
-					href="?path={folderStructure.slice(0, i + 1).join('/')}"
-					data-sveltekit-reload>{folder.replaceAll("/", "")}</a
-				>
-			{/each}
-		</div>
 		<File code={data.data} />
 	{:else}
-		<h1>Folder</h1>
 		<DirectoryView data={data.data} slug={data.slug} />
 	{/if}
 </main>
 
 <style lang="scss">
 	main {
-		width: 95%;
+		width: 90%;
 		max-width: 900px;
-		margin: 0 auto;
+		margin: 60px auto;
 
 		.row {
 			height: 30px;
