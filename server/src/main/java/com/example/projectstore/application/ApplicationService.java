@@ -2,6 +2,7 @@ package com.example.projectstore.application;
 
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -84,7 +85,7 @@ public class ApplicationService {
     }
 
     public String generateSecret() {
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45)
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(97, 122)
                 .build();
         return pwdGenerator.generate(32);
     }

@@ -1,6 +1,7 @@
 <script>
     import { goto } from "$app/navigation";
     import BackBtn from "$components/BackBtn.svelte";
+    import NewSecretPanel from "$components/console/NewSecretPanel.svelte";
     import Panel from "$components/console/Panel.svelte";
 
     export let data;
@@ -15,13 +16,15 @@
     </div>
     <div class="row" style="flex-wrap: wrap;margin-top: 50px;">
         <Panel label="id" value={data.data.id} icon="/icons/personal_data_outline.svg" width="100%" />
-        <Panel label="uses" value={data.data.numberOfUses} icon="/icons/plus.svg" />
+        <Panel label="uses" value={data.data.numberOfUses} icon="/icons/plus.svg" width="46%" />
         <Panel
         label="commercial"
         value={data.data.commercial}
         icon="/icons/dolar.svg"
+        width="46%"
         />
-        <Panel label="redirect urls" value={[data.data.redirectUrls.join(" | ")]} icon="/icons/personal_data_outline.svg" width="100%" />
+        <Panel label="redirect urls" value={data.data.redirectUrls.join(" ")} icon="/icons/personal_data_outline.svg" width="100%" />
+        <NewSecretPanel applicationId={data.slug} />
     </div>
 </main>
 
@@ -31,7 +34,7 @@
         width: 90%;
         min-height: 480px;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 25px 10px;
         border: solid 1px var(--lightBorder);
         border-radius: 5px;
         margin: 60px auto;

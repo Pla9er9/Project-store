@@ -29,7 +29,7 @@ public class ApplicationController {
         return applicationService.getApplicationInfo(id, authentication.getName());
     }
 
-    @PutMapping("/secret") String newSecret(@PathVariable UUID id, Authentication authentication) {
+    @PutMapping("/{id}/secret") String newSecret(@PathVariable UUID id, Authentication authentication) {
         return applicationService.newSecret(id, authentication.getName());
     }
 

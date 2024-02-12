@@ -86,15 +86,16 @@ export default async function fetchHttp(
 	}
 
 	if (res.ok) {
+		const b = await res.text()
 		try {
 			return {
-				body: await res.json(),
+				body: JSON.parse(b),
 				status: res.status,
 				ok: res.status === 200,
 			};
 		} catch {
 			return {
-				body: "",
+				body: b,
 				status: res.status,
 				ok: res.status === 200,
 			};

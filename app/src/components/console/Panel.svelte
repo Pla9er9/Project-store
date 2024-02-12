@@ -5,7 +5,7 @@
     export let width: string = "max-content"
 </script>
 
-<div class="panel" style="max-width: {width}">
+<div class="panel" style="width: {width}">
     <img src="{icon}" alt="">
     <p class="label">{label}</p> 
     <p class="value">{value}</p>
@@ -13,8 +13,8 @@
 
 <style lang="scss">
     .panel {
-        width: 100vw;
-        min-width: 250px;
+        min-width: 280px;
+        width: 100%;
         height: 70px;
         margin: 10px 15px;
         padding: 15px;
@@ -28,16 +28,16 @@
 
         .label {
             font-family: 'Fira sans';
+            margin-right: auto;
         }
 
         .value {
             max-width: 50%;
-            margin: 0 10px 0 auto;
             width: max-content;
             max-height: 30px;
             overflow-x: auto;
-            font-family: monospace;
-            font-size: 15px;
+            font-family: 'Fira sans';
+            font-size: 14px;
             white-space: nowrap;
             color: var(--mainColor);
         }
