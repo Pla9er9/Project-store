@@ -1,8 +1,12 @@
 <script lang="ts">
+    export let data
+
     import { goto } from "$app/navigation";
     import Input from "$components/forms/Input.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
+    import { alertStore } from "$lib/stores/alertStore.js";
     import * as validators from "$lib/validators/registerValidators";
+    import { onMount } from "svelte";
 
     let username = "",
         usernameValidated = false,
@@ -13,6 +17,12 @@
 
     async function sendForm() {
         if (!isFormValidated) return;
+
+        if (data.isOauth2) {
+            await sendOauth2Request()
+            return
+        }
+        
         let body = JSON.stringify({
             username: username,
             password: password,
@@ -25,8 +35,19 @@
             await sleep(150);
             await goto("/");
             location.reload();
+        } else {
+            alertStore.update(a => {
+                a.message = "Wrong username or password"
+                a.color = "red"
+                return a
+            })
         }
     }
+
+    async function sendOauth2Request() {
+
+    }
+
     function sleep(ms: number) {
         return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -38,7 +59,11 @@
 
 <main class="form">
     <h1>Project store</h1>
-    <small>Welcome back!</small>
+    {#if !data.isOauth2}
+        <small>Welcome back!</small>
+    {:else}
+        <small style="font-size: 16px">Continue to application</small>
+    {/if}
     <Input
         placeholder="username"
         validator={validators.validateUsername}

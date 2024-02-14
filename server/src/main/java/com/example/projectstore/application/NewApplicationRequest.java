@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class NewApplicationRequest {
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 20)
     private String name;
     private boolean isCommercial;
     @NotEmpty

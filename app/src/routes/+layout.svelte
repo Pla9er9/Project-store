@@ -37,7 +37,9 @@
 	});
 </script>
 
-<Navbar username={data.username}></Navbar>
+{#if !data.hideUiParts}
+	<Navbar username={data.username}></Navbar>
+{/if}
 {#if currentAlert.message !== ""}
 <Alert
 bind:message={currentAlert.message}
@@ -48,7 +50,9 @@ bind:color={currentAlert.color}
 <div>
 	<slot />
 </div>
+{#if !data.hideUiParts}
 <Footer />
+{/if}
 
 <style>
 	div {

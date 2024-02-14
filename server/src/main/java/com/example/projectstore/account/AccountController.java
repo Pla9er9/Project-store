@@ -5,11 +5,9 @@ import com.example.projectstore.invitation.InvitationDto;
 import com.example.projectstore.invitation.InvitationService;
 import com.example.projectstore.logged_In_Device.LoggedInDeviceDto;
 import com.example.projectstore.logged_In_Device.LoggedInDeviceService;
-import com.example.projectstore.user.UserRepository;
 import com.example.projectstore.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

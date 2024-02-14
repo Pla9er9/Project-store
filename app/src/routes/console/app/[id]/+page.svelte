@@ -5,7 +5,6 @@
     import Panel from "$components/console/Panel.svelte";
 
     export let data;
-    console.log(data.data);
 </script>
 
 <main>
@@ -44,6 +43,7 @@
                 overflow-x: auto;
                 margin: 0 auto 0 0;
                 font-family: "Fira sans";
+                font-size: 28px;
                 white-space: nowrap;
             }
 

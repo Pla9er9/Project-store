@@ -1,5 +1,15 @@
-import type { Actions } from '@sveltejs/kit';
+import { error, type Actions, redirect } from '@sveltejs/kit';
 import fetchHttp from '$lib/fetchHttp';
+
+export async function load({ url, cookies }) {
+	const oauthId = url.searchParams.get("appId")
+	const redirectUrl = url.searchParams.get("redirectUrl")
+	return {
+		oauthId: oauthId,
+		redirectUrl: redirectUrl,
+		isOauth2: oauthId !== null && redirectUrl !== null
+	}
+}
 
 export const actions: Actions = {
 	default: async (event) => {
@@ -13,10 +23,13 @@ export const actions: Actions = {
 				"User-Agent": event.request.headers.get("User-Agent")
 			}
 		})
-		if (!response?.body) {
-			return { status: 404 }
+		if (response === undefined) {
+			throw error(404)
 		}
-		event.cookies.set('jwtToken', response.body.token, {
+		if (response?.status !== 200) {
+			throw error(404)
+		}
+		event.cookies.set('jwtToken', response?.body.token, {
 			path: '/',
 			httpOnly: true,
 			sameSite: 'strict',
@@ -26,3 +39,4 @@ export const actions: Actions = {
 		return { status: 200 };
 	}
 };
+
