@@ -46,6 +46,7 @@ export default async function fetchHttp(
 				Authorization: auth,
 				...headers
 			},
+			redirect: 'follow'
 		});
 	} else {
 		res = await fetch(apiPrefix + url, {
@@ -55,8 +56,13 @@ export default async function fetchHttp(
 				Authorization: auth,
 				'Content-type': contentType,
 				...headers
-			}
+			},
+			redirect: 'follow'
 		});
+	}
+	if (res.redirected) {
+		console.log("Redirected")
+		window.location.href = res.url;
 	}
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {

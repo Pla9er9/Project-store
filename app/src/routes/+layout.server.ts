@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ cookies, route, url }) => {
 	const token = cookies.get('jwtToken');
 
-	const oauthId = url.searchParams.get("appId")
+	const oauthId = url.searchParams.get("client_id")
 	const redirectUrl = url.searchParams.get("redirectUrl")
 	
 	if (!token) {

@@ -1,8 +1,8 @@
-import { error, type Actions, redirect } from '@sveltejs/kit';
+import { error, type Actions } from '@sveltejs/kit';
 import fetchHttp from '$lib/fetchHttp';
 
-export async function load({ url, cookies }) {
-	const oauthId = url.searchParams.get("appId")
+export async function load({ url }) {
+	const oauthId = url.searchParams.get("client_id")
 	const redirectUrl = url.searchParams.get("redirectUrl")
 	return {
 		oauthId: oauthId,

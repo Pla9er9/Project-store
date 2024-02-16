@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/ws")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/ws/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/v1/oauth2/account", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/report", "POST")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/search/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/status")).permitAll()

@@ -1,12 +1,12 @@
 <script lang="ts">
-    export let data
+    export let data;
 
     import { goto } from "$app/navigation";
     import Input from "$components/forms/Input.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
+    import fetchHttp from "$lib/fetchHttp.js";
     import { alertStore } from "$lib/stores/alertStore.js";
     import * as validators from "$lib/validators/registerValidators";
-    import { onMount } from "svelte";
 
     let username = "",
         usernameValidated = false,
@@ -19,10 +19,10 @@
         if (!isFormValidated) return;
 
         if (data.isOauth2) {
-            await sendOauth2Request()
-            return
+            await sendOauth2Request();
+            return;
         }
-        
+
         let body = JSON.stringify({
             username: username,
             password: password,
@@ -31,21 +31,41 @@
             method: "post",
             body: body,
         });
+
         if (res.ok) {
             await sleep(150);
             await goto("/");
             location.reload();
         } else {
-            alertStore.update(a => {
-                a.message = "Wrong username or password"
-                a.color = "red"
-                return a
-            })
+            alertStore.update((a) => {
+                a.message = "Wrong username or password";
+                a.color = "red";
+                return a;
+            });
         }
     }
 
     async function sendOauth2Request() {
+        let body = JSON.stringify({
+            username: username,
+            password: password,
+        });
 
+        let res = await fetchHttp(
+            `/auth/oauth2/signin?redirectUrl=${data.redirectUrl}&appId=${data.oauthId}`,
+            {
+                method: "post",
+                body: body,
+            }
+        );
+
+        if (!res?.ok) {
+            alertStore.update((a) => {
+                a.message = "Wrong username or password";
+                a.color = "red";
+                return a;
+            });
+        }
     }
 
     function sleep(ms: number) {
@@ -62,7 +82,7 @@
     {#if !data.isOauth2}
         <small>Welcome back!</small>
     {:else}
-        <small style="font-size: 16px">Continue to application</small>
+        <small style="font-size: 18px">Continue to application</small>
     {/if}
     <Input
         placeholder="username"
@@ -114,7 +134,7 @@
         small {
             font-size: 22px;
             color: rgb(154, 153, 153);
-            font-family: 'Fira sans';
+            font-family: "Fira sans";
             margin-bottom: 40px;
         }
 
