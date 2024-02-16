@@ -61,7 +61,6 @@ export default async function fetchHttp(
 		});
 	}
 	if (res.redirected) {
-		console.log("Redirected")
 		window.location.href = res.url;
 	}
 	if ((res.status === 403 || res.status === 401) && redirecting) {
