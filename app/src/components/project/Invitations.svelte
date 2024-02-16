@@ -59,7 +59,7 @@
 	{:else}
 		{#each invitations as invitation}
 			<div class="invitation">
-				<Avatar imageUrl="{PUBLIC_API_URL}/user/{invitation.invitedUsername}/avatar" size="30px" />
+				<Avatar username={invitation.invitedUsername} size="30px" />
 				<p>{invitation.invitedUsername}</p>
 				<small>{invitation.created.slice(0, 16)}</small>
 				<DeleteButton callback={() => deleteInvitation(invitation.id)} />

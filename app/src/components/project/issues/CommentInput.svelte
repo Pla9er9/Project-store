@@ -56,7 +56,7 @@
 			align-items: center;
 			justify-content: center;
 			font-family: 'Fira sans';
-			transition: 250ms ease-in-out;
+			transition: fill 250ms ease-in-out;
 			background-color: inherit;
 			cursor: pointer;
 			border: none;

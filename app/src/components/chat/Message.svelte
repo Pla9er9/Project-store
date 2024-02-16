@@ -15,7 +15,7 @@
 			<Avatar
 				cursor="pointer"
 				margin="0 0 0 20px"
-				imageUrl="{PUBLIC_API_URL}/user/{message.recipientId}/avatar"
+				username={message.recipientId}
 				size="35px"
 			/>
 		</a>
@@ -26,7 +26,7 @@
 	{#if isMessageYours}
 		<Avatar
 			margin="0 30px 0 0"
-			imageUrl="{PUBLIC_API_URL}/user/{message.recipientId}/avatar"
+			username={message.recipientId}
 			size="35px"
 		/>
 	{/if}
@@ -54,12 +54,12 @@
 	.yourMessage {
 		margin-left: auto;
 		margin-right: 15px;
-		border: solid 1px rgb(201, 247, 148);
+		border: solid 1px #fff;
 	}
 
 	.notYourMessage {
 		margin-left: 15px;
 		margin-right: auto;
-		border: solid 1px #ffffff23;
+		border: solid 1px var(--lightBorder);
 	}
 </style>

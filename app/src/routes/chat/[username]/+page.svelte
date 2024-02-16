@@ -1,55 +1,70 @@
 <script lang="ts">
 	export let data;
 
-	import { onMount } from 'svelte';
-	import { CompatClient, Stomp, type IMessage } from '@stomp/stompjs';
-	import SockJS from 'sockjs-client';
-	import MessageInput from '$components/chat/MessageInput.svelte';
-	import Message from '$components/chat/Message.svelte';
-	import { goto } from '$app/navigation';
+	import { onMount } from "svelte";
+	import { CompatClient, Stomp, type IMessage } from "@stomp/stompjs";
+	import SockJS from "sockjs-client";
+	import MessageInput from "$components/chat/MessageInput.svelte";
+	import Message from "$components/chat/Message.svelte";
+	import { goto } from "$app/navigation";
 
 	let stompClient: CompatClient;
 	let username: string;
 
-	let message = '';
-	let messages = [];
+	let message = "";
+	let messages: any[] = [];
 
 	if (data.token) {
-		username = JSON.parse(atob(data.token.split('.')[1])).sub;
+		username = JSON.parse(atob(data.token.split(".")[1])).sub;
 	} else {
-		goto('login');
+		goto("login");
 	}
 
 	var authHeaders = {
-		Authorization: `Bearer ${data.token}`
-	}
+		Authorization: `Bearer ${data.token}`,
+	};
 
 	onMount(() => {
-		const sock = new SockJS('http://localhost:8080/ws', {
+		const body = document.querySelector("body");
+		const sock = new SockJS("http://localhost:8080/ws", {
 			transportOptions: {
-				'xhr-streaming': {
-					headers: authHeaders
-				}
-			}
+				"xhr-streaming": {
+					headers: authHeaders,
+				},
+			},
 		});
 		stompClient = Stomp.over(sock);
-		stompClient.connect({ headers: authHeaders },onConnected, () => alert('Wystąpił błąd'));
+		stompClient.connect({ headers: authHeaders }, onConnected, () =>
+			alert("Wystąpił błąd"),
+		);
 
-		let body = document.querySelector('body');
 		if (body) {
-			body.style.backgroundColor = '#000';
+			body.style.overflow = "hidden";
+			body.style.backgroundColor = "#000";
 			body.style.backgroundImage =
-				'radial-gradient(circle, rgba(61, 61, 61, 0.3) 0%, rgba(0, 0, 0, 0) 100%)';
+				"radial-gradient(circle, rgba(61, 61, 61, 0.1) 0%, rgba(0, 0, 0, 0) 100%)";
+		}
+		const messagesDiv = document.querySelector(".main");
+		if (messagesDiv) {
+			messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
 		}
 	});
 
 	function onConnected() {
-		stompClient.subscribe(`/user/${username}/queue/messages`, onMessageReceived);
+		stompClient.subscribe(
+			`/user/${username}/queue/messages`,
+			onMessageReceived,
+		);
 		stompClient.subscribe(`/user/public`, onMessageReceived);
 	}
-	function onMessageReceived(payload: IMessage) {
+	async function onMessageReceived(payload: IMessage) {
 		var message = JSON.parse(payload.body);
 		messages = [...messages, message];
+		await new Promise((r) => setTimeout(r, 50));
+		const messagesDiv = document.querySelector(".main");
+		if (messagesDiv) {
+			messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
+		}
 	}
 
 	async function sendMessage() {
@@ -58,12 +73,17 @@
 			var chatMessage = {
 				senderId: username,
 				recipientId: data.username,
-				content: messageContent
+				content: messageContent,
 			};
 			stompClient.send(`/app/chat`, {}, JSON.stringify(chatMessage));
 			messages = [...messages, chatMessage];
+			await new Promise((r) => setTimeout(r, 50));
+			const messagesDiv = document.querySelector(".main");
+			if (messagesDiv) {
+				messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
+			}
 		}
-		message = '';
+		message = "";
 	}
 
 	if (data.messages != undefined) {
@@ -71,10 +91,14 @@
 	}
 </script>
 
-<main>
+<svelte:head>
+	<title>Chat - {data.username}</title>
+</svelte:head>
+
+<main class="main">
 	<div class="messages">
 		{#if messages.length === 0}
-			<h1>There is no <br /> messages yet <br /> 😭😭😭</h1>
+			<h1>There is no <br /> messages yet</h1>
 		{:else}
 			{#each messages as message}
 				<Message {message} {username} />
@@ -102,7 +126,7 @@
 			height: 100%;
 
 			h1 {
-				font-family: 'Fira sans';
+				font-family: "Fira sans";
 				text-align: center;
 				color: gainsboro;
 				width: 100%;

@@ -11,11 +11,15 @@
 	.linkButton {
 		width: 160px;
 		height: 40px;
-		margin: 8px 0;
+		margin: 8px 5px;
 		display: flex;
 		align-items: center;
 		background-color: #111111;
 		border: solid 1px #ffffff11;
 		border-radius: 9px;
+
+		&:hover {
+			border: solid 1px #504f4f;
+		}
 	}
 </style>

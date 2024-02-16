@@ -7,6 +7,7 @@ import com.example.projectstore.project.ProjectDtoSimple;
 import com.example.projectstore.project.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,10 +60,7 @@ public class UserService {
                 user.getFollowing().size(),
                 stringLinksToList(user.getPersonalLinks()),
                 user.getProjects().stream().map(p -> {
-                            var userDtoSimple = new UserDtoSimple(
-                                    p.getOwner().getId(),
-                                    p.getOwner().getUsername());
-
+                            var userDtoSimple = userEntityToDtoSimple(p.getOwner());
                             Language mainLanguage = null;
                             if (p.getLanguages().size() != 0) {
                                 mainLanguage = p.getLanguages().get(0);
@@ -206,5 +205,28 @@ public class UserService {
         following.remove(user2);
         user.setFollowing(following);
         userRepository.save(user);
+    }
+
+    public Set<UserDtoSearch> searchByUsername(String query) {
+        var u = userRepository.searchByUserName(query, PageRequest.of(0, 20));
+        return u.stream().map(this::userEntityToDtoSearch).collect(Collectors.toSet());
+    }
+
+    public UserDtoSimple userEntityToDtoSimple(User user) {
+        return new UserDtoSimple(
+                user.getId(),
+                user.getUsername()
+        );
+    }
+
+    public UserDtoSearch userEntityToDtoSearch(User user) {
+        return new UserDtoSearch(
+                user.getId(),
+                user.getUsername(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getFollowers().size(),
+                user.getProjects().size()
+        );
     }
 }

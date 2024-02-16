@@ -19,10 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -182,26 +179,35 @@ public class ProjectService {
     }
 
     public Set<ProjectDtoSimple> searchByName(String name) {
-        var p = projectRepository.searchByName(name, PageRequest.of(0, 20)).get()
-                .map(set -> set.stream().map(this::projectEntityToSimpleDto)
-                        .collect(Collectors.toSet())).findAny();
-        return p.orElseGet(Set::of);
+        var p = projectRepository.searchByName(name.toLowerCase(), PageRequest.of(0, 20));
+        return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
     public Set<ProjectDtoSimple> searchByTag(String tag) {
-        return projectRepository.searchByTag(tag, PageRequest.of(0, 20)).stream()
-                .map(set -> set.stream().map(this::projectEntityToSimpleDto)
-                        .collect(Collectors.toSet())).findAny().get();
+        var p = projectRepository.findByTagsAndIsPrivateFalse(tag, PageRequest.of(0, 20));
+        return p.stream().map(this::projectEntityToSimpleDto).collect(Collectors.toSet());
     }
 
-    public Page<ProjectDTO> getTrending(Integer page) {
+    public Page<ProjectDtoSimple> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
-        return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        if (!language.equals("*")) {
+            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
+        } else {
+            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
+        }
     }
 
-    public Page<ProjectDTO> getMostLikedProjects(Integer page) {
+    public Page<ProjectDtoSimple> getMostLikedProjects(Integer page) {
+        return getMostLikedProjects(page, "*");
+    }
+
+    public Page<ProjectDtoSimple> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
-        return projectRepository.findAll(pageable).map(this::projectEntityToDto);
+        if (!language.equals("*")) {
+            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
+        } else {
+            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
+        }
     }
 
     public ProjectDTO projectEntityToDto(Project project) {
@@ -233,6 +239,11 @@ public class ProjectService {
     }
 
     public ProjectDtoSimple projectEntityToSimpleDto(Project project) {
+        Language mainLanguage = null;
+        if (!project.getLanguages().isEmpty()) {
+            mainLanguage = project.getLanguages().get(0);
+        }
+
         return new ProjectDtoSimple(
                 project.getId(),
                 project.getName(),
@@ -242,7 +253,7 @@ public class ProjectService {
                         project.getOwner().getId(),
                         project.getOwner().getUsername()),
                 project.isPrivate(),
-                project.getLanguages().get(0)
+                mainLanguage
         );
     }
 }

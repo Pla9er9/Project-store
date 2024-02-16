@@ -3,13 +3,13 @@
     export let options: string[]
     export let value: string
     export let imgSrc: string
+    export let onSelect: () => void = () => {}
 </script>
 
 <div>
     <img src="{imgSrc}" alt="icon">
     <p>{text}</p>
-    <select bind:value>
-        <option value="none">none</option>
+    <select bind:value on:change={onSelect}>
         {#each options as option}
             <option value="{option}">{option}</option>
         {/each}
@@ -18,20 +18,22 @@
 
 <style lang="scss">
     div {
-        width: 240px;
+        width: 242px;
         height: 40px;
         display: flex;
+        margin: 10px 0;
         align-items: center;
         border-radius: 8px;
-        border: solid 1px #ffffff23;
+        border: solid 1px var(--lightBorder);
 
         img {
-            width: 20px;
-            margin-left: 15px;
+            width: 18px;
+            margin-left: 30px;
             margin-right: 10px;
         }
 
         p {
+            text-indent: 10px;
             font-family: 'Fira sans';
             font-size: 14px;
             color: #ffffff6b;
@@ -45,7 +47,7 @@
             background-color: #0c0b0b;
             border: solid 1px #ffffff1e;
             border-radius: 10px;
-            color: rgb(191, 243, 250);
+            color: rgb(221, 222, 223);
             outline: none;
             text-indent: 8px;
             font-family: monospace;

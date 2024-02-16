@@ -1,62 +1,66 @@
 <script lang="ts">
-	export let device;
+	export let device: any;
 
 	import fetchHttp from "$lib/fetchHttp";
 	import { tokenStore } from "$lib/stores/tokenStore";
 	import { get } from "svelte/store";
 
-	let nodeRef: Node
+	let nodeRef: Node;
 
-    async function blockDevice(id: string) {
-        await fetchHttp(`/account/loggedInDevices/${id}`, {
-            method: "delete",
-            token: get(tokenStore)
-        })
-		nodeRef.parentNode!.removeChild(nodeRef)
-    }
+	async function blockDevice(id: string) {
+		await fetchHttp(`/account/loggedInDevices/${id}`, {
+			method: "delete",
+			token: get(tokenStore),
+		});
+		nodeRef.parentNode!.removeChild(nodeRef);
+	}
 
+	let hover = false;
 </script>
 
 <div class="device" bind:this={nodeRef}>
-	<div class="line" />
-	<p><span style="color: #aaa9a9;">User-Agent</span> - {device.userAgent}</p>
+	<img src="/icons/_device.svg" alt="" style="width: 14px;" />
+	<p>{device.userAgent}</p>
 	<small>{device.loggedInTime.slice(0, 10)}</small>
-	<button on:click={async () => await blockDevice(device.id)}>
-		<img src="/icons/delete.svg" alt="" />
+	<button
+		on:click={async () => await blockDevice(device.id)}
+		on:mouseenter={() => (hover = true)}
+		on:mouseleave={() => (hover = false)}
+	>
+		<img src="/icons/delete{hover ? '_danger' : ''}.svg" alt="" />
 	</button>
-
 </div>
 
 <style lang="scss">
 	.device {
-		height: 45px;
-		border: solid 1px #797777;
+		width: 100%;
+		min-height: 55px;
+		padding: 18px 0;
 		background-color: inherit;
 		display: flex;
 		align-items: center;
+		margin: 8px 0;
+		border-bottom: solid 1px var(--lightBorder);
+		border-radius: 4px;
+		box-sizing: border-box;
+		padding: 0 15px;
 		justify-content: center;
 
-		.line {
-			margin-right: auto;
-			width: 6px;
-			height: 100%;
-			background-color: rgba(66,255,164,.697);
-		}
-
 		p {
-			width: 60%;
+			height: max-content;
 			font-family: sans-serif;
-			font-size: 14px;
-			overflow-y: auto;
-			color: rgb(255, 255, 255);
+			font-size: 12px;
+			color: rgb(200, 198, 198);
 			margin-right: auto;
+			margin-left: 18px;
 		}
 
 		small {
-			margin-right: 10px;
+			min-width: max-content;
+			margin: 0 10px;
 			font-size: 12px;
 			font-family: monospace;
-			color: rgb(103, 107, 106);
+			color: rgb(105, 106, 105);
 		}
 
 		button {
@@ -64,21 +68,14 @@
 			height: 30px;
 			background-color: inherit;
 			border: none;
-			margin-right: 5px;
 			cursor: pointer;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			border-radius: 2px;
+		}
 
-			&:hover {
-				background-color: rgb(150, 60, 60);
-			}
-
-			img {
-				width: 22px;
-				height: 22px;
-			}
+		img {
+			width: 18px;
 		}
 	}
 </style>

@@ -2,6 +2,9 @@ package com.example.projectstore.search;
 
 import com.example.projectstore.project.ProjectDtoSimple;
 import com.example.projectstore.project.ProjectService;
+import com.example.projectstore.user.UserDtoSearch;
+import com.example.projectstore.user.UserDtoSimple;
+import com.example.projectstore.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,19 +20,13 @@ import java.util.Set;
 public class SearchController {
 
     private final ProjectService projectService;
-
-    @GetMapping("/all/{query}")
-    public List searchAll(
-            @PathVariable String query
-    ) {
-        return List.of();
-    }
+    private final UserService userService;
 
     @GetMapping("/users/{query}")
-    public List searchUser(
+    public Set<UserDtoSearch> searchUser(
             @PathVariable String query
     ) {
-        return List.of();
+        return userService.searchByUsername(query.toLowerCase());
     }
 
     @GetMapping("/projects/{query}")

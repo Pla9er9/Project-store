@@ -14,7 +14,7 @@
 	<Avatar
 		margin="0 12px 0 0"
 		cursor="pointer"
-		imageUrl="{PUBLIC_API_URL}/user/{issue.createdBy.username}/avatar"
+		username={issue.createdBy.username}
 		size="30px"
 	/>
 	<p>{issue.title}</p>
@@ -28,7 +28,7 @@
 		align-items: center;
 		outline: solid 1px #ffffff38;
 		margin: 1px 0;
-		transition: 100ms ease-in-out;
+		transition: background-color 100ms ease-in-out;
 
 		&:hover {
 			background-color: #ffffff09;

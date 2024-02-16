@@ -1,42 +1,45 @@
 <script lang="ts">
-	import Avatar from '$components/Avatar.svelte';
-	import CommentInput from '$components/project/issues/CommentInput.svelte';
-	import IssueComment from '$components/project/issues/IssueComment.svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import fetchHttp from '$lib/fetchHttp.js';
-	import type { IssueDto } from '$lib/models/issue/IssueDto.js';
+	import Avatar from "$components/Avatar.svelte";
+	import CommentInput from "$components/project/issues/CommentInput.svelte";
+	import IssueComment from "$components/project/issues/IssueComment.svelte";
+	import { PUBLIC_API_URL } from "$env/static/public";
+	import fetchHttp from "$lib/fetchHttp.js";
+	import type { IssueDto } from "$lib/models/issue/IssueDto.js";
 
 	export let data;
 	async function closeIssue() {
 		issue.open = false;
 		await fetchHttp(`/project/${data.slug}/issues/${data.issueId}/close`, {
-			method: 'post',
-			token: data.token
+			method: "post",
+			token: data.token,
 		});
 	}
 
 	const issue: IssueDto = data.data;
-	let messageValue = '';
+	let messageValue = "";
 
 	async function newComment() {
 		const res = await fetchHttp(`/issue/${data.issueId}/comment`, {
-			method: 'post',
+			method: "post",
 			body: JSON.stringify({
-				comment: messageValue
+				comment: messageValue,
 			}),
-			token: data.token
-		})
+			token: data.token,
+		});
 		issue.comments = [...issue.comments, res?.body];
-		messageValue = '';
+		messageValue = "";
 	}
 </script>
 
 <main>
-	<a href="/{issue.createdBy.username}" style="display: flex;align-items:center">
+	<a
+		href="/{issue.createdBy.username}"
+		style="display: flex;align-items:center"
+	>
 		<Avatar
 			cursor="pointer"
 			margin="0 10px 0 0"
-			imageUrl="{PUBLIC_API_URL}/user/{issue.createdBy.username}/avatar"
+			username={issue.createdBy.username}
 			size="40px"
 		/>
 		<p>{issue.createdBy.username}</p>
@@ -47,7 +50,7 @@
 	<h1>{issue.title}</h1>
 	<div class="stats">
 		<div class="circle {issue.open ? 'open' : 'closed'}" />
-		<p>{issue.open ? 'Open' : 'Closed'}</p>
+		<p>{issue.open ? "Open" : "Closed"}</p>
 		<svg
 			style="margin: 0 10px 0 15px;"
 			xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +62,9 @@
 		>
 		<p>{issue.created.slice(0, 10)}</p>
 	</div>
-	<p style="margin-bottom: 40px;">{issue.description}</p>
+	<p style="margin-bottom: 40px;font-family: sans-serif">
+		{issue.description}
+	</p>
 	{#each issue.comments as comment}
 		<IssueComment {comment} />
 	{/each}
@@ -110,12 +115,20 @@
 
 			.open {
 				background: rgb(136, 252, 3);
-				background: radial-gradient(circle, rgba(136, 252, 3, 1) 0%, rgba(39, 126, 0, 1) 100%);
+				background: radial-gradient(
+					circle,
+					rgba(136, 252, 3, 1) 0%,
+					rgba(39, 126, 0, 1) 100%
+				);
 			}
 
 			.closed {
 				background: rgb(164, 0, 251);
-				background: radial-gradient(circle, rgba(164, 0, 251, 1) 0%, rgba(55, 0, 238, 1) 100%);
+				background: radial-gradient(
+					circle,
+					rgba(164, 0, 251, 1) 0%,
+					rgba(55, 0, 238, 1) 100%
+				);
 			}
 		}
 	}

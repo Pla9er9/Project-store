@@ -1,8 +1,8 @@
 <script lang="ts">
-	import CheckBox from '$components/forms/CheckBox.svelte';
-	import IssueRow from '$components/project/issues/IssueRow.svelte';
-	import NewIssueForm from '$components/project/issues/NewIssueForm.svelte';
-	import type { IssueDtoSimple } from '$lib/models/issue/IssueDtoSimple.js';
+	import CheckBox from "$components/forms/CheckBox.svelte";
+	import IssueRow from "$components/project/issues/IssueRow.svelte";
+	import NewIssueForm from "$components/project/issues/NewIssueForm.svelte";
+	import type { IssueDtoSimple } from "$lib/models/issue/IssueDtoSimple.js";
 
 	export let data;
 
@@ -19,18 +19,46 @@
 			closedIssues.push(e);
 		}
 	});
+
+	function changeFormVisibility() {
+		const body = document.querySelector("body")
+		formActive = !formActive
+		if (body !== undefined && body !== null) {
+			if (formActive) {
+				body.style.overflowY = "hidden"
+			} else {
+				body.style.overflowY = "auto"
+			}
+		}
+	}
+
+	function addIssue() {
+		changeFormVisibility()
+		window.location.reload()
+	}
+
 </script>
 
 <main>
 	{#if formActive}
-		<button on:click={() => (formActive = false)} class="dark" />
-		<NewIssueForm on:submit={() => (formActive = false)} projectId={data.slug} />
+		<button on:click={changeFormVisibility} class="dark" />
+		<NewIssueForm
+			on:submit={addIssue}
+			projectId={data.slug}
+		/>
 	{/if}
 	<div class="issues">
 		<div class="topbar">
 			<p>Issues ({data.data.length})</p>
-			<CheckBox label="Show closed" marginLeft="15px" border="none" bind:value={showClosed} />
-			<button class="newIssue" on:click={() => (formActive = true)}>New issue</button>
+			<CheckBox
+				label="Show closed"
+				marginLeft="15px"
+				border="none"
+				bind:value={showClosed}
+			/>
+			<button class="newIssue" on:click={changeFormVisibility}
+				>New issue</button
+			>
 		</div>
 		{#each openIssues as issue}
 			<IssueRow {issue} />
@@ -52,8 +80,10 @@
 			top: -3px;
 			left: -3px;
 			width: 100vw;
-			height: 100vh;
-			background-color: rgba(0, 0, 0, 0.664);
+			height: 100%;
+			border: none;
+			background-color: #000000d0;
+			z-index: 9999;
 		}
 
 		.issues {
@@ -77,7 +107,7 @@
 					justify-content: center;
 					margin-left: auto;
 					color: #fff;
-					font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+					font-family: sans-serif;
 					border: none;
 					cursor: pointer;
 					outline: solid 1px #ffffff3d;

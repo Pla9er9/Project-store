@@ -17,20 +17,17 @@
 
 <style lang="scss">
 	textarea {
-		width: 100%;
+		width: 80vw;
 		padding: 15px 25px;
 		overflow: auto;
-		color: #fff;
+		color: #c2c0c0;
 		outline: none;
-		font-family: monospace;
+		font-size: 14px;
+		font-family: sans-serif;
 		margin: 10px 0;
-		border: solid 1px #ffffff23;
+		border: solid 1px var(--lightBorder);
 		border-radius: 8px;
 		background-color: inherit;
 		resize: none;
-
-		// &::placeholder {
-		// 	text-align: center;
-		// }
 	}
 </style>

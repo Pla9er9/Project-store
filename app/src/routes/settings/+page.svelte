@@ -1,204 +1,225 @@
 <script lang="ts">
-	export let data;
-	import * as validators from '$lib/validators/registerValidators.js';
-	import Input from '$components/forms/Input.svelte';
-	import TextArea from '$components/forms/TextArea.svelte';
-	import SubmitButton from '$components/forms/SubmitButton.svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import { goto } from '$app/navigation';
-	import Avatar from '$components/Avatar.svelte';
-	import fetchHttp from '$lib/fetchHttp.js';
+    export let data;
 
-	let links = data.data.personalLinks
-	let linksLength = 0
-	if (links != null) {
-		linksLength = links.length
-	}
+    import * as validators from "$lib/validators/registerValidators.js";
+    import Input from "$components/forms/Input.svelte";
+    import TextArea from "$components/forms/TextArea.svelte";
+    import SubmitButton from "$components/forms/SubmitButton.svelte";
+    import { PUBLIC_API_URL } from "$env/static/public";
+    import { goto } from "$app/navigation";
+    import Avatar from "$components/Avatar.svelte";
+    import fetchHttp from "$lib/fetchHttp.js";
+    import { redirect } from "@sveltejs/kit";
 
-	let files: FileList;
-	let usernameValidated = true,
-		emailValidated = true,
-		firstnameValidated = true,
-		lastnameValidated = true,
-		d = data.data.description,
-		description = d ? d : '',
-		link1 = linksLength > 0 ? links[0] : '',
-		link2 = linksLength > 1 ? links[1] : '',
-		link3 = linksLength > 2 ? links[2] : '';
+    let links = data.data.personalLinks;
+    let linksLength = 0;
+    if (links != null) {
+        linksLength = links.length;
+    }
 
-	$: isFormValidated =
-		usernameValidated && emailValidated && firstnameValidated && lastnameValidated;
+    let files: FileList;
+    let usernameValidated = true,
+        emailValidated = true,
+        firstnameValidated = true,
+        lastnameValidated = true,
+        d = data.data.description,
+        description = d ? d : "",
+        link1 = linksLength > 0 ? links[0] : "",
+        link2 = linksLength > 1 ? links[1] : "",
+        link3 = linksLength > 2 ? links[2] : "";
 
-	async function editAccount() {
-		const body = {
-			username: data.data.username,
-			description: description,
-			email: data.data.email,
-			firstname: data.data.firstname,
-			lastname: data.data.lastname,
-			personalLinks: [link1, link2, link3]
-		};
+    $: isFormValidated =
+        usernameValidated &&
+        emailValidated &&
+        firstnameValidated &&
+        lastnameValidated;
 
-		const res = await fetch(PUBLIC_API_URL + '/account', {
-			method: 'put',
-			headers: {
-				Authorization: 'Bearer ' + data.token,
-				'Content-Type': 'application/json;charset=UTF-8'
-			},
-			body: JSON.stringify(body)
-		});
-		if (res.ok) {
-			goto('/' + data.username);
-		}
-	}
+    async function editAccount() {
+        const body = {
+            username: data.data.username,
+            description: description,
+            email: data.data.email,
+            firstname: data.data.firstname,
+            lastname: data.data.lastname,
+            personalLinks: [link1, link2, link3],
+        };
 
-	async function uploadAvatar() {
-		await sleep(300);
-		let item = files.item(0);
-		if (item === null) {
-			return;
-		}
-		const formData = new FormData();
-		formData.append('file', item);
-		await fetchHttp('/account/avatar', {
-			token: data.token,
-			method: 'post',
-			noContentType: true,
-			stringify: false,
-			body: formData
-		});
-	}
+        const res = await fetch(PUBLIC_API_URL + "/account", {
+            method: "put",
+            headers: {
+                Authorization: "Bearer " + data.token,
+                "Content-Type": "application/json;charset=UTF-8",
+            },
+            body: JSON.stringify(body),
+        });
+        if (res.ok) {
+            goto("/" + data.username);
+        }
+    }
 
-	function sleep(ms: number) {
-		return new Promise((resolve) => setTimeout(resolve, ms));
-	}
+    async function uploadAvatar() {
+        await sleep(300);
+        let item = files.item(0);
+        if (item === null) {
+            return;
+        }
+        const formData = new FormData();
+        formData.append("file", item);
+        await fetchHttp("/account/avatar", {
+            token: data.token,
+            method: "post",
+            noContentType: true,
+            stringify: false,
+            body: formData,
+        });
+    }
 
-	async function deleteAvatar() {
-		await fetchHttp('/account/avatar', {
-			token: data.token,
-			method: 'delete'
-		});
-	}
+    function sleep(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function deleteAvatar() {
+        await fetchHttp("/account/avatar", {
+            token: data.token,
+            method: "delete",
+            body: undefined,
+        });
+    }
 </script>
 
-<h1>Edit account</h1>
-<div class="wrapper">
-	<div>
-		<div class="avatarPanel">
-			<Avatar imageUrl="{PUBLIC_API_URL}/user/{data.username}/avatar" />
-			<div style="width: 180px;">
-				<input type="file" on:change={uploadAvatar} bind:files accept="image/png, image/jpeg" />
-				<button on:click={deleteAvatar}>delete</button>
-			</div>
-		</div>
-		<Input
-			placeholder="username"
-			validator={validators.validateUsername}
-			bind:value={data.data.username}
-			bind:correct={usernameValidated}
-		>
-			<img src="/icons/user_outline.svg" alt="">
-		</Input>
-		<Input
-			placeholder="email"
-			maxlength={320}
-			validator={validators.validateEmail}
-			bind:value={data.data.email}
-			bind:correct={emailValidated}
-		>
-			<img src="/icons/email_outline.svg" alt="">
-		</Input>
-		<Input
-			placeholder="firstname"
-			validator={validators.validateFirstname}
-			bind:value={data.data.firstname}
-			bind:correct={firstnameValidated}
-		>
-			<img src="/icons/personal_data_outline.svg" alt="">
-		</Input>
-		<Input
-			placeholder="lastname"
-			validator={validators.validateLastname}
-			bind:value={data.data.lastname}
-			bind:correct={lastnameValidated}
-		>
-			<img src="/icons/personal_data_outline.svg" alt="">
-		</Input>
-	</div>
-	<div style="align-self: center;margin-top:160px">
-		<TextArea bind:value={description} placeholder="Description" />
-	</div>
-	<div style="align-self: flex-end;">
-		<Input placeholder="Link" validator={(s) => ''} bind:value={link1}>
-			<img src="/icons/link.svg" alt="link" />
-		</Input>
-		<Input placeholder="Link" validator={(s) => ''} bind:value={link2}>
-			<img src="/icons/link.svg" alt="link" />
-		</Input>
-		<Input placeholder="Link" validator={(s) => ''} bind:value={link3}>
-			<img src="/icons/link.svg" alt="link" />
-		</Input> <br>
-		<SubmitButton text="Confirm" isValid={isFormValidated} callback={() => editAccount()}>
-			<img src="/icons/checkmark.svg" alt="" />
-		</SubmitButton>
-	</div>
-</div>
+<svelte:head>
+    <title>Account settings</title>
+</svelte:head>
+
+<main class="column" style="align-items: flex-start;">
+    <h1 class="settingsHeader">Edit account</h1>
+    <div class="row" style="flex-wrap: wrap;max-width: 550px;width: 100vw">
+        <div class="column">
+            <div class="avatarPanel">
+                {#if data.username}
+                    <Avatar username={data.username} margin="0 auto 25px auto" />
+                {/if}
+                <div
+                    class="row"
+                    style="width: 200px;justify-content:space-around"
+                >
+                    <input
+                        type="file"
+                        on:change={uploadAvatar}
+                        bind:files
+                        accept="image/png, image/jpeg"
+                    />
+                    <button on:click={deleteAvatar}>delete</button>
+                </div>
+            </div>
+            <Input
+                placeholder="username"
+                validator={validators.validateUsername}
+                bind:value={data.data.username}
+                bind:correct={usernameValidated}
+            >
+                <img src="/icons/user_outline.svg" alt="" />
+            </Input>
+            <Input
+                placeholder="firstname"
+                validator={validators.validateFirstname}
+                bind:value={data.data.firstname}
+                bind:correct={firstnameValidated}
+            >
+                <img src="/icons/personal_data_outline.svg" alt="" />
+            </Input>
+            <Input placeholder="Link" validator={(s) => ""} bind:value={link1}>
+                <img src="/icons/link.svg" alt="link" />
+            </Input>
+            <Input placeholder="Link" validator={(s) => ""} bind:value={link3}>
+                <img src="/icons/link.svg" alt="link" />
+            </Input>
+        </div>
+        <div class="column" style="align-self:flex-end;">
+            <TextArea
+                bind:value={description}
+                placeholder="Description"
+                width="195px"
+            />
+            <Input
+                placeholder="email"
+                maxlength={320}
+                validator={validators.validateEmail}
+                bind:value={data.data.email}
+                bind:correct={emailValidated}
+            >
+                <img src="/icons/email_outline.svg" alt="" />
+            </Input>
+            <Input
+                placeholder="lastname"
+                validator={validators.validateLastname}
+                bind:value={data.data.lastname}
+                bind:correct={lastnameValidated}
+            >
+                <img src="/icons/personal_data_outline.svg" alt="" />
+            </Input>
+            <Input placeholder="Link" validator={(s) => ""} bind:value={link2}>
+                <img src="/icons/link.svg" alt="link" />
+            </Input>
+            <SubmitButton
+                text="Confirm"
+                isValid={isFormValidated}
+                callback={() => editAccount()}
+                iconUrl="/icons/checkmark.svg"
+            />
+        </div>
+    </div>
+</main>
 
 <style lang="scss">
-	svg {
-		width: 24px;
-		fill: #ffffffa4;
+    main {
+        img {
+            width: 20px;
+        }
+        .row {
+            width: 550px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .avatarPanel {
+            width: 215px;
+            margin-left: 12px;
+            margin-bottom: 40px;
 
-		&:nth-child(2) {
-			width: 20px;
-		}
-	}
-	img {
-		width: 22px;
-	}
-	.wrapper {
-		max-width: 650px;
-		width: 100vw;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-	}
-	.avatarPanel {
-		width: 215px;
-		margin-left: 12px;
-		margin-bottom: 40px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+            input[type="file"] {
+                width: 88px;
+                background-color: #000;
+                border-radius: 5px;
 
-		input[type='file'] {
-			width: 88px;
-			background-color: #000;
-			
-			&::before {
-				width: 88px;
-				height: 21px;
-				margin-top: 0px;
-				border-radius: 3px;
-				outline: solid 1px #ffffff3b;
-				content: 'new';
-				position: absolute;
-				color: #ffffff;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				background-color: rgb(3, 31, 44);
-				cursor: pointer;
-			}
-		}
-		button {
-			width: 88px;
-			height: 24px;
-			background-color: rgb(58, 8, 8);
-			color: #fff;
-			border: solid 1px #ffffff1f;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-	}
+                &::before {
+                    width: 88px;
+                    height: 30px;
+                    margin-top: -5px;
+                    border-radius: 5px;
+                    outline: solid 1px var(--lightBorder);
+                    content: "new";
+                    position: absolute;
+                    color: #ffffff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--background);
+                    cursor: pointer;
+                }
+            }
+            button {
+                width: 88px;
+                height: 30px;
+                background-color: rgb(58, 8, 8);
+                color: #fff;
+                border: solid 1px #ffffff1f;
+                border-radius: 4px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba(246, 5, 5, 0.364);
+                }
+            }
+        }
+    }
 </style>

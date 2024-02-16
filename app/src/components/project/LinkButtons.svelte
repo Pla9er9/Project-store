@@ -5,10 +5,11 @@
 	import { get } from 'svelte/store';
 	import LinkButton from './LinkButton.svelte';
 	import { PUBLIC_API_URL } from '$env/static/public';
-	import CreatorsDialog from './CreatorsDialog.svelte';
+	import CreatorsDialog from './Creators.svelte';
 	import type { UserDtoSimple } from '$lib/models/user/UserDtoSimple';
+    import type { ProjectDTO } from '$lib/models/project/ProjectDTO';
 
-	export let info
+	export let info: ProjectDTO
 	export let projectId: string;
 
 	let creators: UserDtoSimple[] = info.creators;
@@ -53,7 +54,9 @@
 		<img src="/icons/issue_.svg" alt="" />
 		<p>Issues</p>
 	</LinkButton>
-	<LinkButton onclick={() => showCreators = !showCreators}>
+	<LinkButton onclick={() => {
+		showCreators = !showCreators
+	}}>
 		<img src="/icons/creators.svg" alt="" />
 		<p>Creators</p>
 		<span>{creators.length + 1}</span>
@@ -64,7 +67,7 @@
 		<span>{likes}</span>
 	</LinkButton>
 	<LinkButton
-		cursor={latestRelease ? 'pointer' : 'normal'}
+		cursor={latestRelease ? 'pointer' : 'not-allowed'}
 		onclick={latestRelease
 			? () => {
 					window.open(`${PUBLIC_API_URL}/project/${projectId}/release`, '_blank');
@@ -84,7 +87,7 @@
 	</LinkButton>
 </div>
 {#if showCreators}
-	<CreatorsDialog creators={[...creators, info.owner]} on:hide={() => showCreators = false} />
+	<CreatorsDialog creators={[...creators, info.owner]} />
 {/if}
 
 <style lang="scss">
@@ -92,10 +95,10 @@
 		max-width: 730px;
 		width: 100%;
 		height: max-content;
-		margin: 25px 0 40px 0;
+		margin: 25px auto 40px 0;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: start;
 
 		span {
 			color: #fff;

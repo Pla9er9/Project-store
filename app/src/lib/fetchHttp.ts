@@ -16,7 +16,8 @@ export default async function fetchHttp(
 		noContentType = false,
 		redirecting = false,
         contentType = 'application/json;charset=UTF-8',
-        errorMessage = 'Some unexpected error occurred'
+        errorMessage = 'Some unexpected error occurred',
+		headers = {}
     }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<response | undefined> {
@@ -43,7 +44,9 @@ export default async function fetchHttp(
 			body: method === "GET" ? null : stringify ? stringBody : body,
 			headers: {
 				Authorization: auth,
-			}
+				...headers
+			},
+			redirect: 'follow'
 		});
 	} else {
 		res = await fetch(apiPrefix + url, {
@@ -51,9 +54,14 @@ export default async function fetchHttp(
 			body: method === "GET" ? null : stringify ? stringBody : body,
 			headers: {
 				Authorization: auth,
-				'Content-type': contentType
-			}
+				'Content-type': contentType,
+				...headers
+			},
+			redirect: 'follow'
 		});
+	}
+	if (res.redirected) {
+		window.location.href = res.url;
 	}
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {
@@ -83,17 +91,26 @@ export default async function fetchHttp(
 	}
 
 	if (res.ok) {
+		const b = await res.text()
 		try {
 			return {
-				body: await res.json(),
+				body: JSON.parse(b),
 				status: res.status,
 				ok: res.status === 200,
 			};
 		} catch {
-			return undefined
+			return {
+				body: b,
+				status: res.status,
+				ok: res.status === 200,
+			};
 		}
 	} else {
-		return undefined
+		return {
+			body: "",
+			status: res.status,
+			ok: res.status === 200,
+		};
 	}
 }
 

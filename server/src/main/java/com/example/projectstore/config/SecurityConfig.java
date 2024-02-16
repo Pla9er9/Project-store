@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -50,6 +49,8 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/ws")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/ws/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/v1/oauth2/account", "GET")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/v1/report", "POST")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/search/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/status")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project", "GET")).permitAll()

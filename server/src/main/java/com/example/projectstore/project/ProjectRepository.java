@@ -3,7 +3,6 @@ package com.example.projectstore.project;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.LockModeType;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -35,15 +32,15 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Query("UPDATE Project p set p.codeSize = p.codeSize + :cs WHERE p.id = :id")
     void updateCodeSize(@Param("id") UUID id, @Param("cs") long codesize);
 
-    @Query("SELECT p FROM Project p WHERE p.name LIKE '%:name%' AND p.isPrivate = FALSE")
-    Page<Set<Project>> searchByName(@Param("name") String name, Pageable pageable);
+    @Query("SELECT p FROM Project p WHERE lower(p.name) LIKE %:name% AND p.isPrivate = FALSE")
+    Page<Project> searchByName(@Param("name") String name, Pageable pageable);
 
-    //    @Query("SELECT p FROM Project p WHERE p.tags LIKE '%:tag%' AND p.isPrivate = FALSE")
-    @Query("SELECT p FROM Project p WHERE p.isPrivate = FALSE")
-    Page<Set<Project>> searchByTag(@Param("tag") String tag, Pageable pageable);
+    Page<Project> findByTagsAndIsPrivateFalse(String tag, Pageable pageable);
 
     @Override
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @NotNull
     Project save(@NotNull Project project);
+
+    Page<Project> findByLanguages_name(@Param("lang") String language, Pageable pageable);
 }

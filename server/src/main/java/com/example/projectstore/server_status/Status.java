@@ -6,11 +6,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Status {
-    private String apiResponseTime;
-    private Boolean database;
-    private Boolean actions;
-    private Boolean issues;
-    private Boolean release;
-    private Boolean project;
-    private Boolean user;
+    private boolean database;
+    private boolean search;
+    private boolean auth;
+    private boolean files;
+    private boolean project;
+    private boolean chat;
 }

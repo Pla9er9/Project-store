@@ -4,7 +4,6 @@
 	import AvatarName from '$components/AvatarName.svelte';
 	import SwitchButton from '$components/project/SwitchButton.svelte';
 	import Readme from '$components/project/files/Readme.svelte';
-	import UserDescription from '$components/user/UserDescription.svelte';
 	import UserProjects from '$components/user/UserProjects.svelte';
 
 	let switchValue = 'Description';
@@ -12,11 +11,12 @@
 	let projectSwitchBtnText = `Projects (${data.data.projects.length})`;
 </script>
 
+<svelte:head>
+	<title>{data.data.username}</title>
+</svelte:head>
+
 <main>
-	<AvatarName userdata={data.data} avatarSize="130px" />
-	<!-- {#if data.data.description !== null}
-		<UserDescription description={data.data.description} />
-	{/if} -->
+	<AvatarName userdata={data.data} avatarSize="140px" />
 	<div class="links">
 		{#each data.data.personalLinks as link}
 			{#if link !== ''}
@@ -29,9 +29,9 @@
 	</div>
 	<SwitchButton bind:currentValue={switchValue} values={['Description', projectSwitchBtnText]} />
 	{#if switchValue === projectSwitchBtnText}
-		<UserProjects projects={data.data.projects} username={data.slug} />
+		<UserProjects projects={data.data.projects} />
 	{:else if switchValue === 'Description'}
-		{#if data.data.description !== null}
+		{#if data.data.description && data.data.description != ""}
 			<Readme html={data.data.description} />
 		{/if}
 	{/if}

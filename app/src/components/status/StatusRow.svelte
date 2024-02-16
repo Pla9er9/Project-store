@@ -17,12 +17,12 @@
         margin: 12px;
         display: flex;
         align-items: center;
-        border: solid 1px #ffffff48;
+        border: solid 1px var(--lightBorder);
         border-radius: 5px;
 
         h1 {
             margin: auto 0;
-            font-size: 19px;
+            font-size: 14px;
             color: #fff;
             font-family: sans-serif;
         }
@@ -33,19 +33,18 @@
         }
 
         .statusBar {
-            width: 70px;
-            height: 100%;
-            margin-left: auto;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
+            width: 32px;
+            height: 32px;
+            margin: 0 20px 0 auto;
+            border-radius: 10px;
         }
 
         .working {
-            background-image: linear-gradient(90deg, rgb(40, 161, 46), var(--mainColor));
+            background-image: linear-gradient(90deg, rgb(64, 199, 71), var(--mainColor));
         }
 
         .notworking {
-            background-image: linear-gradient(90deg, rgb(223, 46, 105), rgb(255, 38, 0));
+            background-image: linear-gradient(270deg, rgb(223, 46, 105), rgb(248, 91, 64));
         }
     }
 </style>

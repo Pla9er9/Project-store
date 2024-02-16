@@ -25,7 +25,7 @@
 		width: 225px;
 		content: var(--text);
 		display: inline-block;
-		border: 1px solid #ffffff23;
+		border: 1px solid var(--lightBorder);
 		border-radius: 5px;
 		padding: 8px;
 		outline: none;
@@ -36,7 +36,7 @@
 		text-align: center;
         font-family: 'Fira sans';
         font-size: 13px;
-        color: #ffffff6b;
+        color: rgb(221, 222, 223);
 	}
 
 	.custom-file-input:active {

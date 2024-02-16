@@ -1,18 +1,35 @@
-import type { Actions } from '@sveltejs/kit';
+import { error, type Actions } from '@sveltejs/kit';
 import fetchHttp from '$lib/fetchHttp';
 
+export async function load({ url }) {
+	const oauthId = url.searchParams.get("client_id")
+	const redirectUrl = url.searchParams.get("redirectUrl")
+	return {
+		oauthId: oauthId,
+		redirectUrl: redirectUrl,
+		isOauth2: oauthId !== null && redirectUrl !== null
+	}
+}
+
 export const actions: Actions = {
-	default: async ({ request, cookies }) => {
-		const data = await request.json();
+	default: async (event) => {
+		const data = await event.request.json();
 		const response = await fetchHttp("/auth/signin", {
 			method: 'POST',
 			body: data,
-			server: true
+			server: true,
+			headers: {
+				Addr: event.getClientAddress(),
+				"User-Agent": event.request.headers.get("User-Agent")
+			}
 		})
-		if (!response?.body) {
-			return
+		if (response === undefined) {
+			throw error(404)
 		}
-		cookies.set('jwtToken', response.body.token, {
+		if (response?.status !== 200) {
+			throw error(404)
+		}
+		event.cookies.set('jwtToken', response?.body.token, {
 			path: '/',
 			httpOnly: true,
 			sameSite: 'strict',
@@ -22,3 +39,4 @@ export const actions: Actions = {
 		return { status: 200 };
 	}
 };
+

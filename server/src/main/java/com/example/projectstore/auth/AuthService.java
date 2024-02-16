@@ -1,5 +1,9 @@
 package com.example.projectstore.auth;
 
+import com.example.projectstore.application.accessToken.AccessToken;
+import com.example.projectstore.application.accessToken.AccessTokenRepository;
+import com.example.projectstore.application.ApplicationRepository;
+import com.example.projectstore.application.ApplicationService;
 import com.example.projectstore.config.JwtService;
 import com.example.projectstore.file.FileService;
 import com.example.projectstore.project.Project;
@@ -15,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,6 +32,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ApplicationService applicationService;
+    private final ApplicationRepository applicationRepository;
+    private final AccessTokenRepository accessTokenRepository;
     private FileService fileService;
 
     public void setFileService(@Lazy FileService fileService) {
@@ -45,7 +53,6 @@ public class AuthService {
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .build();
-
         userRepository.save(user);
         fileService.createDirectory("/avatars", String.valueOf(user.getId()));
         var jwtToken = jwtService.generateToken(user);
@@ -57,20 +64,54 @@ public class AuthService {
     }
 
     public AuthResponse signIn(SignInRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword())
         );
 
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken)
                 .userId(user.getId())
                 .build();
+    }
+
+    public String Oauth2SignIn(SignInRequest request, String redirectUrl, UUID appId) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword())
+        );
+
+        var app = applicationRepository.findById(appId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!app.getAllowedUrls().contains(redirectUrl)) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Url is not in allowed url list");
+        }
+
+        var user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        var randomString = applicationService.generateRandomString();
+
+        var newAccessToken = new AccessToken(
+                null,
+                randomString,
+                LocalDateTime.now(),
+                app,
+                user
+        );
+
+        accessTokenRepository.save(newAccessToken);
+        app.setNumberOfUses(app.getNumberOfUses() + 1);
+        applicationRepository.save(app);
+
+        return randomString;
     }
 
     public Project ownerAuthGate(UUID projectId, Authentication authentication) {

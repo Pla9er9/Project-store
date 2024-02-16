@@ -11,7 +11,7 @@
 
 <div class="stats">
 	<div class="inline">
-		<Avatar imageUrl="{PUBLIC_API_URL}/user/{owner}/avatar" size="20px" margin="0 12px 0 0" />
+		<Avatar username={owner} size="20px" margin="0 12px 0 0" />
 		<a href="/{owner}">{owner}</a>
 	</div>
 	{#if isPrivate === true}
@@ -43,8 +43,7 @@
 
 <style lang="scss">
 	.stats {
-		margin: 30px auto 20px auto;
-		margin-right: auto;
+		margin: 20px auto 20px 5px;
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;

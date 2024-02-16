@@ -4,7 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-cdn
+cdn/avatars
+cdn/projects
 
 ### STS ###
 .apt_generated
