@@ -84,7 +84,8 @@
             text-align: start;
             color: #dddcdc;
             text-indent: 10px;
-            border: solid 1px var(--lightBorder);
+            outline: solid 1px var(--lightBorder);
+            border: none;
             border-left: none;
             border-top-right-radius: 9px;
             border-bottom-right-radius: 9px;
@@ -96,8 +97,7 @@
             }
 
             &:focus {
-                outline: none;
-                border: solid 1px rgba(182, 182, 182, 0.541);
+                outline: solid 1px rgba(182, 182, 182, 0.541);
                 border-bottom-right-radius: 0px;
             }
         }
@@ -158,7 +158,7 @@
             width: 30px;
             height: 34px;
             background-color: #141313;
-            border: solid 1px var(--lightBorder);
+            outline: solid 1px var(--lightBorder);
             border-right: none;
             border-top-left-radius: 9px;
             border-bottom-left-radius: 9px;
