@@ -6,7 +6,7 @@
 </script>
 
 <div
-    class="mobileLinks column"
+    class="mobileNavigation column"
     transition:fly={{
         delay: 50,
         duration: 200,
@@ -33,7 +33,7 @@
 </div>
 
 <style lang="scss">
-    .mobileLinks {
+    .mobileNavigation {
         width: 100vw;
         height: 100vh;
         z-index: 9999999;
@@ -48,7 +48,7 @@
             margin: 15px 0 15px 0;
             text-indent: 45px;
             color: rgb(146, 146, 146);
-            font-size: 16px;
+            font-size: 15px;
             font-family: "Fira sans";
 
             &:hover {

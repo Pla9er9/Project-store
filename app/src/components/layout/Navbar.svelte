@@ -2,7 +2,7 @@
     import { beforeNavigate } from "$app/navigation";
     import Avatar from "../Avatar.svelte";
     import LinkButton from "./LinkButton.svelte";
-    import MobileExpandScreen from "./MobileExpandScreen.svelte";
+    import MobileNavigation from "./MobileExpandNavigation.svelte";
     import SearchInput from "./SearchInput.svelte";
 
     export let username: string | null;
@@ -11,19 +11,19 @@
         home = "/home";
     }
 
-    let menuOpen = false;
+    let navigationOpen = false;
 
     beforeNavigate(() => {
-        if (menuOpen) {
+        if (navigationOpen) {
             changeNavVisibility();
         }
     });
 
     function changeNavVisibility() {
-        menuOpen = !menuOpen;
+        navigationOpen = !navigationOpen;
         const body = document.querySelector("body");
         if (body !== null) {
-            if (menuOpen) {
+            if (navigationOpen) {
                 body.style.overflowY = "hidden";
             } else {
                 body.style.overflowY = "auto";
@@ -62,11 +62,11 @@
         </a>
     {/if}
     <button on:click={changeNavVisibility}>
-        <img src="/icons/{menuOpen ? 'cross_white' : 'menu'}.svg" alt="" />
+        <img src="/icons/{navigationOpen ? 'cross_white' : 'menu'}.svg" alt="" />
     </button>
 </nav>
-{#if menuOpen}
-    <MobileExpandScreen {username} />
+{#if navigationOpen}
+    <MobileNavigation {username} />
 {/if}
 
 <style lang="scss">
