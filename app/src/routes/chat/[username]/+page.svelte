@@ -40,9 +40,6 @@
 
 		if (body) {
 			body.style.overflow = "hidden";
-			body.style.backgroundColor = "#000";
-			body.style.backgroundImage =
-				"radial-gradient(circle, rgba(61, 61, 61, 0.1) 0%, rgba(0, 0, 0, 0) 100%)";
 		}
 		const messagesDiv = document.querySelector(".main");
 		if (messagesDiv) {
