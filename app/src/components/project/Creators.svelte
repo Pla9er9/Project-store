@@ -8,7 +8,12 @@
 <div class="creators row">
     {#each creators as creator}
         <a href="/{creator.username}">
-            <Avatar size="30px" username={creator.username} cursor="pointer" margin="0" />
+            <Avatar
+                size="28px"
+                username={creator.username}
+                cursor="pointer"
+                margin="0"
+            />
         </a>
     {/each}
 </div>
@@ -19,8 +24,9 @@
         max-width: 720px;
         height: 48px;
         padding: 0 10px;
+        margin: -10px 0 30px 0;
         box-sizing: border-box;
-        overflow-X: auto;
+        overflow-x: auto;
         border: solid 1px var(--lightBorder);
         border-radius: 35px;
 
