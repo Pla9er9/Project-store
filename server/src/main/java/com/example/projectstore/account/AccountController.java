@@ -1,11 +1,16 @@
 package com.example.projectstore.account;
 
 import com.example.projectstore.application.ApplicationService;
+import com.example.projectstore.chat.ChatMessageService;
 import com.example.projectstore.file.FileService;
 import com.example.projectstore.invitation.InvitationDto;
 import com.example.projectstore.invitation.InvitationService;
+import com.example.projectstore.issue.IssueDtoSimple;
+import com.example.projectstore.issue.IssueService;
 import com.example.projectstore.logged_In_Device.LoggedInDeviceDto;
 import com.example.projectstore.logged_In_Device.LoggedInDeviceService;
+import com.example.projectstore.project.ProjectDtoSimple;
+import com.example.projectstore.project.ProjectService;
 import com.example.projectstore.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +31,9 @@ public class AccountController {
     private final LoggedInDeviceService deviceService;
     private final InvitationService invitationService;
     private final ApplicationService applicationService;
+    private final ChatMessageService chatMessageService;
+    private final IssueService issueService;
+    private final ProjectService projectService;
 
     @GetMapping("account")
     public AccountDto getAccountData(
@@ -75,6 +84,21 @@ public class AccountController {
     @GetMapping("account/loggedInDevices")
     public List<LoggedInDeviceDto> getLoggedInDevices(Authentication authentication) {
         return deviceService.getLoggedInDevices(authentication.getName());
+    }
+
+    @GetMapping("account/chats")
+    public Set<String> getChats(Authentication authentication) {
+        return chatMessageService.getUserChats(authentication.getName());
+    }
+
+    @GetMapping("account/issues")
+    public List<IssueDtoSimple> getOpenedIssues(Authentication authentication) {
+        return issueService.getOpenedIssuesByUser(authentication.getName());
+    }
+
+    @GetMapping("account/projects")
+    public List<ProjectDtoSimple> getLastProjects(Authentication authentication) {
+        return projectService.getLastProjects(authentication.getName());
     }
 
     @DeleteMapping("account/loggedInDevices/{deviceId}")

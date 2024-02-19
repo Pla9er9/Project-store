@@ -210,6 +210,11 @@ public class ProjectService {
         }
     }
 
+    public List<ProjectDtoSimple> getLastProjects(String username) {
+        return projectRepository.findTop3ByOwner_username(username).stream()
+                .map(this::projectEntityToSimpleDto).collect(Collectors.toList());
+    }
+
     public ProjectDTO projectEntityToDto(Project project) {
         return new ProjectDTO(
                 project.getId(),

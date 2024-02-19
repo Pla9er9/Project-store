@@ -36,7 +36,7 @@
 		}
 
 		&:has(input:focus) {
-			outline: solid 1px #c5c4c4;
+			outline: solid 1px #acacac;
 		}
 
 		input {
@@ -45,7 +45,7 @@
 			border: none;
 			text-indent: 15px;
 			margin: 0;
-			background-color: #000;
+			background-color: var(--background);
 			outline: none;
 			color: #fff;
 			border-bottom-right-radius: 0;
@@ -59,7 +59,7 @@
 			justify-content: center;
 			font-family: 'Fira sans';
 			transition: fill 250ms ease-in-out;
-			background-color: #000;
+			background-color: var(--background);
 			cursor: pointer;
 			border: none;
 			border-bottom-left-radius: 0;

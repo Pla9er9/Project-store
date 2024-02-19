@@ -37,12 +37,12 @@ public class ChatController {
         chatMessage.setSendDateTime(LocalDateTime.now());
         ChatMessage savedMsg = chatMessageService.saveMessage(chatMessage);
         messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientId(),
+                chatMessage.getRecipientUsername(),
                 "/queue/messages",
                 new ChatNotification(
                         savedMsg.getId(),
-                        savedMsg.getSenderId(),
-                        savedMsg.getRecipientId(),
+                        savedMsg.getSenderUsername(),
+                        savedMsg.getRecipientUsername(),
                         savedMsg.getContent()
                 )
         );

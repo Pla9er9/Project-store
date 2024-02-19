@@ -104,7 +104,7 @@
             {#each projects as project}
                 <Result data={project} type="project" wide={isWide} />
             {/each}
-            {#if apiPage !== data.data?.body.totalPages}
+            {#if apiPage !== data.data?.body.totalPages - 1}
                 <button on:click={getMore}>Load more</button>
             {/if}
             {#if loading}

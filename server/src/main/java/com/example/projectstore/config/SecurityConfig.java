@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*/issues", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*/issues/*", "GET")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/v1/issue/*", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*/download", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*/files", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/v1/project/*/release", "GET")).permitAll()

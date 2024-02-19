@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -23,7 +22,7 @@ public class ChatMessage {
     private UUID id;
     private String chatId;
     private String content;
-    private String senderId;
-    private String recipientId;
+    private String senderUsername;
+    private String recipientUsername;
     private LocalDateTime sendDateTime;
 }

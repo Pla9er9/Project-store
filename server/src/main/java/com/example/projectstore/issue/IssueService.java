@@ -28,40 +28,14 @@ public class IssueService {
     private final ModelMapper modelMapper;
 
     public List<IssueDtoSimple> getAllIssue(UUID projectId) {
-        return issueRepository.findAllByProjectId(projectId).stream().map(
-                        e -> new IssueDtoSimple(
-                                e.getId(),
-                                modelMapper.map(e.getCreatedBy(), UserDtoSimple.class),
-                                e.getTitle(),
-                                e.isOpen(),
-                                e.getCreated()))
-                .collect(Collectors.toList());
+        return issueRepository.findAllByProjectId(projectId).stream()
+                .map(this::issueToIssueDtoSimple).collect(Collectors.toList());
     }
 
     public IssueDto getIssue(UUID issueId) {
         var issue = issueRepository.findById(issueId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return new IssueDto(
-                issue.getId(),
-                new UserDtoSimple(
-                        issue.getCreatedBy().getId(),
-                        issue.getCreatedBy().getUsername()
-                ),
-                issue.getTitle(),
-                issue.getDescription(),
-                issue.isOpen(),
-                issue.getCreated(),
-                issue.getComments().stream().map(c ->
-                        new IssueCommentDto(
-                                new UserDtoSimple(
-                                        c.getCreatedBy().getId(),
-                                        c.getCreatedBy().getUsername()
-                                ),
-                                c.getComment(),
-                                c.getCreated()
-                        )
-                ).collect(Collectors.toList())
-        );
+        return issueToIssueDto(issue);
     }
 
     public void createIssue(UUID projectId, NewIssueRequest request, Authentication authentication) {
@@ -121,5 +95,45 @@ public class IssueService {
         }
         issue.setOpen(false);
         issueRepository.save(issue);
+    }
+
+    public List<IssueDtoSimple> getOpenedIssuesByUser(String username) {
+        return issueRepository.findTop10ByCreatedBy_Username(username).stream()
+                .map(this::issueToIssueDtoSimple).collect(Collectors.toList());
+    }
+
+    private IssueDtoSimple issueToIssueDtoSimple(Issue issue) {
+        return new IssueDtoSimple(
+                issue.getId(),
+                modelMapper.map(issue.getCreatedBy(), UserDtoSimple.class),
+                issue.getTitle(),
+                issue.isOpen(),
+                issue.getProject().getId(),
+                issue.getCreated()
+        );
+    }
+
+    public IssueDto issueToIssueDto(Issue issue) {
+        return new IssueDto(
+                issue.getId(),
+                new UserDtoSimple(
+                        issue.getCreatedBy().getId(),
+                        issue.getCreatedBy().getUsername()
+                ),
+                issue.getTitle(),
+                issue.getDescription(),
+                issue.isOpen(),
+                issue.getCreated(),
+                issue.getComments().stream().map(c ->
+                        new IssueCommentDto(
+                                new UserDtoSimple(
+                                        c.getCreatedBy().getId(),
+                                        c.getCreatedBy().getUsername()
+                                ),
+                                c.getComment(),
+                                c.getCreated()
+                        )
+                ).collect(Collectors.toList())
+        );
     }
 }

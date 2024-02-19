@@ -6,7 +6,7 @@
 	import SockJS from "sockjs-client";
 	import MessageInput from "$components/chat/MessageInput.svelte";
 	import Message from "$components/chat/Message.svelte";
-	import { goto } from "$app/navigation";
+	import { beforeNavigate, goto } from "$app/navigation";
 
 	let stompClient: CompatClient;
 	let username: string;
@@ -40,15 +40,19 @@
 
 		if (body) {
 			body.style.overflow = "hidden";
-			body.style.backgroundColor = "#000";
-			body.style.backgroundImage =
-				"radial-gradient(circle, rgba(61, 61, 61, 0.1) 0%, rgba(0, 0, 0, 0) 100%)";
 		}
 		const messagesDiv = document.querySelector(".main");
 		if (messagesDiv) {
 			messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
 		}
 	});
+
+	beforeNavigate(() => {
+		const body = document.querySelector("body");
+		if (body) {
+			body.style.overflow = "auto";
+		}
+	})
 
 	function onConnected() {
 		stompClient.subscribe(
@@ -71,8 +75,8 @@
 		var messageContent = message.trim();
 		if (messageContent && stompClient) {
 			var chatMessage = {
-				senderId: username,
-				recipientId: data.username,
+				senderUsername: username,
+				recipientUsername: data.username,
 				content: messageContent,
 			};
 			stompClient.send(`/app/chat`, {}, JSON.stringify(chatMessage));
@@ -98,7 +102,7 @@
 <main class="main">
 	<div class="messages">
 		{#if messages.length === 0}
-			<h1>There is no <br /> messages yet</h1>
+			<h1>There is no messages yet</h1>
 		{:else}
 			{#each messages as message}
 				<Message {message} {username} />
@@ -126,10 +130,14 @@
 			height: 100%;
 
 			h1 {
+				width: 95%;
+				max-width: 450px;
 				font-family: "Fira sans";
+				font-size: 28px;
 				text-align: center;
-				color: gainsboro;
-				width: 100%;
+				margin: 0 auto;
+				color: #c5c5c5;
+				word-break: keep-all;
 			}
 		}
 	}
