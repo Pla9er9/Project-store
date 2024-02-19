@@ -11,14 +11,14 @@
 
 <main class="row">
     <div>
-        <TrendingProjects />
+        <ChatList />
     </div>
     <div class="column">
         <IssuesList />
         <LastProjects />
     </div>
     <div>
-        <ChatList />
+        <TrendingProjects />
     </div>
 </main>
 
