@@ -5,6 +5,7 @@ type IssueDtoSimple = {
     createdBy: UserDtoSimple
     title: string
     isOpen: boolean
+    projectId: string
     created: string
 }
 
