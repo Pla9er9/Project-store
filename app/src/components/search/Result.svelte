@@ -8,12 +8,12 @@
     export let wide: boolean = true;
 </script>
 
-<div class="result row">
+<div class="result row" style="height: {wide ? '90' : '70'}px;">
     {#if type === "user"}
         <a href="/{data.username}">
             <Avatar
                 username={data.username}
-                size="42px"
+                size="{wide ? '42' : '35'}px"
                 margin="0 20px 0 0"
                 cursor="pointer"
             />
@@ -29,24 +29,26 @@
             <p style="margin-right: auto;">{data.projectCount} Projects</p>
         </div>
         <div class="row followers">
-            <img src="/icons/hearthOutline.svg" alt="" style="margin-right: 8px;" />
+            <img
+                src="/icons/hearthOutline.svg"
+                alt=""
+                style="margin-right: 8px;"
+            />
             <p>{data.followers} Followers</p>
         </div>
     {:else if type === "project"}
-        <div class="row" style="width: 300px;margin-right: auto">
+        <div class="row" style="margin-right: auto">
             <a href="/{data.owner.username}">
                 <Avatar
                     username={data.owner.username}
-                    size="42px"
+                    size="{wide ? '42' : '35'}px"
                     margin="0 20px 0 0"
                     cursor="pointer"
                 />
             </a>
             <div class="column" style="align-items: flex-start;">
                 <a href="/project/{data.id}">{data.name}</a>
-                {#if wide}
-                    <small>{data.created.slice(0, 10)}</small>
-                {/if}
+                <small>{data.created.slice(0, 10)}</small>
             </div>
         </div>
         {#if wide && data.mainLanguage && data.mainLanguage.name !== ""}
@@ -54,7 +56,7 @@
                 <div
                     class="languageBar"
                     style="background-color: {getColorOfLanguage(
-                        data.mainLanguage.name,
+                        data.mainLanguage.name
                     )};"
                 ></div>
                 <small>{data.mainLanguage.name}</small>
@@ -71,9 +73,8 @@
         box-sizing: border-box;
         width: 100%;
         max-width: 1200px;
-        padding: 0 30px;
+        padding: 0 20px;
         border-radius: 4px;
-        height: 90px;
 
         a {
             font-family: "Fira sans";
