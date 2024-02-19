@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +21,8 @@ public class ChatMessageService {
 
     public ChatMessage saveMessage(ChatMessage chatMessage) {
         var chatId = chatRoomService.getChatRoomId(
-                chatMessage.getSenderId(),
-                chatMessage.getRecipientId(),
+                chatMessage.getSenderUsername(),
+                chatMessage.getRecipientUsername(),
                 true
         ).orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
         chatMessage.setChatId(chatId);
@@ -35,8 +37,15 @@ public class ChatMessageService {
                 recipientId,
                 false);
         if (chatId.isEmpty()) {
-            return new ArrayList<ChatMessage>();
+            return new ArrayList<>();
         }
         return repository.findAllByChatId(chatId.get());
+    }
+
+    public Set<String> getUserChats(String name) {
+        Set<String> res = new HashSet<>();
+        res.addAll(repository.findChatsOpenedByRecipient(name));
+        res.addAll(repository.findChatsOpenedBySender(name));
+        return new HashSet<>(res);
     }
 }

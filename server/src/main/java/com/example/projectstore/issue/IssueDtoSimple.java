@@ -14,6 +14,7 @@ public class IssueDtoSimple {
     private UserDtoSimple createdBy;
     private String title;
     private Boolean isOpen;
+    private UUID projectId;
     private LocalDateTime created;
 
 }
