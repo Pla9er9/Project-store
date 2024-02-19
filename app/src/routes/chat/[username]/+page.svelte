@@ -75,8 +75,8 @@
 		var messageContent = message.trim();
 		if (messageContent && stompClient) {
 			var chatMessage = {
-				senderId: username,
-				recipientId: data.username,
+				senderUsername: username,
+				recipientUsername: data.username,
 				content: messageContent,
 			};
 			stompClient.send(`/app/chat`, {}, JSON.stringify(chatMessage));

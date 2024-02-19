@@ -1,21 +1,19 @@
 <script lang="ts">
 	import Avatar from '$components/Avatar.svelte';
-	import { PUBLIC_API_URL } from '$env/static/public';
-	import type { ChatMessage } from '$lib/models/chat/ChatMessage';
 
-	export let message: ChatMessage;
+	export let message: any;
 	export let username;
 
-	let isMessageYours = message.senderId === username;
+	let isMessageYours = message.senderUsername === username;
 </script>
 
 <div style="display: flex;align-items:center">
 	{#if !isMessageYours}
-		<a href="/{message.recipientId}">
+		<a href="/{message.recipientUsername}">
 			<Avatar
 				cursor="pointer"
 				margin="0 0 0 20px"
-				username={message.recipientId}
+				username={message.recipientUsername}
 				size="35px"
 			/>
 		</a>
@@ -26,7 +24,7 @@
 	{#if isMessageYours}
 		<Avatar
 			margin="0 30px 0 0"
-			username={message.recipientId}
+			username={message.recipientUsername}
 			size="35px"
 		/>
 	{/if}
