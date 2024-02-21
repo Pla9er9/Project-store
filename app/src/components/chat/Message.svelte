@@ -5,30 +5,54 @@
     export let username;
 
     let isMessageYours = message.senderUsername === username;
+    let hover = false;
 </script>
 
-<div style="display: flex;align-items:center">
-    {#if !isMessageYours}
-        <a href="/{message.recipientUsername}">
+<div class="column">
+    <div
+        class="row"
+        style={isMessageYours ? "margin-left: auto;" : "margin-rightL auto;"}
+    >
+        {#if !isMessageYours}
+            <a href="/{message.recipientUsername}">
+                <Avatar
+                    cursor="pointer"
+                    margin="0 0 0 20px"
+                    username={message.recipientUsername}
+                    size="35px"
+                />
+            </a>
+        {/if}
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+            class="message column {isMessageYours
+                ? 'yourMessage'
+                : 'notYourMessage'}"
+            on:mouseenter={() => (hover = true)}
+            on:mouseleave={() => (hover = false)}
+        >
+            <p>{message.content}</p>
+        </div>
+        {#if isMessageYours}
             <Avatar
-                cursor="pointer"
-                margin="0 0 0 20px"
+                margin="0 30px 0 0"
                 username={message.recipientUsername}
                 size="35px"
             />
-        </a>
-    {/if}
-    <div
-        class="message row {isMessageYours ? 'yourMessage' : 'notYourMessage'}"
-    >
-        <p>{message.content}</p>
+        {/if}
     </div>
-    {#if isMessageYours}
-        <Avatar
-            margin="0 30px 0 0"
-            username={message.recipientUsername}
-            size="35px"
-        />
+    {#if hover}
+        <p
+            class="sendTime"
+            style={isMessageYours
+                ? "margin-left: auto;"
+                : "margin-rightL auto;"}
+        >
+            {message.sendDateTime.slice(11, 16)} - {message.sendDateTime.slice(
+                0,
+                10
+            )}
+        </p>
     {/if}
 </div>
 
@@ -49,9 +73,15 @@
         }
     }
 
+    .sendTime {
+        margin: 0 30px;
+        font-size: 11px;
+        color: gray;
+    }
+
     .yourMessage {
         margin-left: auto;
-        border: solid 1px #fff;
+        background-color: rgb(0, 110, 255);
     }
 
     .notYourMessage {
