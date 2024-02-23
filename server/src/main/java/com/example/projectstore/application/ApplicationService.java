@@ -8,6 +8,7 @@ import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import com.example.projectstore.util.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ApplicationService {
     private final ApplicationRepository applicationRepository;
     private final AccessTokenRepository accessTokenRepository;
     private final UserRepository userRepository;
+    private final AESUtil aesUtil;
 
     public Set<ApplicationDtoSimple> getApplications(String username) {
         var user = userRepository.findByUsername(username)
@@ -36,13 +38,19 @@ public class ApplicationService {
         if (user.getApplications().size() == 3) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
         }
+        var randomString = generateRandomString();
+        var encrypted = aesUtil.encrypt(randomString);
+        if (encrypted.equals(randomString)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         var app = new Application(
                 null,
                 request.getName(),
                 0,
                 request.isCommercial(),
                 LocalDateTime.now(),
-                generateRandomString(),
+                encrypted,
                 request.getAllowedRedirectUrls(),
                 Set.of(),
                 user
@@ -78,10 +86,16 @@ public class ApplicationService {
     public String newSecret(UUID id, String username) {
         var app = applicationRepository.findByIdAndOwner_Username(id, username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        var secret = generateRandomString();
-        app.setSecret(secret);
+
+        var randomString = generateRandomString();
+        var encrypted = aesUtil.encrypt(randomString);
+        if (encrypted.equals(randomString)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        app.setSecret(encrypted);
         applicationRepository.save(app);
-        return secret;
+        return randomString;
     }
 
     public void deleteApplication(UUID id, String username) {
@@ -97,7 +111,14 @@ public class ApplicationService {
     public AccountDto getAccountData(String accessToken, String secret) {
         var token = accessTokenRepository.findByToken(accessToken)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        if (!token.getApplication().getSecret().equals(secret)) {
+
+        var appEncryptedSecret = token.getApplication().getSecret();
+        var decrypted = aesUtil.decrypt(appEncryptedSecret);
+        if (decrypted.equals(appEncryptedSecret)) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (!decrypted.equals(secret)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
