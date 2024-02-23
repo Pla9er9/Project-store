@@ -1,13 +1,25 @@
-import { error, type Actions } from '@sveltejs/kit';
+import { error, redirect, type Actions } from '@sveltejs/kit';
 import fetchHttp from '$lib/fetchHttp';
 
 export async function load({ url }) {
 	const oauthId = url.searchParams.get("client_id")
 	const redirectUrl = url.searchParams.get("redirectUrl")
+	const isOauth2 = oauthId !== null && redirectUrl !== null
+	let appName = ""
+
+	if (isOauth2) {
+		const res = await fetchHttp(`/dev/application/${oauthId}/name`, {})
+		if (!res?.ok) {
+			throw redirect(301, "/404")
+		}
+		appName = res?.body
+	}
+
 	return {
 		oauthId: oauthId,
 		redirectUrl: redirectUrl,
-		isOauth2: oauthId !== null && redirectUrl !== null
+		isOauth2: isOauth2,
+		appName: appName
 	}
 }
 

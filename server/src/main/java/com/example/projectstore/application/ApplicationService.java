@@ -64,6 +64,12 @@ public class ApplicationService {
         return entityToDto(app);
     }
 
+    public String getApplicationName(UUID id) {
+        var app = applicationRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return app.getName();
+    }
+
     public ApplicationDtoSimple entityToDtoSimple(Application app) {
         return new ApplicationDtoSimple(
                 app.getId(),

@@ -82,7 +82,7 @@
     {#if !data.isOauth2}
         <small>Welcome back!</small>
     {:else}
-        <small style="font-size: 18px">Continue to application</small>
+        <small style="font-size: 18px">Continue to {data.appName}</small>
     {/if}
     <Input
         placeholder="username"
