@@ -25,7 +25,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="filesBar" on:contextmenu={showMenu}>
-	<p>Projectname</p>
+	<p>Files</p>
 	<RightClickMenu bind:mouseX bind:mouseY bind:menuVisible />
 	{#each directories as dir}
 		<Directory path={dir} />
@@ -39,6 +39,8 @@
 	#filesBar {
 		width: 400px;
 		height: 100vh;
+		padding: 20px 15px;
+		box-sizing: border-box;
 		border-right: solid 1px rgb(77, 77, 77);
 		display: flex;
 		flex-direction: column;
@@ -46,11 +48,9 @@
 		overflow: auto;
 
 		p {
-			width: 100%;
-			text-indent: 30px;
-			color: var(--mainColor);
-			text-align: start;
-			margin: 18px 0;
+			color: #fff;
+			align-self: flex-start;
+			margin: 0 12px 18px 14px;
 		}
 	}
 </style>

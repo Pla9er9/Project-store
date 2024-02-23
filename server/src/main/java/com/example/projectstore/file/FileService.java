@@ -287,15 +287,11 @@ public class FileService {
             if (file.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-            Path destinationFile = p.resolve(Paths.get(Objects.requireNonNull(file.getOriginalFilename()))).normalize().toAbsolutePath();
-            if (!destinationFile.getParent().equals(p.toAbsolutePath())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, p, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

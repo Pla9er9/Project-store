@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -146,14 +147,11 @@ public class ProjectController {
     @PostMapping("{id}/files")
     public ResponseEntity<String> uploadFile(
             @PathVariable UUID id,
-            @RequestParam String path,
+            @RequestParam(required = false, defaultValue = "") String path,
             @RequestParam(name = "cf", required = false, defaultValue = "false") boolean cutFirstFolderInPath,
             @RequestParam("file") MultipartFile file,
             Authentication authentication
     ) {
-        if (path == null) {
-            path = "";
-        }
         fileService.uploadFileToProject(id, path, file, authentication, cutFirstFolderInPath);
         return ResponseEntity.ok("");
     }
@@ -165,9 +163,6 @@ public class ProjectController {
             @RequestParam("file") MultipartFile file,
             Authentication authentication
     ) {
-        if (path == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
         fileService.editFile(id, path, file, authentication);
         return ResponseEntity.ok("");
     }
@@ -178,9 +173,6 @@ public class ProjectController {
             @RequestParam String path,
             Authentication authentication
     ) {
-        if (path == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
         fileService.deleteFileInProject(id, path, authentication);
     }
 

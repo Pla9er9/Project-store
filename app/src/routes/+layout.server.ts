@@ -20,6 +20,6 @@ export const load: LayoutServerLoad = async ({ cookies, route, url }) => {
 	return {
 		username: username,
 		token: token,
-		hideUiParts: oauthId !== null && redirectUrl !== null
+		hideUiParts: oauthId !== null && redirectUrl !== null || url.href.endsWith("/space")
 	};
 };

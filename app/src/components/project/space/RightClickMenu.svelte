@@ -33,8 +33,9 @@
 		z-index: 999;
 
 		button {
-			width: 100%;
+			width: 95%;
 			height: 40px;
+			border-radius: 5px;
 			margin: 5px auto;
 			border: solid 1px #ffffff31;
 			border: none;

@@ -24,6 +24,7 @@
 		const file = await res.text();
 		spaceStore.update((v) => {
 			v.loadedFiles.set(path, file);
+			v.editedFiles.set(path, file)
 			return v;
 		});
 		loaded = true;
@@ -48,16 +49,17 @@
 	}
 </script>
 
-<button on:click={setFileToEdit} style="--marginL: {12 + count * 12}px">
+<button on:click={setFileToEdit} style="--marginL: {count * 12}px">
 	<img src="/icons/file.svg" alt="">
 	{getNameByPath(path)}
 </button>
 
 <style lang="scss">
 	button {
-		width: 100%;
+		width: calc(100% - 10px);
+		border-radius: 5px;
 		height: 30px;
-		margin: 2px 0;
+		margin: 4px 0;
 		display: flex;
 		align-items: center;
 		background: inherit;

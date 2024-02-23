@@ -56,14 +56,14 @@
 </script>
 
 <div>
-	<div style="display: flex;align-items:center;--marginL: {20 + count * 12}px">
+	<button style="--marginL: {6 + count * 12}px" on:click={expandFolder}>
 		{#if expand}
-			<img src="icons/dir_expand.svg" alt="">
+			<img src="/icons/dir_expand.svg" alt="">
 		{:else}
-			<img src="icons/dir.svg" alt="">
+			<img src="/icons/dir.svg" alt="">
 		{/if}
-		<button on:click={expandFolder}>{getNameByPath(path)}</button>
-	</div>
+		<p>{getNameByPath(path)}</p>
+	</button>
 	{#if expand}
 		{#each directories as dir}
 			<svelte:self path="{path}/{dir}" />
@@ -79,25 +79,29 @@
 		width: 100%;
 
 		button {
-			width: 100%;
+			width: calc(100% - 10px);
+			border-radius: 5px;
+			margin: 2px 0;
 			height: 30px;
 			display: flex;
 			align-items: center;
 			background: inherit;
 			border: none;
-			color: #fff;
-			font-size: 15px;
-			font-family: monospace;
 			cursor: pointer;
 			transition: background-color 200ms;
-
+			
 			&:hover {
 				background-color: #ffffff0c;
+			}
+			
+			p {
+				font-size: 15px;
+				font-family: monospace;
 			}
 		}
 
 		img {
-			width: 20px;
+			width: 18px;
 			height: 20px;
 			margin-left: var(--marginL);
 			margin-right: 12px;
