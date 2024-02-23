@@ -88,7 +88,7 @@
                 }
 
                 &:last-of-type {
-                    color: rgb(0, 81, 255);
+                    color: rgb(0, 110, 255);
                 }
             }
         }
