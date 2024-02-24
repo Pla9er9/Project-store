@@ -16,6 +16,13 @@
         space = value;
         currentFile = value.editedFiles.get(value.currentFile);
     });
+
+    function closeCurrentFile() {
+        spaceStore.update((s) => {
+            s.currentFile = "";
+            return s;
+        });
+    }
 </script>
 
 <div>
@@ -25,14 +32,18 @@
             <p class="row">
                 <img src="/icons/file.svg" alt="" />
                 {space.currentFile}
+                <button class="closeBtn" on:click={closeCurrentFile}>
+                    <img src="/icons/cross_white.svg" alt="" />
+                </button>
             </p>
             <CodeMirror
                 bind:value={currentFile}
-				on:change={(c) => spaceStore.update(s => {
-					s.editedFiles.set(s.currentFile, c.detail)
-					return s
-				})}
-                lang={javascript()}
+                on:change={(c) =>
+                    spaceStore.update((s) => {
+                        s.editedFiles.set(s.currentFile, c.detail);
+                        return s;
+                    })}
+                lang={javascript({jsx: true})}
                 theme={githubDarkInit({
                     settings: {
                         gutterBackground: "#212121",
@@ -45,7 +56,7 @@
                     "&": {
                         width: "calc(100vw - 568px)",
                         height: "calc(100vh - 105px)",
-						fontSize: "14px"
+                        fontSize: "14px",
                     },
                 }}
             />
@@ -53,6 +64,11 @@
     </div>
     <ChangesBar />
 </div>
+
+<!-- 
+    Nowy plik
+    Zmiana nazwy pliku
+ -->
 
 <style lang="scss">
     div {
@@ -78,7 +94,21 @@
                 width: 100%;
                 height: 60px;
                 margin: 0 0 20px 0;
-				border-bottom: solid 1px rgb(77, 77, 77);
+                border-bottom: solid 1px rgb(77, 77, 77);
+            }
+
+            .closeBtn {
+                width: 30px;
+                display: flex;
+                justify-content: center;
+                background-color: inherit;
+                border: none;
+                cursor: pointer;
+                margin: 0 15px 0 auto;
+
+                img {
+                    margin: 0;
+                }
             }
         }
     }

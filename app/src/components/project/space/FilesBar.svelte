@@ -2,46 +2,35 @@
     export let directories: string[];
     export let files: string[];
 
-    import { onMount } from "svelte";
-    import Directory from "./Directory.svelte";
     import File from "./File.svelte";
-    import RightClickMenu from "./RightClickMenu.svelte";
     import BackBtn from "$components/BackBtn.svelte";
     import { goto } from "$app/navigation";
-
-    let menuVisible = false;
-    let mouseX = 0;
-    let mouseY = 0;
-
-    function showMenu(e: MouseEvent) {
-        e.preventDefault();
-        mouseX = e.pageX;
-        mouseY = e.pageY;
-        menuVisible = true;
-    }
 
 	async function back() {
 		const href = location.href
 		await goto(href.replace("/space", ""))
 	}
 
-    onMount(() => {
-        document.onclick = () => (menuVisible = false);
-    });
+    function onDelete(event: CustomEvent) {
+        if (event.detail.isDir) {
+            directories = directories.filter(value => value !== event.detail.path)
+        } else {
+            files = files.filter(value => value !== event.detail.path)
+        }
+    }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div id="filesBar" on:contextmenu={showMenu}>
+<div id="filesBar">
     <div class="row">
 		<BackBtn callback={back} margin="0 8px 0 0" />
 		<p>Back to project page</p>
 	</div>
-    <RightClickMenu bind:mouseX bind:mouseY bind:menuVisible />
     {#each directories as dir}
-        <Directory path={dir} />
+        <File path={dir} isDirectory={true} on:delete={onDelete}/>
     {/each}
     {#each files as file}
-        <File path={file} />
+        <File path={file} isDirectory={false} on:delete={onDelete}/>
     {/each}
 </div>
 
