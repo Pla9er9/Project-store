@@ -1,9 +1,10 @@
 <script lang="ts">
     export let callback: () => void
+    export let margin = "0 20px 0 0"
 </script>
 
 
-<button class="backBtn" on:click={callback}>
+<button class="backBtn" on:click={callback} style="margin: {margin};">
     <img src="/icons/btn_back.svg" alt="" />
 </button>
 
@@ -11,7 +12,6 @@
     .backBtn {
         width: 40px;
         height: 40px;
-        margin-right: 20px;
         border-radius: 100%;
         background: inherit;
         border: none;
