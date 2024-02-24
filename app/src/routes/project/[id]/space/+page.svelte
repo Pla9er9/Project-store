@@ -43,7 +43,7 @@
                         s.editedFiles.set(s.currentFile, c.detail);
                         return s;
                     })}
-                lang={javascript({jsx: true})}
+                lang={javascript({ jsx: true })}
                 theme={githubDarkInit({
                     settings: {
                         gutterBackground: "#212121",
@@ -60,6 +60,11 @@
                     },
                 }}
             />
+        {:else}
+            <div class="column" id="desk">
+                <img src="/icons/desk_.svg" alt="" />
+                <p>Edit your project <br> files here</p>
+            </div>
         {/if}
     </div>
     <ChangesBar />
@@ -80,6 +85,23 @@
             width: 100%;
             height: 100vh;
             justify-content: start;
+
+            #desk {
+                margin: 260px auto auto auto;
+
+                p {
+                    border: none;
+                    font-family: 'Fira sans';
+                    text-align: center;
+                    color: rgb(204, 204, 204);
+                    line-height: 28px;
+                }
+
+                img {
+                    width: 160px;
+                    height: 160px;
+                }
+            }
 
             img {
                 width: 22px;
