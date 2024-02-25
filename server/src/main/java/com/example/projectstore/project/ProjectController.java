@@ -157,14 +157,13 @@ public class ProjectController {
     }
 
     @PutMapping("{id}/files")
-    public ResponseEntity<String> editFile(
+    public void editFile(
             @PathVariable UUID id,
             @RequestParam String path,
             @RequestParam("file") MultipartFile file,
             Authentication authentication
     ) {
         fileService.editFile(id, path, file, authentication);
-        return ResponseEntity.ok("");
     }
 
     @DeleteMapping("{id}/files")

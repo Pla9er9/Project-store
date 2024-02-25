@@ -3,37 +3,29 @@
     import fetchHttp from "$lib/fetchHttp";
     import { alertStore } from "$lib/stores/alertStore";
     import { spaceStore } from "$lib/stores/spaceStore";
-    import { tokenStore } from "$lib/stores/tokenStore";
     import { get } from "svelte/store";
     import { blur } from "svelte/transition";
-    import { createEventDispatcher } from 'svelte'
+    import {
+        addNewByPath,
+        changeName,
+        deleteByPath,
+        getNameByPath,
+    } from "$lib/utils/fileUtils";
+    import { createEventDispatcher } from "svelte";
 
     export let path: string;
     export let isDirectory: boolean;
 
+    const dispatch = createEventDispatcher();
     let directories: string[] = [];
     let files: string[] = [];
 
-    const fileName = getNameByPath(path);
-    const dispatch = createEventDispatcher();
     let loaded = false;
     let expand = false;
     let menuOpened = false;
 
     let count = 0;
     for (let i = 0; i < path.length; i++) if (path[i] === "/") count++;
-
-    function getNameByPath(path: string): string {
-        let res = "";
-        for (let i = path.length - 1; i >= 0; i--) {
-            if (path[i] == "/") {
-                return res;
-            } else {
-                res = path[i] + res;
-            }
-        }
-        return res;
-    }
 
     async function loadFile() {
         const res = await fetch(`${PUBLIC_API_URL}/project/
@@ -53,40 +45,27 @@
             await loadFile();
         }
         spaceStore.update((v) => {
-            v.currentFile = fileName;
+            v.currentFile = path;
             return v;
         });
     }
 
-    async function deleteByPath() {
-        const res = await fetchHttp(
-            `/project/${get(spaceStore).projectId}/files?path=${path}`,
-            {
-                method: "DELETE",
-                token: get(tokenStore),
-            }
-        );
-        if (!res?.ok) {
-            alertStore.update((a) => {
-                a.color = "red"
-                a.message = "Could not delete file";
-                return a;
-            });
+    function onNew(event: CustomEvent) {
+        if (event.detail.isDir) {
+            directories = [...directories, event.detail.path];
+        } else {
+            files = [...files, event.detail.path];
         }
+    }
 
-        spaceStore.update((s) => {
-            if (s.currentFile === path) {
-                s.currentFile = "";
-            }
-            s.editedFiles.delete(path);
-            s.loadedFiles.delete(path);
-            return s;
-        });
-
-        dispatch("delete", {
-            path: path,
-            isDir: isDirectory
-        })
+    function onDelete(event: CustomEvent) {
+        if (event.detail.isDir) {
+            directories = directories.filter(
+                (value) => value !== event.detail.path
+            );
+        } else {
+            files = files.filter((value) => value !== event.detail.path);
+        }
     }
 
     async function expandFolder() {
@@ -113,6 +92,35 @@
 
         loaded = true;
     }
+
+    async function changeFilename() {
+        const name = getNameByPath(path);
+        const newName = prompt(`Enter new filename for - ${name}`);
+        if (!newName) return
+        
+        const changed = await changeName(newName, path);
+        if (changed) {
+            dispatch("delete", {
+                path: path,
+                isDir: false,
+            });
+            path = path.replace(name, newName)
+            dispatch("new", {
+                path: path,
+                isDir: false,
+            });
+        }
+    }
+
+    async function deleteFile() {
+        const deleted = await deleteByPath(path);
+        if (deleted) {
+            dispatch("delete", {
+                path: path,
+                isDir: isDirectory,
+            });
+        }
+    }
 </script>
 
 <div class="column">
@@ -131,21 +139,34 @@
             on:click={() => (menuOpened = !menuOpened)}
             style="display: none;"
         >
-            <img src="/icons/{menuOpened ? 'cross_white' : 'three_dots'}.svg" alt="" />
+            <img
+                src="/icons/{menuOpened ? 'cross_white' : 'three_dots'}.svg"
+                alt=""
+            />
         </button>
     </button>
     {#if menuOpened}
         <div class="row options" transition:blur={{ amount: 10 }}>
-            <button>Rename</button>
-            <button on:click={deleteByPath}>Delete</button>
+            <button on:click={changeFilename}>Rename</button>
+            <button on:click={deleteFile}>Delete</button>
         </div>
     {/if}
     {#if expand}
         {#each directories as dir}
-            <svelte:self path="{path}/{dir}" isDirectory={true} />
+            <svelte:self
+                path="{path}/{dir}"
+                isDirectory={true}
+                on:new={onNew}
+                on:delete={onDelete}
+            />
         {/each}
         {#each files as file}
-            <svelte:self path="{path}/{file}" isDirectory={false} />
+            <svelte:self
+                path="{path}/{file}"
+                isDirectory={false}
+                on:new={onNew}
+                on:delete={onDelete}
+            />
         {/each}
     {/if}
 </div>
@@ -198,7 +219,7 @@
         button {
             justify-content: center;
             color: #fff;
-            padding: 0; 
+            padding: 0;
 
             &:last-of-type:hover {
                 background-color: rgba(253, 67, 67, 0.178);

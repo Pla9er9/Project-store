@@ -80,7 +80,6 @@ public class ProjectService {
         var owner = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-        log.info(request.getLicense());
         Project project = new Project();
         project.setName(request.getName());
         project.setDescription(request.getDescription());

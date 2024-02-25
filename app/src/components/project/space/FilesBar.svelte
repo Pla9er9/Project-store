@@ -18,25 +18,40 @@
             files = files.filter(value => value !== event.detail.path)
         }
     }
+
+    function onNew(event: CustomEvent) {
+        if (event.detail.isDir) {
+            directories = [...directories, event.detail.path]
+        } else {
+            files = [...files, event.detail.path]
+        }
+    }
+
+    function addNew() {
+        const filename = prompt("Enter filename")
+        if (files.filter(e => e === filename).length !== 0) {}
+    }
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="filesBar">
     <div class="row">
 		<BackBtn callback={back} margin="0 8px 0 0" />
 		<p>Back to project page</p>
 	</div>
     {#each directories as dir}
-        <File path={dir} isDirectory={true} on:delete={onDelete}/>
+        <File path={dir} isDirectory={true} on:delete={onDelete} on:new={onNew}/>
     {/each}
     {#each files as file}
-        <File path={file} isDirectory={false} on:delete={onDelete}/>
+        <File path={file} isDirectory={false} on:delete={onDelete} on:new={onNew}/>
     {/each}
+    <button class="addBtn row" on:click={addNew}>
+        <img src="/icons/plus_bl.svg" alt="">
+    </button>
 </div>
 
 <style lang="scss">
     #filesBar {
-        width: 400px;
+        min-width: 300px;
         height: 100vh;
         padding: 20px 15px;
         box-sizing: border-box;
@@ -50,5 +65,27 @@
             align-self: flex-start;
 			margin-bottom: 15px;
 		}
+    }
+
+    .addBtn {
+        width: 50px;
+        height: 50px;
+        background-color: var(--mainColor);
+        border: none;
+        border-radius: 100%;
+        position: fixed;
+        left: 235px;
+        justify-content: center;
+        bottom: 0px;
+        cursor: pointer;
+        transition: box-shadow 150ms ease-in-out;
+
+        &:hover {
+            box-shadow: 0 0 7px var(--mainColor);
+        }
+
+        img {
+            width: 28px;
+        }
     }
 </style>

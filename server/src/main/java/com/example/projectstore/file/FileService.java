@@ -110,7 +110,7 @@ public class FileService {
     ) {
         authService.creatorAuthGate(projectId, authentication);
         securityFilterNonExistingFile(projectId, path);
-        Path p = Paths.get(this.cdnPath);
+
         try {
             if (file.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -123,9 +123,8 @@ public class FileService {
                 var separatorIndex = originalName.indexOf("/", 1);
                 filename = originalName.substring(separatorIndex + 1);
             }
-            Path destinationFile = p.resolve(Paths.get(filename))
-                    .normalize()
-                    .toAbsolutePath();
+
+            var destinationFile = Paths.get(this.cdnPath + path);
 
             var correctPath = String.valueOf(destinationFile).replace("cdn", ("cdn\\projects\\" + projectId + "\\code\\"));
             try (InputStream inputStream = file.getInputStream()) {

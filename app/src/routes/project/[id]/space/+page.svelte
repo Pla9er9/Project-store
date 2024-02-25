@@ -23,6 +23,18 @@
             return s;
         });
     }
+
+    function getNameByPath(path: string): string {
+        let res = "";
+        for (let i = path.length - 1; i >= 0; i--) {
+            if (path[i] == "/") {
+                return res;
+            } else {
+                res = path[i] + res;
+            }
+        }
+        return res;
+    }
 </script>
 
 <div>
@@ -31,7 +43,7 @@
         {#if space !== undefined && space.currentFile != ""}
             <p class="row">
                 <img src="/icons/file.svg" alt="" />
-                {space.currentFile}
+                {getNameByPath(space.currentFile)}
                 <button class="closeBtn" on:click={closeCurrentFile}>
                     <img src="/icons/cross_white.svg" alt="" />
                 </button>
@@ -63,7 +75,7 @@
         {:else}
             <div class="column" id="desk">
                 <img src="/icons/desk_.svg" alt="" />
-                <p>Edit your project <br> files here</p>
+                <p>Edit your project <br /> files here</p>
             </div>
         {/if}
     </div>
@@ -72,7 +84,6 @@
 
 <!-- 
     Nowy plik
-    Zmiana nazwy pliku
  -->
 
 <style lang="scss">
@@ -91,7 +102,7 @@
 
                 p {
                     border: none;
-                    font-family: 'Fira sans';
+                    font-family: "Fira sans";
                     text-align: center;
                     color: rgb(204, 204, 204);
                     line-height: 28px;
