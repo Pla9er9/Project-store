@@ -1,12 +1,9 @@
 <script lang="ts">
     import { PUBLIC_API_URL } from "$env/static/public";
-    import fetchHttp from "$lib/fetchHttp";
-    import { alertStore } from "$lib/stores/alertStore";
     import { spaceStore } from "$lib/stores/spaceStore";
     import { get } from "svelte/store";
     import { blur } from "svelte/transition";
     import {
-        addNewByPath,
         changeName,
         deleteByPath,
         getNameByPath,
@@ -23,6 +20,8 @@
     let loaded = false;
     let expand = false;
     let menuOpened = false;
+
+    console.log(path)
 
     let count = 0;
     for (let i = 0; i < path.length; i++) if (path[i] === "/") count++;
@@ -51,6 +50,7 @@
     }
 
     function onNew(event: CustomEvent) {
+        menuOpened = false
         if (event.detail.isDir) {
             directories = [...directories, event.detail.path];
         } else {
@@ -59,12 +59,16 @@
     }
 
     function onDelete(event: CustomEvent) {
+        console.log(event.detail.path)
+        console.log(files)
+        console.log(path)
+        menuOpened = false
         if (event.detail.isDir) {
             directories = directories.filter(
-                (value) => value !== event.detail.path
+                (value) => path + "/" + value !== event.detail.path
             );
         } else {
-            files = files.filter((value) => value !== event.detail.path);
+            files = files.filter((value) => path + "/" + value !== event.detail.path);
         }
     }
 
@@ -102,12 +106,12 @@
         if (changed) {
             dispatch("delete", {
                 path: path,
-                isDir: false,
+                isDir: isDirectory,
             });
-            path = path.replace(name, newName)
+            path = newName
             dispatch("new", {
                 path: path,
-                isDir: false,
+                isDir: isDirectory,
             });
         }
     }

@@ -41,9 +41,9 @@
     <FilesBar directories={data.folders} files={data.files} />
     <div id="file" class="column">
         {#if space !== undefined && space.currentFile != ""}
-            <p class="row">
+            <p class="row headline">
                 <img src="/icons/file.svg" alt="" />
-                {getNameByPath(space.currentFile)}
+                <span>{getNameByPath(space.currentFile)}</span>
                 <button class="closeBtn" on:click={closeCurrentFile}>
                     <img src="/icons/cross_white.svg" alt="" />
                 </button>
@@ -144,5 +144,9 @@
                 }
             }
         }
+    }
+
+    span {
+        font-size: 16px;
     }
 </style>
