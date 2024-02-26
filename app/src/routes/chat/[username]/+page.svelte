@@ -63,6 +63,7 @@
         );
         stompClient.subscribe(`/user/public`, onMessageReceived);
     }
+    
     async function onMessageReceived(payload: IMessage) {
         var message = JSON.parse(payload.body);
         messages = [...messages, message];

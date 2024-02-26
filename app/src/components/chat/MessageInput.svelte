@@ -8,19 +8,37 @@
             value = "";
         }
     }
+
+    let files: FileList
 </script>
 
-<div>
-    <input bind:value on:keypress={keyPressed} />
-    <button on:click={sendMessage} type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-            ><path d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z" /></svg
-        >
-    </button>
+
+<div class="column">
+    <div class="row" style="outline: none;">
+        {#if files}
+            {#each Array.from(files) as img}
+                <p>{img.name}</p>
+            {/each}
+        {/if}
+    </div>
+    <div class="row">
+        <input
+            type="file"
+            class="custom-file-input"
+            accept="image/png, image/gif, image/jpeg"
+            bind:files
+        />
+        <input bind:value on:keypress={keyPressed} />
+        <button on:click={sendMessage} type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                ><path d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z" /></svg
+            >
+        </button>
+    </div>
 </div>
 
 <style lang="scss">
-    div {
+    .column {
         max-width: 1400px;
         width: 95%;
         height: 40px;
@@ -28,16 +46,20 @@
         outline: solid 1px var(--lightBorder);
         border-radius: 10px;
         background-color: var(--background);
-
+    }
+    
+    .row {
+        width: 100%;
         * {
             border-radius: 10px;
         }
 
         &:has(input:focus) {
             outline: solid 1px #acacac;
+            border-radius: 10px;
         }
 
-        input {
+        input:not(.custom-file-input) {
             width: 100%;
             height: 100%;
             border: none;
@@ -47,6 +69,35 @@
             outline: none;
             color: #fff;
             border-bottom-right-radius: 0;
+        }
+
+        .custom-file-input {
+            overflow-x: hidden;
+            width: 40px;
+            margin-left: 8px;
+        }
+
+        .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+
+        }
+        .custom-file-input::before {
+            width: 30px;
+            height: 26px;
+            margin: 5px 0 0 2px;
+            content: "";
+            display: inline-block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid var(--lightBorder);
+            border-radius: 5px;
+            background-image: url('/icons/image_add.svg');
+            background-size: 16px;
+            background-repeat: no-repeat;
+            background-position: center;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            user-select: none;
+            cursor: pointer;
         }
 
         button {
