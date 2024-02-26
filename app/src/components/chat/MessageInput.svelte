@@ -1,6 +1,7 @@
 <script lang="ts">
     export let value: string;
     export let sendMessage: () => void;
+    export let files: File[] = []
 
     function keyPressed(key: KeyboardEvent) {
         if (key.key === "Enter") {
@@ -9,15 +10,30 @@
         }
     }
 
-    let files: FileList
+    function deleteFromFileList(filename: string) {
+        files = files.filter((f) => f.name !== filename)
+    }
+ 
+    async function convert() {
+        await new Promise(r => setTimeout(r, 100));
+        if (_files) {
+            files = Array.from(_files)
+        }
+    }
+
+    let _files: FileList;
 </script>
 
-
 <div class="column">
-    <div class="row" style="outline: none;">
+    <div class="row" style="outline: none;min-height: 80px;">
         {#if files}
             {#each Array.from(files) as img}
-                <p>{img.name}</p>
+                <button
+                    on:click={() => deleteFromFileList(img.name)}
+                    class="imgSelected"
+                    style="background-image: url('{URL.createObjectURL(img)}');"
+                >
+                </button>
             {/each}
         {/if}
     </div>
@@ -26,7 +42,9 @@
             type="file"
             class="custom-file-input"
             accept="image/png, image/gif, image/jpeg"
-            bind:files
+            multiple
+            on:input={convert}
+            bind:files={_files}
         />
         <input bind:value on:keypress={keyPressed} />
         <button on:click={sendMessage} type="submit">
@@ -43,28 +61,32 @@
         width: 95%;
         height: 40px;
         display: flex;
+        background-color: transparent;
+    }
+
+    .row:last-of-type {
         outline: solid 1px var(--lightBorder);
         border-radius: 10px;
-        background-color: var(--background);
     }
-    
+
     .row {
         width: 100%;
+        background-color: #ffffff00;
+
         * {
             border-radius: 10px;
         }
 
         &:has(input:focus) {
             outline: solid 1px #acacac;
-            border-radius: 10px;
         }
 
         input:not(.custom-file-input) {
             width: 100%;
             height: 100%;
             border: none;
-            text-indent: 15px;
-            margin: 0;
+            text-indent: 8px;
+            margin: 0 0 0 10px;
             background-color: var(--background);
             outline: none;
             color: #fff;
@@ -75,12 +97,13 @@
             overflow-x: hidden;
             width: 40px;
             margin-left: 8px;
+            z-index: 99;
         }
 
         .custom-file-input::-webkit-file-upload-button {
             visibility: hidden;
-
         }
+        
         .custom-file-input::before {
             width: 30px;
             height: 26px;
@@ -90,14 +113,26 @@
             background: linear-gradient(top, #f9f9f9, #e3e3e3);
             border: 1px solid var(--lightBorder);
             border-radius: 5px;
-            background-image: url('/icons/image_add.svg');
+            background-image: url("/icons/image_add.svg");
             background-size: 16px;
             background-repeat: no-repeat;
             background-position: center;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            user-select: none;
             cursor: pointer;
+        }
+
+        .imgSelected {
+            width: 50px;
+            height: 50px;
+            border: solid 1px var(--lightBorder);
+            margin: 15px 6px;
+            border-radius: 10px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            &:hover {
+                border: solid 1px var(--dark-danger);
+            }
         }
 
         button {

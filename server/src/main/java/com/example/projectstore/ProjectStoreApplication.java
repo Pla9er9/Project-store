@@ -8,6 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -21,13 +22,12 @@ public class ProjectStoreApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws IOException {
         var path = new java.io.File(".").getCanonicalPath();
-        File dir = new File(path + "\\cdn\\avatars");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        dir = new File(path + "\\cdn\\projects");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        var dirs = List.of("avatars", "projects", "chatImages");
+        dirs.forEach(e -> {
+            File dir = new File(path + "\\cdn\\" + e);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import com.example.projectstore.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
@@ -11,13 +12,11 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.socket.config.annotation.*;
@@ -42,15 +41,22 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
+        registration.setMessageSizeLimit(2048 * 2048);
+        registration.setSendTimeLimit(2048 * 2048);
+        registration.setSendBufferSizeLimit(2048 * 2048);
+    }
+
+    @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.setInterceptors(new ChannelInterceptorAdapter() {
 
             @Override
-            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+            public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 MessageHeaders headers = message.getHeaders();
                 List<String> tokenList = accessor.getNativeHeader("Authorization");
-                String token = null;
+                String token;
                 if (tokenList == null || tokenList.size() < 1) {
                     return message;
                 } else {

@@ -101,6 +101,26 @@ public class FileService {
         }
     }
 
+    private byte[] readBytesFromFile(Path path) {
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public void saveNewChatImage(UUID id, String fileExtension, byte[] bytes) {
+        var fullFilename = id + "." + fileExtension;
+        File newFile = new File(this.cdnPath + "\\chatImages\\" + fullFilename);
+        try (FileOutputStream outputStream = new FileOutputStream(newFile)) {
+            outputStream.write(bytes);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public void uploadFileToProject(
             UUID projectId,
             String path,
@@ -367,5 +387,14 @@ public class FileService {
         if (f.exists()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
+    }
+
+    public byte[] getChatImage(String filename) {
+        var path = Path.of(this.cdnPath + "\\chatImages\\" + filename);
+        var exist = Files.exists(path);
+        if (!exist) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return readBytesFromFile(path);
     }
 }

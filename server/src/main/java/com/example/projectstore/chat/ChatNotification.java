@@ -13,7 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ChatNotification {
     private UUID id;
-    private String senderId;
-    private String recipientId;
+    private String recipientUsername;
+    private String senderUsername;
     private String content;
+    private String type;
 }
