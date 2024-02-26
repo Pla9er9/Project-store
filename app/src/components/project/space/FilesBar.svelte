@@ -45,7 +45,7 @@
         <File path={file} isDirectory={false} on:delete={onDelete} on:new={onNew}/>
     {/each}
     <button class="addBtn row" on:click={addNew}>
-        <img src="/icons/plus_bl.svg" alt="">
+        <img src="/icons/plus.svg" alt="">
     </button>
 </div>
 
@@ -70,8 +70,8 @@
     .addBtn {
         width: 50px;
         height: 50px;
-        background-color: var(--mainColor);
-        border: none;
+        background: inherit;
+        border: solid 1px #fff;
         border-radius: 100%;
         position: fixed;
         left: 235px;
@@ -81,7 +81,7 @@
         transition: box-shadow 150ms ease-in-out;
 
         &:hover {
-            box-shadow: 0 0 7px var(--mainColor);
+            border: solid 2px #fff;
         }
 
         img {

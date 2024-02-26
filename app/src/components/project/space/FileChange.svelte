@@ -3,6 +3,7 @@
     import { alertStore } from "$lib/stores/alertStore";
     import { spaceStore } from "$lib/stores/spaceStore";
     import { tokenStore } from "$lib/stores/tokenStore";
+    import { getNameByPath } from "$lib/utils/fileUtils";
     import { get } from "svelte/store";
 
     export let filepath: string;
@@ -56,7 +57,7 @@
 
 {#if content != orginal}
     <div class="fileChange row">
-        <p>{filepath}</p>
+        <p>{getNameByPath(filepath)}</p>
         <button on:click={saveChanges}>
             <img src="/icons/checkmark.svg" alt="" />
         </button>
@@ -81,6 +82,7 @@
             font-family: monospace;
             font-size: 12px;
             margin-right: auto;
+            overflow-x: auto;
         }
 
         button {
@@ -91,6 +93,7 @@
             cursor: pointer;
             margin: 0 1px;
             display: flex;
+            transition: 150ms ease-in-out;
 
             &:hover {
                 border-radius: 100%;
