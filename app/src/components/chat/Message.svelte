@@ -6,8 +6,6 @@
     export let username: string;
     let isMessageYours = message.senderUsername === username;
     let hover = false;
-    console.log(isMessageYours)
-    console.log(`${message.senderUsername} - ${username}`)
 </script>
 
 <div class="column">

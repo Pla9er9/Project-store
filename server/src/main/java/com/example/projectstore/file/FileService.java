@@ -38,7 +38,6 @@ public class FileService {
     public void init() {
         authService.setFileService(this);
     }
-
     {
         try {
             cdnPath = new java.io.File(".").getCanonicalPath() + "\\cdn";
@@ -84,7 +83,7 @@ public class FileService {
             if (f.isDirectory()) {
                 dirs.add(f.getName());
             } else {
-                if (!f.getName().equals("")) {
+                if (!f.getName().isEmpty()) {
                     files.add(f.getName());
                 }
             }
@@ -132,9 +131,6 @@ public class FileService {
         securityFilterNonExistingFile(projectId, path);
 
         try {
-            if (file.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
             String filename;
             if (!cutFirstFolder) {
                 filename = Objects.requireNonNull(file.getOriginalFilename());
@@ -234,6 +230,7 @@ public class FileService {
 
     public void uploadAvatar(MultipartFile file, String username) {
         var filename = file.getOriginalFilename();
+        assert filename != null;
         if (!filename.endsWith(".jpg") && !filename.endsWith(".png")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }

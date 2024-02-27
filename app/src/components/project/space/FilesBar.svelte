@@ -5,6 +5,9 @@
     import File from "./File.svelte";
     import BackBtn from "$components/BackBtn.svelte";
     import { goto } from "$app/navigation";
+    import { alertStore } from "$lib/stores/alertStore";
+    import { addNewByPath } from "$lib/utils/fileUtils";
+    import { spaceStore } from "$lib/stores/spaceStore";
 
 	async function back() {
 		const href = location.href
@@ -27,9 +30,33 @@
         }
     }
 
-    function addNew() {
+    async function addNew() {
         const filename = prompt("Enter filename")
-        if (files.filter(e => e === filename).length !== 0) {}
+        if (!filename) return
+
+        if (files.filter(e => e === filename).length !== 0) {
+            alertStore.update(a => {
+                a.color = "yellow"
+                a.message = "File already exist"
+                return a
+            })
+        }
+        const succes = await addNewByPath("", filename)
+        if (!succes) {
+            alertStore.update(a => {
+                a.color = "red"
+                a.message = "Could not create new file"
+                return a
+            })
+            return
+        }
+
+        files = [...files, filename]
+        spaceStore.update(s => {
+            s.loadedFiles.set(filename, "")
+            s.editedFiles.set(filename, "")
+            return s
+        })
     }
 </script>
 

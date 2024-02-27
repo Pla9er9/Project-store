@@ -15,7 +15,6 @@
         if (res?.ok) {
             response = res.body;
         }
-        console.log(res?.body);
     });
 </script>
 

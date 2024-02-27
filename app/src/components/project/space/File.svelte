@@ -4,11 +4,13 @@
     import { get } from "svelte/store";
     import { blur } from "svelte/transition";
     import {
+        addNewByPath,
         changeName,
         deleteByPath,
         getNameByPath,
     } from "$lib/utils/fileUtils";
     import { createEventDispatcher } from "svelte";
+    import { alertStore } from "$lib/stores/alertStore";
 
     export let path: string;
     export let isDirectory: boolean;
@@ -20,8 +22,6 @@
     let loaded = false;
     let expand = false;
     let menuOpened = false;
-
-    console.log(path)
 
     let count = 0;
     for (let i = 0; i < path.length; i++) if (path[i] === "/") count++;
@@ -50,7 +50,7 @@
     }
 
     function onNew(event: CustomEvent) {
-        menuOpened = false
+        menuOpened = false;
         if (event.detail.isDir) {
             directories = [...directories, event.detail.path];
         } else {
@@ -59,16 +59,15 @@
     }
 
     function onDelete(event: CustomEvent) {
-        console.log(event.detail.path)
-        console.log(files)
-        console.log(path)
-        menuOpened = false
+        menuOpened = false;
         if (event.detail.isDir) {
             directories = directories.filter(
-                (value) => path + "/" + value !== event.detail.path
+                (value) => path + "/" + value !== event.detail.path,
             );
         } else {
-            files = files.filter((value) => path + "/" + value !== event.detail.path);
+            files = files.filter(
+                (value) => path + "/" + value !== event.detail.path,
+            );
         }
     }
 
@@ -86,7 +85,7 @@
         const res = await fetch(
             `${PUBLIC_API_URL}/project/${
                 get(spaceStore).projectId
-            }/files?path=${path}`
+            }/files?path=${path}`,
         );
         const body = await res.json();
         if (body.folders !== undefined) {
@@ -100,20 +99,64 @@
     async function changeFilename() {
         const name = getNameByPath(path);
         const newName = prompt(`Enter new filename for - ${name}`);
-        if (!newName) return
-        
+        if (!newName) return;
+
         const changed = await changeName(newName, path);
         if (changed) {
             dispatch("delete", {
                 path: path,
                 isDir: isDirectory,
             });
-            path = newName
+            path = newName;
             dispatch("new", {
                 path: path,
                 isDir: isDirectory,
             });
         }
+    }
+
+    async function addNew() {
+        const filename = prompt("Enter filename");
+        if (!filename) return;
+
+        if (files.filter((e) => e === filename).length !== 0) {
+            alertStore.update((a) => {
+                a.color = "yellow";
+                a.message = "File already exist";
+                return a;
+            });
+        }
+        const succes = await addNewByPath("", path + "/" + filename);
+        if (!succes) {
+            alertStore.update((a) => {
+                a.color = "red";
+                a.message = "Could not create new file";
+                return a;
+            });
+            return;
+        }
+
+        files = [...files, filename];
+        spaceStore.update((s) => {
+            s.loadedFiles.set(filename, "");
+            s.editedFiles.set(filename, "");
+            return s;
+        });
+    }
+
+    function addNewDirectory() {
+        const dirname = prompt("Enter directory name");
+        if (!dirname) return;
+
+        if (directories.filter((e) => e === dirname).length !== 0) {
+            alertStore.update((a) => {
+                a.color = "yellow";
+                a.message = "Directory already exist";
+                return a;
+            });
+        }
+
+        directories = [...directories, dirname];
     }
 
     async function deleteFile() {
@@ -151,6 +194,10 @@
     </button>
     {#if menuOpened}
         <div class="row options" transition:blur={{ amount: 10 }}>
+            {#if isDirectory}
+                <button on:click={addNew}>New file</button>
+                <button on:click={addNewDirectory}>New Directory</button> <br />
+            {/if}
             <button on:click={changeFilename}>Rename</button>
             <button on:click={deleteFile}>Delete</button>
         </div>
@@ -219,8 +266,10 @@
     .options {
         border-bottom: solid 1px var(--lightBorder);
         border-radius: 5px;
+        overflow-x: auto;
 
         button {
+            min-width: 50%;
             justify-content: center;
             color: #fff;
             padding: 0;
