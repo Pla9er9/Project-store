@@ -39,21 +39,24 @@
             },
         });
         stompClient = Stomp.over(sock);
-        stompClient.connect({ headers: authHeaders }, onConnected, () =>
-            alert("Error"),
-            () => {
-                alertStore.update(a => {
-                    a.color = "red"
-                    a.message = "Connection with server closed"
-                    return a
-                })
+        stompClient.connect(
+            { headers: authHeaders },
+            onConnected,
+            () => alert("Error"),
+            (e) => {
+                console.log(e)
+                alertStore.update((a) => {
+                    a.color = "red";
+                    a.message = "Connection with server closed";
+                    return a;
+                });
             }
         );
 
         if (body) {
             body.style.overflow = "hidden";
         }
-        scrollDown()
+        scrollDown();
     });
 
     beforeNavigate(() => {
@@ -66,7 +69,7 @@
     function onConnected() {
         stompClient.subscribe(
             `/user/${username}/queue/messages`,
-            onMessageReceived,
+            onMessageReceived
         );
         stompClient.subscribe(`/user/public`, onMessageReceived);
     }
@@ -75,7 +78,7 @@
         var message = JSON.parse(payload.body);
         messages = [...messages, message];
         await new Promise((r) => setTimeout(r, 50));
-        scrollDown()
+        scrollDown();
     }
 
     async function sendMessage() {
@@ -90,9 +93,8 @@
                 content: messageContent,
             };
             stompClient.send(`/app/chat`, {}, JSON.stringify(chatMessage));
-            messages = [...messages, chatMessage];
             await new Promise((r) => setTimeout(r, 50));
-            scrollDown()
+            scrollDown();
         }
         message = "";
         files = [];
@@ -133,11 +135,8 @@
                 stompClient.send(
                     `/app/chat/img`,
                     {},
-                    JSON.stringify(chatImage),
+                    JSON.stringify(chatImage)
                 );
-                messages = [...messages, chatImage];
-                await new Promise((r) => setTimeout(r, 50));
-                scrollDown()
             }
         });
     }
