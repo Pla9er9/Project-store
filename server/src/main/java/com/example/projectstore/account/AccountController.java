@@ -101,6 +101,11 @@ public class AccountController {
         return projectService.getLastProjects(authentication.getName());
     }
 
+    @GetMapping("account/notifications")
+    public void getNotifications() {
+        
+    }
+
     @DeleteMapping("account/loggedInDevices/{deviceId}")
     public void logoutDevice(
             @PathVariable UUID deviceId,
