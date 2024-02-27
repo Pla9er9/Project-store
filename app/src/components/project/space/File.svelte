@@ -138,8 +138,8 @@
 
         files = [...files, filename];
         spaceStore.update((s) => {
-            s.loadedFiles.set(filename, "");
-            s.editedFiles.set(filename, "");
+            s.loadedFiles.set(path + "/" + filename, "");
+            s.editedFiles.set(path + "/" + filename, "");
             return s;
         });
     }
