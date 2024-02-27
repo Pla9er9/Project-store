@@ -53,8 +53,8 @@ public class ChatController {
                 "/queue/messages",
                 new ChatNotification(
                         savedMsg.getId(),
-                        savedMsg.getSenderUsername(),
                         savedMsg.getRecipientUsername(),
+                        savedMsg.getSenderUsername(),
                         savedMsg.getContent(),
                         "text"
                 )
@@ -62,7 +62,7 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/img")
-    public void processImageMessage(
+    public ChatMessage processImageMessage(
             @Payload ChatImage chatImage
     ) {
         var allowedExtensions = List.of("png", "gif", "jpg");
@@ -96,5 +96,7 @@ public class ChatController {
                         "image"
                 )
         );
+
+        return chatMessage;
     }
 }

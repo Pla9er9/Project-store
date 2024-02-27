@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -42,9 +41,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-        registration.setMessageSizeLimit(2048 * 2048);
-        registration.setSendTimeLimit(2048 * 2048);
-        registration.setSendBufferSizeLimit(2048 * 2048);
+        registration.setMessageSizeLimit(102400* 1024);
+        registration.setSendBufferSizeLimit(1024 * 1024);
+        registration.setSendTimeLimit(20000);
     }
 
     @Override
@@ -54,10 +53,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             @Override
             public Message<?> preSend(@NotNull Message<?> message, @NotNull MessageChannel channel) {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
-                MessageHeaders headers = message.getHeaders();
                 List<String> tokenList = accessor.getNativeHeader("Authorization");
                 String token;
-                if (tokenList == null || tokenList.size() < 1) {
+                if (tokenList == null || tokenList.isEmpty()) {
                     return message;
                 } else {
                     token = tokenList.get(0);

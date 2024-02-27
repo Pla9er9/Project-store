@@ -10,6 +10,7 @@
     import ChatList from "$components/home/ChatList.svelte";
     import Avatar from "$components/Avatar.svelte";
     import { getNameByPath } from "$lib/utils/fileUtils.js";
+    import { alertStore } from "$lib/stores/alertStore.js";
 
     let stompClient: CompatClient;
     let username: string;
@@ -39,16 +40,20 @@
         });
         stompClient = Stomp.over(sock);
         stompClient.connect({ headers: authHeaders }, onConnected, () =>
-            alert("Error")
+            alert("Error"),
+            () => {
+                alertStore.update(a => {
+                    a.color = "red"
+                    a.message = "Connection with server closed"
+                    return a
+                })
+            }
         );
 
         if (body) {
             body.style.overflow = "hidden";
         }
-        const messagesDiv = document.querySelector(".main");
-        if (messagesDiv) {
-            messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
-        }
+        scrollDown()
     });
 
     beforeNavigate(() => {
@@ -61,7 +66,7 @@
     function onConnected() {
         stompClient.subscribe(
             `/user/${username}/queue/messages`,
-            onMessageReceived
+            onMessageReceived,
         );
         stompClient.subscribe(`/user/public`, onMessageReceived);
     }
@@ -70,10 +75,7 @@
         var message = JSON.parse(payload.body);
         messages = [...messages, message];
         await new Promise((r) => setTimeout(r, 50));
-        const messagesDiv = document.querySelector(".main");
-        if (messagesDiv) {
-            messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
-        }
+        scrollDown()
     }
 
     async function sendMessage() {
@@ -90,10 +92,7 @@
             stompClient.send(`/app/chat`, {}, JSON.stringify(chatMessage));
             messages = [...messages, chatMessage];
             await new Promise((r) => setTimeout(r, 50));
-            const messagesDiv = document.querySelector(".main");
-            if (messagesDiv) {
-                messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
-            }
+            scrollDown()
         }
         message = "";
         files = [];
@@ -134,16 +133,20 @@
                 stompClient.send(
                     `/app/chat/img`,
                     {},
-                    JSON.stringify(chatImage)
+                    JSON.stringify(chatImage),
                 );
                 messages = [...messages, chatImage];
                 await new Promise((r) => setTimeout(r, 50));
-                const messagesDiv = document.querySelector(".main");
-                if (messagesDiv) {
-                    messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
-                }
+                scrollDown()
             }
         });
+    }
+
+    function scrollDown() {
+        const messagesDiv = document.querySelector(".messages");
+        if (messagesDiv) {
+            messagesDiv.scrollTo(0, messagesDiv.scrollHeight);
+        }
     }
 
     if (data.messages != undefined) {
@@ -162,11 +165,7 @@
     <div class="chat column">
         <div class="messages">
             <div id="uInfo" class="column">
-                <Avatar
-                    username={data.username}
-                    margin="0"
-                    size="85px"
-                />
+                <Avatar username={data.username} margin="0" size="85px" />
                 <a href="/{data.username}">
                     <p>{data.username}</p>
                 </a>
