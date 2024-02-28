@@ -4,7 +4,10 @@ import { spaceStore } from "$lib/stores/spaceStore";
 import { tokenStore } from "$lib/stores/tokenStore";
 import { get } from "svelte/store";
 
-export async function addNewByPath(content: string, newPath: string): Promise<boolean> {
+export async function addNewByPath(
+    content: string,
+    newPath: string
+): Promise<boolean> {
     const filename = getNameByPath(newPath);
     const formData = new FormData();
     const blob = new Blob([content], { type: "text/plain" });
@@ -35,10 +38,13 @@ export async function addNewByPath(content: string, newPath: string): Promise<bo
         s.loadedFiles.set(newPath, content);
         return s;
     });
-    return true
+    return true;
 }
 
-export async function changeName(newName: string, path: string): Promise<boolean> {
+export async function changeName(
+    newName: string,
+    path: string
+): Promise<boolean> {
     const name = getNameByPath(path);
     if (!newName) return false;
 
@@ -66,13 +72,13 @@ export async function changeName(newName: string, path: string): Promise<boolean
 
     let succes = deleteByPath(path);
     if (!succes) {
-        return false
+        return false;
     }
     succes = addNewByPath(content, newPath);
     if (!succes) {
-        return false
+        return false;
     }
-    return true
+    return true;
 }
 
 export async function deleteByPath(path: string): Promise<boolean> {
@@ -89,7 +95,7 @@ export async function deleteByPath(path: string): Promise<boolean> {
             a.message = "Could not delete file";
             return a;
         });
-        return false
+        return false;
     }
 
     spaceStore.update((s) => {
@@ -100,7 +106,7 @@ export async function deleteByPath(path: string): Promise<boolean> {
         s.loadedFiles.delete(path);
         return s;
     });
-    return true
+    return true;
 }
 
 export function getNameByPath(path: string): string {
@@ -124,16 +130,34 @@ export function fileExistAlert() {
 }
 
 function getProjectId(): string {
-    const projectIdFromSpaceStore = get(spaceStore).projectId
-    if (projectIdFromSpaceStore !== "") {
-        return projectIdFromSpaceStore
-    } else {
-        if (!window) {
-            console.log("Get project id used without correct route")
-            return ""
+    const errorText = "Get project id used without correct route";
+    let idFromUrl: string | null = null;
+
+    if (window) {
+        if (location.href.length < 66) {
+            console.log(errorText);
+            return "";
         }
-        const p = "project"
-        const i = location.href.indexOf(p) + p.length
-        return location.href.slice(i + 1, i + 37)
+        const p = "project";
+        const i = location.href.indexOf(p) + p.length;
+        idFromUrl = location.href.slice(i + 1, i + 37);
+    }
+    const idFromSpace = get(spaceStore).projectId;
+
+    if (idFromSpace !== "") {
+        if (idFromUrl && idFromUrl === idFromSpace) {
+            return idFromSpace;
+        } else if (idFromUrl) {
+            return idFromUrl;
+        }
+        console.log("Get project id used without correct route");
+        return "";
+    } else {
+        if (!idFromUrl) {
+            console.log("Get project id used without correct route");
+            return "";
+        } else {
+            return idFromUrl;
+        }
     }
 }
