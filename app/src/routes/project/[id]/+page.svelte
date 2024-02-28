@@ -9,22 +9,39 @@
     import LanguageBar from "$components/project/LanguageBar.svelte";
     import LinkButtons from "$components/project/LinkButtons.svelte";
     import Release from "$components/project/Release.svelte";
+    import LoadingIndicator from "$components/LoadingIndicator.svelte";
     import Settings from "$components/project/Settings.svelte";
     import Stats from "$components/project/Stats.svelte";
     import SwitchButton from "$components/project/SwitchButton.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
     import type { ProjectDTO } from "$lib/models/project/ProjectDTO.js";
+    import { onMount } from "svelte";
 
     const info: ProjectDTO = data.data.info;
-    const files = data.data.files;
+    let files: File[] | null = null;
 
     let switchValue = "Code";
-
     let invitationsSwitchText = "Invitations";
-    const invitations = data.data.invitations;
-    if (invitations !== undefined) {
-        invitationsSwitchText += ` (${invitations.length})`;
+
+    async function loadCode() {
+        const req = await fetch(
+            PUBLIC_API_URL + "/project/" + data.slug + "/files",
+        );
+
+        if (req.status == 404) {
+            return {
+                files: [],
+                folders: [],
+            };
+        }
+
+        if (!req.ok) {
+            files = [];
+        }
+        files = await req.json();
     }
+
+    onMount(async () => await loadCode());
 </script>
 
 <svelte:head>
@@ -32,7 +49,10 @@
 </svelte:head>
 
 <main>
-    <div class="row" style="justify-content: space-between; height: max-content;margin-top: 40px;">
+    <div
+        class="row"
+        style="justify-content: space-between; height: max-content;margin-top: 40px;"
+    >
         <div class="column">
             <h1>{info.name}</h1>
             <p>{info.description}</p>
@@ -67,11 +87,17 @@
         bind:currentValue={switchValue}
     />
     {#if switchValue === "Code"}
-        <DirectoryView data={files} slug={data.slug} />
+        {#if !files}
+            <div style="max-width: 1000px; width: 90%;display: flex">
+                <LoadingIndicator size="30px" margin="30px auto"/>
+            </div>
+        {:else}
+            <DirectoryView data={files} slug={data.slug} />
+        {/if}
     {:else if switchValue === "Readme"}
-        <Readme html={data.data.readme} />
+        <Readme readme={data.data.readme} />
     {:else if switchValue === invitationsSwitchText}
-        <Invitations {invitations} projectId={data.slug} />
+        <Invitations projectId={data.slug} />
     {:else if switchValue === "Space"}
         <span>{goto(`${document.URL}/space`)}</span>
     {:else if switchValue === "Release"}

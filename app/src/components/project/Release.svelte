@@ -93,8 +93,6 @@
             margin-left: 50px;
 
             p {
-                width: 45%;
-                background-color: red;
                 text-align: center;
                 overflow-x: auto;
             }

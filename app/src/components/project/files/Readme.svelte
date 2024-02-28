@@ -1,15 +1,14 @@
 <script lang="ts">
-	export let html: string;
-	const isEmpty = html.trim() === '';
+	export let readme: string;
 </script>
 
-{#if !isEmpty}
+{#if !(readme.trim() === "")}
 	<div id="readme">
-		{@html html}
+		{@html readme}
 	</div>
 {:else}
 	<div style="display:flex;flex-direction:column;align-items:center">
-		<img src="/icons/astronaut.svg" alt="">
+		<img src="/icons/astronaut.svg" alt="" />
 		<p>This project does not <br /> contains readme</p>
 	</div>
 {/if}
