@@ -4,6 +4,7 @@ import com.example.projectstore.account.AccountDto;
 import com.example.projectstore.application.accessToken.AccessTokenRepository;
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
@@ -41,6 +43,7 @@ public class ApplicationService {
         var randomString = generateRandomString();
         var encrypted = aesUtil.encrypt(randomString);
         if (encrypted.equals(randomString)) {
+            log.info("Could not encrypt string with aes_utils");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -96,6 +99,7 @@ public class ApplicationService {
         var randomString = generateRandomString();
         var encrypted = aesUtil.encrypt(randomString);
         if (encrypted.equals(randomString)) {
+            log.info("Could not encrypt string with aes_utils");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -121,6 +125,7 @@ public class ApplicationService {
         var appEncryptedSecret = token.getApplication().getSecret();
         var decrypted = aesUtil.decrypt(appEncryptedSecret);
         if (decrypted.equals(appEncryptedSecret)) {
+            log.info("Could not decrypt string with aes_utils");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

@@ -55,7 +55,7 @@ public class ReleaseService {
                     Files.readAllBytes(latestReleasePath)
             );
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -82,7 +82,7 @@ public class ReleaseService {
             project.setLatestReleaseVersion(version);
             projectRepository.save(project);
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,7 +103,7 @@ public class ReleaseService {
                 }
             }
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

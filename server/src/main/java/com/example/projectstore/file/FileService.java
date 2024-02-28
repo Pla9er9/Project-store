@@ -38,6 +38,7 @@ public class FileService {
     public void init() {
         authService.setFileService(this);
     }
+
     {
         try {
             cdnPath = new java.io.File(".").getCanonicalPath() + "\\cdn";
@@ -45,7 +46,7 @@ public class FileService {
                 Files.createDirectories(Path.of(cdnPath));
             }
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -95,7 +96,7 @@ public class FileService {
         try {
             return Files.readString(path);
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -182,7 +183,7 @@ public class FileService {
                 con.setRequestMethod("GET");
             }
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -223,7 +224,7 @@ public class FileService {
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -249,7 +250,7 @@ public class FileService {
             out.close();
 
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -273,7 +274,7 @@ public class FileService {
             }
             Files.deleteIfExists(avatarPath);
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -284,7 +285,7 @@ public class FileService {
         try {
             Files.createDirectory(p);
         } catch (IOException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

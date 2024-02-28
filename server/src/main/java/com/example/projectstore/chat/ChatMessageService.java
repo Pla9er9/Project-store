@@ -24,7 +24,7 @@ public class ChatMessageService {
                 chatMessage.getSenderUsername(),
                 chatMessage.getRecipientUsername(),
                 true
-        ).orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+        ).get();
         chatMessage.setChatId(chatId);
         return repository.save(chatMessage);
     }
