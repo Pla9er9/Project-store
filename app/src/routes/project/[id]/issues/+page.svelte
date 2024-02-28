@@ -2,6 +2,7 @@
 	import CheckBox from "$components/forms/CheckBox.svelte";
 	import IssueRow from "$components/project/issues/IssueRow.svelte";
 	import NewIssueForm from "$components/project/issues/NewIssueForm.svelte";
+	import BackBtn from "$components/BackBtn.svelte"
 	import type { IssueDtoSimple } from "$lib/models/issue/IssueDtoSimple.js";
 
 	export let data;
@@ -49,7 +50,8 @@
 	{/if}
 	<div class="issues">
 		<div class="topbar">
-			<p>Issues ({data.data.length})</p>
+			<BackBtn callback={() => location.replace(location.href.replace("issues", ""))} />
+			<p>{data.project_data?.name} issues ({data.data.length})</p>
 			<CheckBox
 				label="Show closed"
 				marginLeft="15px"

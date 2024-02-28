@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import Avatar from "$components/Avatar.svelte";
+    import BackBtn from "$components/BackBtn.svelte";
     import CommentInput from "$components/project/issues/CommentInput.svelte";
     import IssueComment from "$components/project/issues/IssueComment.svelte";
     import fetchHttp from "$lib/fetchHttp.js";
@@ -31,7 +33,11 @@
 </script>
 
 <main>
-    <div class="row" style="margin-bottom: 10px;">
+    <div class="row" style="margin-bottom: 15px;">
+        <BackBtn
+            callback={async () =>
+                await goto(`/project/${data.project_data?.id}/issues`)}
+        />
         <h1>{issue.title}</h1>
         {#if issue.open}
             <button id="closeIssueBtn" on:click={closeIssue}>Close issue</button
@@ -39,18 +45,13 @@
         {/if}
     </div>
     <div class="stats row">
-        <Avatar
-            margin="0 12px 0 0"
-            username={issue.createdBy.username}
-            size="22px"
-        />
+        <Avatar margin="0" username={issue.createdBy.username} size="22px" />
         <a href="/{issue.createdBy.username}">{issue.createdBy.username}</a>
         <div class="circle {issue.open ? 'open' : 'closed'}" />
         <p>{issue.open ? "Open" : "Closed"}</p>
-        <svg
-            style="margin: 0 10px 0 15px;"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+        <img src="/icons/project.svg" alt="" />
+        <p>{data.project_data?.name}</p>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
             ><path
                 fill="var(--mainColor)"
                 d="M12 14q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm-4 0q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm8 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14Zm-4 4q-.425 0-.713-.288T11 17q0-.425.288-.713T12 16q.425 0 .713.288T13 17q0 .425-.288.713T12 18Zm-4 0q-.425 0-.713-.288T7 17q0-.425.288-.713T8 16q.425 0 .713.288T9 17q0 .425-.288.713T8 18Zm8 0q-.425 0-.713-.288T15 17q0-.425.288-.713T16 16q.425 0 .713.288T17 17q0 .425-.288.713T16 18ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10Z"
@@ -58,7 +59,7 @@
         >
         <p>{issue.created.slice(0, 10)}</p>
     </div>
-    <p style="margin-bottom: 40px;font-family: sans-serif">
+    <p style="margin: 20px 0 40px 0; font-family: sans-serif">
         {issue.description}
     </p>
     {#each issue.comments as comment}
@@ -85,12 +86,13 @@
             cursor: pointer;
         }
 
-        a {
+        a,
+        p {
             color: #fff;
             font-family: "Fira sans";
             transition: 150ms ease-in-out;
             font-size: 15px;
-            margin-right: 15px;
+            margin: 15px;
 
             &:hover {
                 color: var(--mainColor);
@@ -99,14 +101,14 @@
 
         h1 {
             margin: 0;
-            margin-top: 20px;
             width: 60%;
             max-width: 500px;
             word-break: break-all;
         }
 
         .stats {
-            svg {
+            svg,
+            img {
                 width: 22px;
                 height: 22px;
             }
@@ -114,7 +116,6 @@
             .circle {
                 width: 15px;
                 height: 15px;
-                margin: 0 15px 0 2px;
                 border-radius: 50%;
             }
 

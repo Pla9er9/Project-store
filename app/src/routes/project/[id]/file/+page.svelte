@@ -66,7 +66,7 @@
 
 <main class="column">
     <div class="row">
-        <a href=".">..</a>
+        <a href=".">{data.project_data.name}</a>
         {#each folderStructure as folder, i (i)}
             <img src="/icons/arrow_right.svg" alt="" />
             <a

@@ -17,7 +17,7 @@
     import type { ProjectDTO } from "$lib/models/project/ProjectDTO.js";
     import { onMount } from "svelte";
 
-    const info: ProjectDTO = data.data.info;
+    const info: ProjectDTO = data.project_data;
     let files: File[] | null = null;
 
     let switchValue = "Code";
@@ -25,7 +25,7 @@
 
     async function loadCode() {
         const req = await fetch(
-            PUBLIC_API_URL + "/project/" + data.slug + "/files",
+            PUBLIC_API_URL + "/project/" + data.slug + "/files"
         );
 
         if (req.status == 404) {
@@ -45,7 +45,7 @@
 </script>
 
 <svelte:head>
-    <title>{data.data.info.name}</title>
+    <title>{info.name}</title>
 </svelte:head>
 
 <main>
@@ -53,7 +53,7 @@
         class="row"
         style="justify-content: space-between; height: max-content;margin-top: 40px;"
     >
-        <div class="column">
+        <div class="column" style="align-items: flex-start;">
             <h1>{info.name}</h1>
             <p>{info.description}</p>
         </div>
@@ -89,13 +89,13 @@
     {#if switchValue === "Code"}
         {#if !files}
             <div style="max-width: 1000px; width: 90%;display: flex">
-                <LoadingIndicator size="30px" margin="30px auto"/>
+                <LoadingIndicator size="30px" margin="30px auto" />
             </div>
         {:else}
             <DirectoryView data={files} slug={data.slug} />
         {/if}
     {:else if switchValue === "Readme"}
-        <Readme readme={data.data.readme} />
+        <Readme readme={data.readme} />
     {:else if switchValue === invitationsSwitchText}
         <Invitations projectId={data.slug} />
     {:else if switchValue === "Space"}
