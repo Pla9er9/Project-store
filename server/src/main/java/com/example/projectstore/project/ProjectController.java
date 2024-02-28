@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -148,11 +147,10 @@ public class ProjectController {
     public ResponseEntity<String> uploadFile(
             @PathVariable UUID id,
             @RequestParam(required = false, defaultValue = "") String path,
-            @RequestParam(name = "cf", required = false, defaultValue = "false") boolean cutFirstFolderInPath,
             @RequestParam("file") MultipartFile file,
             Authentication authentication
     ) {
-        fileService.uploadFileToProject(id, path, file, authentication, cutFirstFolderInPath);
+        fileService.uploadFileToProject(id, path, file, authentication);
         return ResponseEntity.ok("");
     }
 

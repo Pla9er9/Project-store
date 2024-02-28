@@ -62,7 +62,7 @@
                 formData.append("file", v);
 
                 const res = await fetchHttp(
-                    `project/${projectId}/files?path=${path}&cf=true`,
+                    `project/${projectId}/files?path=${path}`,
                     {
                         method: "POST",
                         noContentType: true,

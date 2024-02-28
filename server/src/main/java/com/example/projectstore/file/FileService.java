@@ -16,13 +16,13 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -69,9 +69,8 @@ public class FileService {
         File file = new File(this.cdnPath + "/projects/" + projectId + "/project.zip");
 
         if (!file.exists()) {
-            URL url = new URL("http://127.0.0.1:1717/zip-project/" + projectId);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            file.delete();
+            zipProject(projectId);
         }
         return Files.readAllBytes(file.toPath());
     }
@@ -116,7 +115,7 @@ public class FileService {
         try (FileOutputStream outputStream = new FileOutputStream(newFile)) {
             outputStream.write(bytes);
         } catch (Exception e) {
-            log.info(e.getMessage());
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -125,22 +124,12 @@ public class FileService {
             UUID projectId,
             String path,
             MultipartFile file,
-            Authentication authentication,
-            boolean cutFirstFolder
+            Authentication authentication
     ) {
         authService.creatorAuthGate(projectId, authentication);
         securityFilterNonExistingFile(projectId, path);
 
         try {
-            String filename;
-            if (!cutFirstFolder) {
-                filename = Objects.requireNonNull(file.getOriginalFilename());
-            } else {
-                var originalName = Objects.requireNonNull(file.getOriginalFilename());
-                var separatorIndex = originalName.indexOf("/", 1);
-                filename = originalName.substring(separatorIndex + 1);
-            }
-
             var destinationFile = Paths.get(this.cdnPath + path);
 
             var correctPath = String.valueOf(destinationFile).replace("cdn", ("cdn\\projects\\" + projectId + "\\code\\"));
@@ -178,12 +167,69 @@ public class FileService {
                 projectRepository.updateNumberOfFiles(_project.getId(), 1);
                 projectRepository.updateCodeSize(_project.getId(), file.getSize());
 
-                URL url = new URL("http://127.0.0.1:1717/zip-project/" + _project.getId());
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
+                deleteZippedProject(projectId);
             }
         } catch (IOException e) {
             log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public void zipProject(UUID projectId) {
+        var codePath = this.cdnPath + "\\projects\\" + projectId + "\\code\\";
+        var outputPath = this.cdnPath + "\\projects\\" + projectId + "\\project.zip";
+
+        try {
+            var file = Files.createFile(Paths.get(outputPath));
+            FileOutputStream fos = new FileOutputStream(file.toFile());
+            ZipOutputStream zipOut = new ZipOutputStream(fos);
+
+            File fileToZip = new File(codePath);
+            zipFile(fileToZip, fileToZip.getName(), zipOut);
+            zipOut.close();
+            fos.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
+        if (fileToZip.isHidden()) {
+            return;
+        }
+        if (fileToZip.isDirectory()) {
+            if (fileName.endsWith("/")) {
+                zipOut.putNextEntry(new ZipEntry(fileName));
+                zipOut.closeEntry();
+            } else {
+                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
+                zipOut.closeEntry();
+            }
+            File[] children = fileToZip.listFiles();
+            assert children != null;
+            for (File childFile : children) {
+                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+            }
+            return;
+        }
+        FileInputStream fis = new FileInputStream(fileToZip);
+        ZipEntry zipEntry = new ZipEntry(fileName);
+        zipOut.putNextEntry(zipEntry);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+            zipOut.write(bytes, 0, length);
+        }
+        fis.close();
+    }
+
+    public void deleteZippedProject(UUID projectId) {
+        var file = new File(this.cdnPath + "\\projects\\" + projectId + "\\project.zip");
+        var success = file.delete();
+        if (!success) {
+            log.error("Could not delete zip file");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
