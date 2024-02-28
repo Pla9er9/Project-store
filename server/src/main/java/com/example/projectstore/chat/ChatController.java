@@ -48,16 +48,25 @@ public class ChatController {
         chatMessage.setSendDateTime(LocalDateTime.now());
         ChatMessage savedMsg = chatMessageService.saveMessage(chatMessage);
 
+        var notification = new ChatNotification(
+                savedMsg.getId(),
+                savedMsg.getRecipientUsername(),
+                savedMsg.getSenderUsername(),
+                savedMsg.getContent(),
+                "text",
+                savedMsg.getSendDateTime()
+        );
+
         messagingTemplate.convertAndSendToUser(
                 chatMessage.getRecipientUsername(),
                 "/queue/messages",
-                new ChatNotification(
-                        savedMsg.getId(),
-                        savedMsg.getRecipientUsername(),
-                        savedMsg.getSenderUsername(),
-                        savedMsg.getContent(),
-                        "text"
-                )
+                notification
+        );
+
+        messagingTemplate.convertAndSendToUser(
+                chatMessage.getSenderUsername(),
+                "/queue/messages",
+                notification
         );
     }
 
@@ -85,16 +94,25 @@ public class ChatController {
         );
         ChatMessage savedMsg = chatMessageService.saveMessage(chatMessage);
 
+        var notification = new ChatNotification(
+                savedMsg.getId(),
+                savedMsg.getRecipientUsername(),
+                savedMsg.getSenderUsername(),
+                savedMsg.getContent(),
+                "image",
+                savedMsg.getSendDateTime()
+        );
+
+        messagingTemplate.convertAndSendToUser(
+                chatMessage.getSenderUsername(),
+                "/queue/messages",
+                notification
+        );
+
         messagingTemplate.convertAndSendToUser(
                 chatMessage.getRecipientUsername(),
                 "/queue/messages",
-                new ChatNotification(
-                        savedMsg.getId(),
-                        savedMsg.getRecipientUsername(),
-                        savedMsg.getSenderUsername(),
-                        savedMsg.getContent(),
-                        "image"
-                )
+                notification
         );
 
         return chatMessage;

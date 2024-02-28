@@ -56,10 +56,7 @@
                 ? "margin-left: auto;"
                 : "margin-right: auto;"}
         >
-            {message.sendDateTime.slice(11, 16)} - {message.sendDateTime.slice(
-                0,
-                10
-            )}
+            {message.sendDateTime}
         </p>
     {/if}
 </div>
