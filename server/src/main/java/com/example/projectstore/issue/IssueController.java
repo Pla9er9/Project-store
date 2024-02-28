@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -23,7 +24,7 @@ public class IssueController {
     @PostMapping("comment")
     public IssueCommentDto addComent(
             @PathVariable UUID id,
-            @RequestBody NewIssueCommentRequest issueComment,
+            @Valid @RequestBody NewIssueCommentRequest issueComment,
             Authentication authentication
     ) {
         return issueService.addComment(issueComment, id, authentication);

@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class AccountController {
 
     @PutMapping("account")
     public void editAccount(
-            @RequestBody AccountDto request,
+            @Valid @RequestBody AccountDto request,
             Authentication authentication) {
         userService.editAccount(request, authentication);
     }
@@ -62,7 +63,7 @@ public class AccountController {
     @PutMapping("account/change-password")
     public void changePassword(
             Authentication authentication,
-            @RequestBody ResetPasswordRequest request) {
+            @Valid @RequestBody ResetPasswordRequest request) {
         userService.changePassword(authentication, request.getPassword());
     }
 
@@ -103,7 +104,7 @@ public class AccountController {
 
     @GetMapping("account/notifications")
     public void getNotifications() {
-        
+
     }
 
     @DeleteMapping("account/loggedInDevices/{deviceId}")

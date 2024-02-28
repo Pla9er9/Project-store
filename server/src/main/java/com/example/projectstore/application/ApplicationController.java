@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class ApplicationController {
     }
 
     @PostMapping
-    public void createNewApplication(@RequestBody NewApplicationRequest request, Authentication authentication) {
+    public void createNewApplication(@Valid @RequestBody NewApplicationRequest request, Authentication authentication) {
         applicationService.createNewApplication(request, authentication.getName());
     }
 

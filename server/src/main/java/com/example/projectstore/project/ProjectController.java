@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -71,7 +72,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<String> createProject(
-            @RequestBody CreateProjectRequest request,
+            @Valid @RequestBody CreateProjectRequest request,
             Authentication authentication
     ) {
         return ResponseEntity.ok(projectService.createProject(
@@ -81,7 +82,7 @@ public class ProjectController {
     @PutMapping("/{id}")
     public void editProject(
             @PathVariable UUID id,
-            @RequestBody EditProjectRequest request,
+            @Valid @RequestBody EditProjectRequest request,
             Authentication authentication
     ) {
         projectService.editProject(authentication, request, id);
@@ -122,7 +123,7 @@ public class ProjectController {
     @PostMapping("{id}/invitations")
     public InvitationDto sendInvitationToProject(
             @PathVariable UUID id,
-            @RequestBody NewInvitationRequest request,
+            @Valid @RequestBody NewInvitationRequest request,
             Authentication authentication
     ) {
         return invitationService.sendInvitation(id, request, authentication);
@@ -180,7 +181,7 @@ public class ProjectController {
     @PostMapping("{id}/issues")
     public void createIssue(
             @PathVariable UUID id,
-            @RequestBody NewIssueRequest newIssueRequest,
+            @Valid @RequestBody NewIssueRequest newIssueRequest,
             Authentication authentication
     ) {
         issueService.createIssue(id, newIssueRequest, authentication);

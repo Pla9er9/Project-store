@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void processMessage(
-            @Payload ChatMessage chatMessage
+            @Valid @Payload ChatMessage chatMessage
     ) {
         chatMessage.setType("text");
         chatMessage.setSendDateTime(LocalDateTime.now());
@@ -72,7 +73,7 @@ public class ChatController {
 
     @MessageMapping("/chat/img")
     public ChatMessage processImageMessage(
-            @Payload ChatImage chatImage
+            @Valid @Payload ChatImage chatImage
     ) {
         var allowedExtensions = List.of("png", "gif", "jpg");
         if (!allowedExtensions.contains(chatImage.getFileExtension())) {

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,8 +24,11 @@ public class ChatMessage {
     @GeneratedValue
     private UUID id;
     private String chatId;
+    @NotNull
     private String content;
+    @NotNull
     private String senderUsername;
+    @NotNull
     private String recipientUsername;
     @JsonFormat(pattern = "hh-mm - dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     @JsonSerialize
