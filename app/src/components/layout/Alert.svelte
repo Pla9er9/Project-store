@@ -38,7 +38,7 @@
 		max-width: 700px;
 		width: 95%;
 		height: 60px;
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
