@@ -1,9 +1,8 @@
-import { PUBLIC_API_URL } from '$env/static/public';
 import fetchHttp from '$lib/fetchHttp';
-import type { InvitationDto } from '$lib/models/invitation/InvitationDto.js';
 import type { ProjectDTO } from '$lib/models/project/ProjectDTO.js';
 import { redirect } from '@sveltejs/kit';
-import { compile } from 'mdsvex';
+import { compile } from "mdsvex";
+
 
 export async function load({ params, cookies }) {
 	async function loadData(): Promise<ProjectDTO | undefined> {
@@ -17,58 +16,32 @@ export async function load({ params, cookies }) {
 		}
 	}
 
-	async function loadCode() {
-		const req = await fetch(PUBLIC_API_URL + '/project/' + params.id + '/files');
+	async function loadReadme() {
+		const res = await fetchHttp(
+			`/project/${params.id}/files?path=readme.md`,
+			{},
+		);
 
-		if (req.status == 404) {
-			return {
-				files: [],
-				folders: []
-			};
+		if (res?.ok) {
+			return res.body
+		} else {
+			return ""
 		}
-
-		if (!req.ok) {
-			return {
-				slug: params.id,
-				data: undefined
-			};
-		}
-
-		const data = await req.json();
-		return data;
-	}
-
-	async function loadInvitations(): Promise<InvitationDto[] | undefined>  {
-		const token = cookies.get('jwtToken')
-		if (token === undefined) {
-			return undefined
-		}
-		const res = await fetchHttp(`/project/${params.id}/invitations`, {
-			token: token,
-			server: true,
-			redirecting: true
-		})
-		if (!res) {
-			return []
-		}
-		return res.body
 	}
 
 	const data = await loadData();
+	let readme = await loadReadme()
+	readme = await toMarkdown(readme);
+
 	if (!data) {
 		throw redirect(300, '404')
 	}
-	const files = await loadCode();
-	const invitations = await loadInvitations();
-	const readme = await toMarkdown(``);
 
 	return {
 		slug: params.id,
 		data: {
 			info: data,
-			files: files,
 			readme: readme,
-			invitations: invitations
 		}
 	};
 }

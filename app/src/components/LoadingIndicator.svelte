@@ -1,8 +1,9 @@
 <script>
     export let size = "50px"
+    export let margin = ""
 </script>
 
-<div class="spinner" style="width: {size};height: {size}"></div>
+<div class="spinner" style="width: {size};height: {size}; margin: {margin}"></div>
 
 <style lang="scss">
     .spinner {
