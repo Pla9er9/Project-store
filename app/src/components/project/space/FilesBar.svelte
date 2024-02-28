@@ -84,6 +84,7 @@
         box-sizing: border-box;
         border-right: solid 1px rgb(77, 77, 77);
         display: flex;
+        position: static;
         flex-direction: column;
         align-items: center;
         overflow: auto;
