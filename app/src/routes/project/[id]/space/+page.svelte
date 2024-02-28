@@ -8,6 +8,8 @@
     import { spaceStore, type Space } from "$lib/stores/spaceStore";
     import type { DirectoryResponse } from "$lib/models/file/DirectoryResponse";
     import ChangesBar from "$components/project/space/ChangesBar.svelte";
+    import { onMount } from "svelte";
+    import { beforeNavigate } from "$app/navigation";
 
     let space: Space | undefined = undefined;
     let currentFile: string | undefined = "";
@@ -35,9 +37,20 @@
         }
         return res;
     }
+
+    onMount(() => {
+        const body = document.querySelector("body");
+        if (body) body.style.overflowX = "auto";
+    });
+
+    beforeNavigate(() => {
+        const body = document.querySelector("body");
+        if (body) body.style.overflowX = "hidden";
+    })
+
 </script>
 
-<div>
+<main class="row">
     <FilesBar directories={data.folders} files={data.files} />
     <div id="file" class="column">
         {#if space !== undefined && space.currentFile != ""}
@@ -66,6 +79,7 @@
                 })}
                 styles={{
                     "&": {
+                        minWidth: "490px",
                         width: "calc(100vw - 568px)",
                         height: "calc(100vh - 105px)",
                         fontSize: "14px",
@@ -80,17 +94,13 @@
         {/if}
     </div>
     <ChangesBar />
-</div>
-
-<!-- 
-    Nowy plik
- -->
+</main>
 
 <style lang="scss">
-    div {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    main {
+        min-width: 1000px;
+        // background: blue;
+        min-height: 100vh;
 
         #file {
             width: 100%;
@@ -144,9 +154,9 @@
                 }
             }
         }
-    }
 
-    span {
-        font-size: 16px;
+        span {
+            font-size: 16px;
+        }
     }
 </style>
