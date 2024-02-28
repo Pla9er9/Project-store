@@ -6,7 +6,7 @@
 
 <div class="chatRow row">
     <Avatar {username} size="32px" />
-    <a href={username} class="userProfileLink">{username}</a>
+    <a href="/{username}" class="userProfileLink">{username}</a>
     <a href="/chat/{username}" class="chatLink">
         <img src="/icons/letter.svg" alt="" />
     </a>
