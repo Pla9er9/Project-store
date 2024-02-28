@@ -29,12 +29,6 @@ export async function load({ params, url }) {
 			copy = data;
 		}
 
-		// try {
-		// 	data = await res.json()
-		// } catch {
-		// 	data = await res.text();
-		// }
-
 		return {
 			slug: params.id,
 			data: copy
