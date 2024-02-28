@@ -10,9 +10,14 @@
     import ChangesBar from "$components/project/space/ChangesBar.svelte";
     import { onMount } from "svelte";
     import { beforeNavigate } from "$app/navigation";
+	import { page } from '$app/stores';
+    import { getProjectId } from "$lib/utils/fileUtils";
+    import fetchHttp from "$lib/fetchHttp";
+    import { alertStore } from "$lib/stores/alertStore";
 
     let space: Space | undefined = undefined;
     let currentFile: string | undefined = "";
+    const path = $page.url.searchParams.get("path")
 
     spaceStore.subscribe((value) => {
         space = value;
@@ -38,14 +43,40 @@
         return res;
     }
 
-    onMount(() => {
+    onMount(async () => {
         const body = document.querySelector("body");
         if (body) body.style.overflowX = "auto";
+        await loadFile()
     });
+
+    async function loadFile() {
+        if (!path) return
+
+        const res = await fetchHttp(`/project/${getProjectId()}/files?path=${path}`, {});
+        if (!res.ok) {
+            if (res.status !== 404) {
+                alertStore.update(a => {
+                    a.message = "Couldnt load file"
+                    a.color = "red"
+                    return a
+                })
+            }
+            return
+        };
+        if (res.body.folders) return
+        
+        spaceStore.update((v) => {
+            v.loadedFiles.set(path, res.body);
+            v.editedFiles.set(path, res.body);
+            v.currentFile = path
+            return v;
+        });
+    }
 
     beforeNavigate(() => {
         const body = document.querySelector("body");
         if (body) body.style.overflowX = "hidden";
+        $page.url.searchParams.delete("path")
     })
 
 </script>

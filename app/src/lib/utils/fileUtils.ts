@@ -129,7 +129,7 @@ export function fileExistAlert() {
     });
 }
 
-function getProjectId(): string {
+export function getProjectId(): string {
     const errorText = "Get project id used without correct route";
     let idFromUrl: string | null = null;
 

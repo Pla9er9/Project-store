@@ -25,7 +25,7 @@
 <style lang="scss">
     .code {
         margin: 0 auto;
-        width: 100%;
+        width: 90%;
         height: max-content;
         background-color: var(--background);
         border: solid 1px var(--lightBorder);

@@ -22,7 +22,7 @@ export default async function fetchHttp(
 		headers = {}
     }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): Promise<response | undefined> {
+): Promise<response> {
 	let auth = '';
 	let apiPrefix = '';
 	let stringBody = '';
@@ -70,7 +70,11 @@ export default async function fetchHttp(
 			throw redirect(300, 'login');
 		}
 		await goto('login');
-		return undefined;
+		return {
+			body: "",
+			status: res.status,
+			ok: false,
+		};
 	}
 	if (res.status === 500 || res.status === 400) {
 		if (showAlerts && !server) {
@@ -80,7 +84,11 @@ export default async function fetchHttp(
 				return alertStore;
 			});
 		}
-		return undefined;
+		return {
+			body: "",
+			status: res.status,
+			ok: false,
+		};
 	}
 
 	if (res.status === 404 && redirecting) {
@@ -88,7 +96,11 @@ export default async function fetchHttp(
 			throw redirect(306, '404');
 		} else {
 			await goto('404');
-			return undefined;
+			return {
+				body: "",
+				status: res.status,
+				ok: false,
+			};
 		}
 	}
 
