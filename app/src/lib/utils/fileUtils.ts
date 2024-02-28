@@ -12,7 +12,7 @@ export async function addNewByPath(content: string, newPath: string): Promise<bo
     formData.append("file", file);
 
     const res = await fetchHttp(
-        `/project/${get(spaceStore).projectId}/files?path=${newPath}`,
+        `/project/${getProjectId()}/files?path=${newPath}`,
         {
             method: "POST",
             token: get(tokenStore),
@@ -49,7 +49,7 @@ export async function changeName(newName: string, path: string): Promise<boolean
     const newPath = path.slice(0, path.length - name.length) + newName;
 
     const res = await fetchHttp(
-        `/project/${get(spaceStore).projectId}/files?path=${newPath}`,
+        `/project/${getProjectId()}/files?path=${newPath}`,
         {}
     );
 
@@ -77,7 +77,7 @@ export async function changeName(newName: string, path: string): Promise<boolean
 
 export async function deleteByPath(path: string): Promise<boolean> {
     const res = await fetchHttp(
-        `/project/${get(spaceStore).projectId}/files?path=${path}`,
+        `/project/${getProjectId()}/files?path=${path}`,
         {
             method: "DELETE",
             token: get(tokenStore),
@@ -121,4 +121,19 @@ export function fileExistAlert() {
         a.message = "This file already exist";
         return a;
     });
+}
+
+function getProjectId(): string {
+    const projectIdFromSpaceStore = get(spaceStore).projectId
+    if (projectIdFromSpaceStore !== "") {
+        return projectIdFromSpaceStore
+    } else {
+        if (!window) {
+            console.log("Get project id used without correct route")
+            return ""
+        }
+        const p = "project"
+        const i = location.href.indexOf(p) + p.length
+        return location.href.slice(i + 1, i + 37)
+    }
 }
