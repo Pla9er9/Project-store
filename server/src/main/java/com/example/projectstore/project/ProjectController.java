@@ -144,14 +144,13 @@ public class ProjectController {
     }
 
     @PostMapping("{id}/files")
-    public ResponseEntity<String> uploadFile(
+    public void uploadFile(
             @PathVariable UUID id,
             @RequestParam(required = false, defaultValue = "") String path,
             @RequestParam("file") MultipartFile file,
             Authentication authentication
     ) {
         fileService.uploadFileToProject(id, path, file, authentication);
-        return ResponseEntity.ok("");
     }
 
     @PutMapping("{id}/files")
