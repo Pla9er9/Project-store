@@ -342,7 +342,7 @@ public class FileService {
             MultipartFile file,
             Authentication authentication) {
 
-        authService.creatorAuthGate(projectId, authentication);
+        var project = authService.creatorAuthGate(projectId, authentication);
         var fullPath = securityFilter(projectId, path);
         Path p = Paths.get(fullPath);
 
@@ -353,6 +353,17 @@ public class FileService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, p, StandardCopyOption.REPLACE_EXISTING);
             }
+            var languages = new ArrayList<Language>();
+            for (Language lang : project.getLanguages()
+            ) {
+                if (lang.getFilesCount() > 0) {
+                    languages.add(lang);
+                }
+            }
+
+            project.setLanguages(languages);
+            projectRepository.save(project);
+            
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -380,16 +391,19 @@ public class FileService {
 
         var extension = FilenameUtils.getExtension(file.getName());
 
-        var langs = project.getLanguages();
-        for (Language lang : langs
+        var languages = new ArrayList<Language>();
+        for (Language lang : project.getLanguages()
         ) {
             if (lang.getName().equals(extension)) {
                 lang.setFilesCount(lang.getFilesCount() - 1);
                 break;
             }
+            if (lang.getFilesCount() > 0) {
+                languages.add(lang);
+            }
         }
 
-        project.setLanguages(langs);
+        project.setLanguages(languages);
         projectRepository.save(project);
         projectRepository.updateNumberOfFiles(project.getId(), -1);
     }
