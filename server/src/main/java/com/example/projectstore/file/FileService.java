@@ -144,7 +144,6 @@ public class FileService {
 
                 var extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-                log.info(file.getContentType());
                 if (Objects.requireNonNull(file.getContentType()).startsWith("text")) {
                     var updated = false;
                     var langs = _project.getLanguages();

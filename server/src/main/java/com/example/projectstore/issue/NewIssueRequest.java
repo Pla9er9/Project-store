@@ -8,8 +8,9 @@ import javax.validation.constraints.Size;
 @Data
 public class NewIssueRequest {
     @NotNull
-    @Size(min = 1, max = 60)
+    @Size(min = 1, max = 30)
     private String title;
     @NotNull
+    @Size(max = 3000)
     private String description;
 }

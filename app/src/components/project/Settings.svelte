@@ -52,7 +52,7 @@
 		<Input
 			placeholder="Project name"
 			validator={validators.validateProjectName}
-			maxlength={50}
+			maxlength={15}
 			bind:value={projectName}
 			bind:correct={projectNameValid}
 		>

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class NewApplicationRequest {
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 15)
     private String name;
     private boolean isCommercial;
     @NotEmpty

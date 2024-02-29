@@ -25,7 +25,7 @@ function validatePassword(password: string): string {
 function validateUsername(username: string): string {
 	username = username.trim();
 	const re = new RegExp('^[a-zA-Z0-9]*$');
-	if (username.length < 1 || username.length > 30) {
+	if (username.length < 1 || username.length > 15) {
 		return 'Length should be beetwen 1 and 30 characters';
 	}
 	if (!re.test(username)) {
@@ -37,7 +37,7 @@ function validateUsername(username: string): string {
 function validateName(name: string, prefix: string): string {
 	name = name.trim();
 	const re = new RegExp('^[a-zA-Z]+$');
-	if (name.length < 1 || name.length > 30) {
+	if (name.length < 1 || name.length > 15) {
 		return 'Length should be beetwen 1 and 30 characters';
 	}
 	if (!re.test(name)) {

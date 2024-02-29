@@ -69,7 +69,7 @@
 
 <div class="avatarName">
     <Avatar size={avatarSize} username={userdata.username} />
-    <div class="textData">
+    <div class="textData column">
         <h1>{userdata.username}</h1>
         <p>{name}</p>
         <div class="follows">
@@ -110,7 +110,8 @@
         .textData {
             margin-left: 30px;
             margin-right: 40px;
-
+            align-items: start;
+            
             h1 {
                 margin: 0;
                 color: #fff;
@@ -119,8 +120,8 @@
 
             p {
                 margin: 0;
-                margin-left: 1px;
                 font-family: "Fira sans";
+                font-size: 14px;
                 color: rgb(185, 185, 185);
             }
 
@@ -131,7 +132,6 @@
 
                 p {
                     margin-top: 4px;
-                    margin-left: -3px;
                     color: var(--mainColor);
                     font-size: 10px;
                 }
