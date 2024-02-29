@@ -12,17 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountDto {
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 15)
     private String username;
     @NotNull
     private String description;
     @NotNull
     @Email
     private String email;
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 15)
     @NotNull
     private String firstname;
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 15)
     @NotNull
     private String lastname;
     @NotNull

@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class SignInRequest {
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 15)
     private String username;
     @NotNull
     @Size(min = 8, max = 100)

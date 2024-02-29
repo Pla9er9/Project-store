@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Size;
+
 @Data
 @AllArgsConstructor
 public class NewReportRequest {
-    @Length(min = 1, max = 250)
+    @Size(min = 1, max = 60)
     private String title;
-    @Length(min = 1)
+    @Size(min = 1, max = 2500)
     private String description;
 }

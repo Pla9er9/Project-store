@@ -58,7 +58,7 @@
     <TextArea
         width="55%"
         height="300px"
-        maxlength={5000}
+        maxlength={3000}
         bind:value={description}
         placeholder="Description"
     />

@@ -8,9 +8,10 @@ import javax.validation.constraints.Size;
 @Data
 public class CreateProjectRequest {
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 15)
     private String name;
     @NotNull
+    @Size(max = 140)
     private String description;
     @NotNull
     private String license;

@@ -44,7 +44,7 @@
     <TextArea
         placeholder="Description"
         bind:value={description}
-        maxlength={100000}
+        maxlength={2500}
         width="90%"
         height="400px"
     />
