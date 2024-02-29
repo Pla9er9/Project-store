@@ -69,7 +69,11 @@ public class FileService {
         File file = new File(this.cdnPath + "/projects/" + projectId + "/project.zip");
 
         if (!file.exists()) {
-            file.delete();
+            var success = file.delete();
+            if (!success) {
+                log.info("Could not delete file");
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
             zipProject(projectId);
         }
         return Files.readAllBytes(file.toPath());
@@ -369,7 +373,7 @@ public class FileService {
 
             project.setLanguages(languages);
             projectRepository.save(project);
-            
+
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
