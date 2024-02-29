@@ -98,9 +98,15 @@ public class FileService {
     private String readFile(Path path) {
         try {
             return Files.readString(path);
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            byte[] bytes;
+            try {
+                bytes = Files.readAllBytes(path);
+            } catch (IOException ex) {
+                log.error(e.getMessage());
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return Base64.getEncoder().encodeToString(bytes);
         }
     }
 

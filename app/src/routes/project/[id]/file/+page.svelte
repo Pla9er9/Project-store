@@ -9,9 +9,21 @@
     export let data;
 
     let isFile: boolean = data.data.folders === undefined ? true : false;
-    let path = $page.url.searchParams.get("path");
+    let path: string | null = $page.url.searchParams.get("path");
+    let isImg = false;
     if (path === null) {
         goto("/404");
+    }
+
+    let arr = ["jpg", "gif", "png"];
+    if (path && path.length >= 5) {
+        for (let i = 0; i < arr.length; i++) {
+            const e = arr[i];
+            if (getFileExtension(path) === e) {
+                isImg = true;
+                break;
+            }
+        }
     }
 
     const len = path ? path.length : 0;
@@ -84,7 +96,15 @@
         </button>
     </div>
     {#if isFile}
-        <File code={data.data} lang={getFileExtension(path)} />
+        {#if isImg}
+            <img
+                src="data:image/jpeg;base64, {data.data}"
+                class="fileImg"
+                alt=""
+            />
+        {:else}
+            <File code={data.data} lang={getFileExtension(path)} />
+        {/if}
     {:else}
         <DirectoryView data={data.data} slug={data.slug} />
     {/if}
@@ -95,6 +115,12 @@
         width: 90%;
         max-width: 900px;
         margin: 60px auto;
+
+        .fileImg {
+            width: 70%;
+            margin-top: 40px;
+            max-width: 800px;
+        }
 
         .row {
             width: 100%;
