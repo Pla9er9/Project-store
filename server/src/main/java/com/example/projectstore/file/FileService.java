@@ -144,27 +144,31 @@ public class FileService {
 
                 var extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-                var updated = false;
-                var langs = _project.getLanguages();
-                for (Language lang : langs
-                ) {
-                    if (lang.getName().equals(extension)) {
-                        updated = true;
-                        lang.setFilesCount(lang.getFilesCount() + 1);
-                        break;
+                log.info(file.getContentType());
+                if (Objects.requireNonNull(file.getContentType()).startsWith("text")) {
+                    var updated = false;
+                    var langs = _project.getLanguages();
+                    for (Language lang : langs
+                    ) {
+                        if (lang.getName().equals(extension)) {
+                            updated = true;
+                            lang.setFilesCount(lang.getFilesCount() + 1);
+                            break;
+                        }
                     }
-                }
-                if (!updated) {
-                    langs.add(Language.
-                            builder()
-                            .name(extension)
-                            .filesCount(1)
-                            .build());
+                    if (!updated) {
+                        langs.add(Language.
+                                builder()
+                                .name(extension)
+                                .filesCount(1)
+                                .build());
+                    }
+
+                    _project.setLanguages(langs);
+                    projectRepository.updateNumberOfFiles(_project.getId(), 1);
                 }
 
-                _project.setLanguages(langs);
                 projectRepository.save(_project);
-                projectRepository.updateNumberOfFiles(_project.getId(), 1);
                 projectRepository.updateCodeSize(_project.getId(), file.getSize());
 
                 deleteZippedProject(projectId);
@@ -227,6 +231,9 @@ public class FileService {
 
     public void deleteZippedProject(UUID projectId) {
         var file = new File(this.cdnPath + "\\projects\\" + projectId + "\\project.zip");
+        if (!file.exists()) {
+            return;
+        }
         var success = file.delete();
         if (!success) {
             log.error("Could not delete zip file");
