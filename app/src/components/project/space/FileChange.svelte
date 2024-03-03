@@ -23,7 +23,7 @@
         var file = new File([blob], filename, { type: "text/plain" });
         formData.append("file", file);
 
-        const res = await fetchHttp(`/project/${get(spaceStore).projectId}/files?path=${filepath}`, {
+        const res = await fetchHttp(`/project/${get(spaceStore).projectId}/files?path=${encodeURIComponent(filepath)}`, {
             method: "PUT",
             token: get(tokenStore),
             body: formData,

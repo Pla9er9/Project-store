@@ -9,8 +9,7 @@ export async function load({ params, url }) {
 	}
 
 	async function loadData() {
-		const res = await fetch(PUBLIC_API_URL + '/project/' + params.id + '/files?path=/' + filePath);
-
+		const res = await fetch(PUBLIC_API_URL + '/project/' + params.id + '/files?path=/' + encodeURIComponent(filePath ? filePath : ''));
 		if (res.status == 404) {
 			throw redirect(301, '/404');
 		}

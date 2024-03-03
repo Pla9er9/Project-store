@@ -15,7 +15,7 @@ export async function addNewByPath(
     formData.append("file", file);
 
     const res = await fetchHttp(
-        `/project/${getProjectId()}/files?path=${newPath}`,
+        `/project/${getProjectId()}/files?path=${encodeURIComponent(newPath)}`,
         {
             method: "POST",
             token: get(tokenStore),
@@ -55,7 +55,7 @@ export async function changeName(
     const newPath = path.slice(0, path.length - name.length) + newName;
 
     const res = await fetchHttp(
-        `/project/${getProjectId()}/files?path=${newPath}`,
+        `/project/${getProjectId()}/files?path=${encodeURIComponent(newPath)}`,
         {}
     );
 
@@ -83,7 +83,7 @@ export async function changeName(
 
 export async function deleteByPath(path: string): Promise<boolean> {
     const res = await fetchHttp(
-        `/project/${getProjectId()}/files?path=${path}`,
+        `/project/${getProjectId()}/files?path=${encodeURIComponent(path)}`,
         {
             method: "DELETE",
             token: get(tokenStore),

@@ -17,9 +17,9 @@
     <div class="directoryView">
         {#each directories as dir}
             <a
-                href="/project/{slug}/file?path={encodeURI(
-                    currentPath
-                )}{encodeURI(dir)}"
+                href="/project/{slug}/file?path={encodeURIComponent(
+                    currentPath + dir
+                )}"
                 data-sveltekit-reload
             >
                 <img src="/icons/dir.svg" alt="" />
@@ -28,9 +28,9 @@
         {/each}
         {#each files as file}
             <a
-                href="/project/{slug}/file?path={encodeURI(
-                    currentPath
-                )}{encodeURI(file)}"
+                href="/project/{slug}/file?path={encodeURIComponent(
+                    currentPath + file
+                )}"
                 data-sveltekit-reload
             >
                 <img src="/icons/file.svg" alt="" />

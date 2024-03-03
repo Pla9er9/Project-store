@@ -28,7 +28,7 @@
 
     async function loadFile() {
         const res = await fetch(`${PUBLIC_API_URL}/project/
-            ${get(spaceStore).projectId}/files?path=${path}`);
+            ${get(spaceStore).projectId}/files?path=${encodeURIComponent(path)}`);
         if (!res.ok) return;
         const file = await res.text();
         spaceStore.update((v) => {
@@ -85,7 +85,7 @@
         const res = await fetch(
             `${PUBLIC_API_URL}/project/${
                 get(spaceStore).projectId
-            }/files?path=${path}`,
+            }/files?path=${encodeURIComponent(path)}`,
         );
         const body = await res.json();
         if (body.folders !== undefined) {

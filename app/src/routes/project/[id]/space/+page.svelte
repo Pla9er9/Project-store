@@ -52,7 +52,7 @@
     async function loadFile() {
         if (!path) return
 
-        const res = await fetchHttp(`/project/${getProjectId()}/files?path=${path}`, {});
+        const res = await fetchHttp(`/project/${getProjectId()}/files?path=${encodeURIComponent(path)}`, {});
         if (!res.ok) {
             if (res.status !== 404) {
                 alertStore.update(a => {
