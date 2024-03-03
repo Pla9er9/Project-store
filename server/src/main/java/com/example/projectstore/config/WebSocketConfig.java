@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
@@ -20,6 +21,7 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.socket.config.annotation.*;
 import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 
 import java.util.List;
 
@@ -41,9 +43,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
-        registration.setMessageSizeLimit(Integer.MAX_VALUE);
-        registration.setSendBufferSizeLimit(Integer.MAX_VALUE);
-        registration.setSendTimeLimit(Integer.MAX_VALUE);
+        registration.setMessageSizeLimit(2048 * 2048);
+        registration.setSendBufferSizeLimit(2048 * 2048);
+        registration.setSendTimeLimit(2048 * 2048);
+    }
+
+    @Bean
+    public ServletServerContainerFactoryBean createServletServerContainerFactoryBean() {
+        ServletServerContainerFactoryBean factoryBean = new ServletServerContainerFactoryBean();
+        factoryBean.setMaxTextMessageBufferSize(2048 * 2048);
+        factoryBean.setMaxBinaryMessageBufferSize(2048 * 2048);
+        factoryBean.setMaxSessionIdleTimeout(2048L * 2048L);
+        factoryBean.setAsyncSendTimeout(2048L * 2048L);
+        return factoryBean;
     }
 
     @Override
@@ -64,7 +76,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     }
                 }
 
-                // authenticationManager.authenticate(JwtAuthentication(token))
                 try {
                     var username = jwtService.extractUsername(token);
                     userRepository.findByUsername(username)
