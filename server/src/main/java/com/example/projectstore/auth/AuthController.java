@@ -63,17 +63,4 @@ public class AuthController {
         var res = authService.Oauth2SignIn(signInRequest, redirectUrl, appId);
         response.sendRedirect(redirectUrl + "?token=" + res);
     }
-
-// TODO 2FA
-
-//    @PostMapping("/signup/confirm")
-//    public ResponseEntity<AuthResponse> SignUp() {
-//        return ResponseEntity.ok(new AuthResponse());
-//    }
-//
-//    @PostMapping("/signin/confirm")
-//    public ResponseEntity<AuthResponse> SignIn() {
-//        return ResponseEntity.ok(new AuthResponse());
-//    }
-
 }
