@@ -42,7 +42,7 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @NotNull
     Project save(@NotNull Project project);
 
-    Page<Project> findByLanguages_name(@Param("lang") String language, Pageable pageable);
+    Page<Project> findByMainLanguage(@Param("lang") String language, Pageable pageable);
 
     List<Project> findTop3ByOwner_username(String username);
 }

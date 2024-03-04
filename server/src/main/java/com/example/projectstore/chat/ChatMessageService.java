@@ -2,6 +2,8 @@ package com.example.projectstore.chat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,17 +31,17 @@ public class ChatMessageService {
         return repository.save(chatMessage);
     }
 
-    public List<ChatMessage> getChatMessages(
-            String senderId, String recipientId
+    public Page<ChatMessage> getChatMessages(
+            String senderId, String recipientId, int page
     ) {
         var chatId = chatRoomService.getChatRoomId(
                 senderId,
                 recipientId,
                 false);
         if (chatId.isEmpty()) {
-            return new ArrayList<>();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return repository.findAllByChatId(chatId.get());
+        return repository.findAllByChatIdOrderBySendDateTimeDesc(chatId.get(), PageRequest.of(page, 20));
     }
 
     public Set<String> getUserChats(String name) {

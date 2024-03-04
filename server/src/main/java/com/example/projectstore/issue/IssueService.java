@@ -6,6 +6,8 @@ import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -27,9 +29,8 @@ public class IssueService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
-    public List<IssueDtoSimple> getAllIssue(UUID projectId) {
-        return issueRepository.findAllByProjectId(projectId).stream()
-                .map(this::issueToIssueDtoSimple).collect(Collectors.toList());
+    public Page<IssueDtoSimple> getAllIssue(UUID projectId, int page) {
+        return issueRepository.findAllByProjectId(projectId, PageRequest.of(page, 10)).map(this::issueToIssueDtoSimple);
     }
 
     public IssueDto getIssue(UUID issueId) {

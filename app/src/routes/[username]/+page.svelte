@@ -8,7 +8,7 @@
 
     let switchValue = "Description";
 
-    let projectSwitchBtnText = `Projects (${data.data.projects.length})`;
+    let projectSwitchBtnText = `Projects`;
 </script>
 
 <svelte:head>
@@ -32,7 +32,7 @@
         values={["Description", projectSwitchBtnText]}
     />
     {#if switchValue === projectSwitchBtnText}
-        <UserProjects projects={data.data.projects} />
+        <UserProjects userId={data.data.userId} />
     {:else if switchValue === "Description"}
         {#if data.data.description && data.data.description != ""}
             <Readme readme={data.data.description} />

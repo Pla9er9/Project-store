@@ -37,7 +37,7 @@ public class ProjectController {
     private final InvitationService invitationService;
 
     @GetMapping
-    public ResponseEntity<List<ProjectDTO>> getAllUserProjects(
+    public ResponseEntity<List<ProjectDtoSimple>> getAllUserProjects(
             @RequestParam UUID userId
     ) {
         if (userId == null) {
@@ -174,8 +174,10 @@ public class ProjectController {
     }
 
     @GetMapping("{id}/issues")
-    public ResponseEntity<List<IssueDtoSimple>> getIssues(@PathVariable UUID id) {
-        return ResponseEntity.ok(issueService.getAllIssue(id));
+    public ResponseEntity<Page<IssueDtoSimple>> getIssues(
+            @PathVariable UUID id,
+            @RequestParam(required = false, defaultValue = "0") int page) {
+        return ResponseEntity.ok(issueService.getAllIssue(id, page));
     }
 
     @PostMapping("{id}/issues")

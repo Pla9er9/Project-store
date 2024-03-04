@@ -2,7 +2,6 @@ package com.example.projectstore.user;
 
 import com.example.projectstore.account.AccountDto;
 import com.example.projectstore.config.JwtService;
-import com.example.projectstore.project.Language;
 import com.example.projectstore.project.ProjectDtoSimple;
 import com.example.projectstore.project.ProjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -58,24 +57,8 @@ public class UserService {
                 isFollowed,
                 user.getFollowers().size(),
                 user.getFollowing().size(),
-                stringLinksToList(user.getPersonalLinks()),
-                user.getProjects().stream().map(p -> {
-                            var userDtoSimple = userEntityToDtoSimple(p.getOwner());
-                            Language mainLanguage = null;
-                            if (p.getLanguages().size() != 0) {
-                                mainLanguage = p.getLanguages().get(0);
-                            }
-
-                            return new ProjectDtoSimple(
-                                    p.getId(),
-                                    p.getName(),
-                                    p.getLikes().size(),
-                                    p.getCreated(),
-                                    userDtoSimple,
-                                    p.isPrivate(),
-                                    mainLanguage);
-                        }
-                ).collect(Collectors.toList()));
+                stringLinksToList(user.getPersonalLinks())
+        );
     }
 
     public List<String> stringLinksToList(String links) {

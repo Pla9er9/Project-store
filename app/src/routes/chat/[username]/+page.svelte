@@ -11,6 +11,11 @@
     import Avatar from "$components/Avatar.svelte";
     import { getNameByPath } from "$lib/utils/fileUtils.js";
     import { alertStore } from "$lib/stores/alertStore.js";
+    import Observer from "$components/Observer.svelte";
+    import fetchHttp from "$lib/fetchHttp.js";
+    import { get } from "svelte/store";
+    import { tokenStore } from "$lib/stores/tokenStore";
+    import Button from "$components/Button.svelte";
 
     let stompClient: CompatClient;
     let username: string;
@@ -18,7 +23,13 @@
     let message = "";
     let files: File[] = [];
     let messages: any[] = [];
+    let apiPage = 0;
+    let auto = false
 
+    if (data.messages != undefined) {
+        messages = data.messages.content
+    }
+    
     if (data.token) {
         username = JSON.parse(atob(data.token.split(".")[1])).sub;
     } else {
@@ -29,7 +40,7 @@
         Authorization: `Bearer ${data.token}`,
     };
 
-    onMount(() => {
+    onMount(async () => {
         const body = document.querySelector("body");
         const sock = new SockJS("http://localhost:8080/ws", {
             transportOptions: {
@@ -43,8 +54,8 @@
             { headers: authHeaders },
             onConnected,
             () => alert("Error"),
-            (e) => {
-                console.log(e)
+            (e: Event) => {
+                console.error(e);
                 alertStore.update((a) => {
                     a.color = "red";
                     a.message = "Connection with server closed";
@@ -148,8 +159,21 @@
         }
     }
 
-    if (data.messages != undefined) {
-        messages = data.messages;
+    async function loadMoreMessages() {
+        if (data.messages.totalPages === 0 || apiPage === data.messages.totalPages - 1) return
+        apiPage += 1;
+        const req = await fetchHttp(`/messages/${username}/${data.username}?page=${apiPage}`, {
+            token: get(tokenStore),
+        });
+        if (!req.ok) {
+            alertStore.update(a => {
+                a.color = "red"
+                a.message = "Could not load more messages"
+                return a
+            })
+            return
+        }
+        messages =  [...req.body.content.reverse(), ...messages]
     }
 </script>
 
@@ -163,12 +187,21 @@
     </div>
     <div class="chat column">
         <div class="messages">
-            <div id="uInfo" class="column">
-                <Avatar username={data.username} margin="0" size="85px" />
-                <a href="/{data.username}">
-                    <p>{data.username}</p>
-                </a>
-            </div>
+            {#if data.messages.totalPages === 0 || apiPage === data.messages.totalPages - 1}
+                <div id="uInfo" class="column">
+                    <Avatar username={data.username} margin="0" size="85px" />
+                    <a href="/{data.username}">
+                        <p>{data.username}</p>
+                    </a>
+                </div>
+            {/if}
+            {#if auto}
+                <Observer onvisible={loadMoreMessages} />
+            {:else}
+                <div style="margin: 20px auto; width: max-content">
+                    <Button onClick={() => {auto = true}} text="Load more" outline={true} />
+                </div>
+            {/if}
             {#each messages as message}
                 <Message {message} {username} />
             {/each}

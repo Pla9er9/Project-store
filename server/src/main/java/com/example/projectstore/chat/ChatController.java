@@ -3,6 +3,7 @@ package com.example.projectstore.chat;
 import com.example.projectstore.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
@@ -28,12 +30,13 @@ public class ChatController {
     private final FileService fileService;
 
     @GetMapping("/api/v1/messages/{senderId}/{recipientId}")
-    public ResponseEntity<List<ChatMessage>> getMessages(
+    public ResponseEntity<Page<ChatMessage>> getMessages(
             @PathVariable("senderId") String senderId,
-            @PathVariable("recipientId") String recipientId
+            @PathVariable("recipientId") String recipientId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page
     ) {
         return ResponseEntity.ok(
-                chatMessageService.getChatMessages(senderId, recipientId));
+                chatMessageService.getChatMessages(senderId, recipientId, page));
     }
 
     @GetMapping("/api/v1/cdn/images/{filename}")

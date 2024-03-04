@@ -7,6 +7,7 @@
     import fetchHttp from "$lib/fetchHttp.js";
     import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple.js";
     import { onMount } from "svelte";
+    import Observer from "$components/Observer.svelte";
 
     let apiPage = 0;
     let loading = false;
@@ -105,7 +106,7 @@
                 <Result data={project} type="project" wide={isWide} />
             {/each}
             {#if apiPage !== data.data?.body.totalPages - 1}
-                <button on:click={getMore}>Load more</button>
+                <Observer onvisible={getMore} />
             {/if}
             {#if loading}
                 <div style="margin-top: 40px;">
@@ -132,27 +133,6 @@
             flex-direction: column;
             align-items: center;
             padding-bottom: 30px;
-
-            button {
-                width: 120px;
-                height: 35px;
-                margin-top: 20px;
-                color: #fff;
-                font-family: sans-serif;
-                font-weight: 500;
-                background: linear-gradient(
-                    180deg,
-                    rgb(0, 153, 255),
-                    #4f84ffa7
-                );
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-
-                &:hover {
-                    background: #4c7df1a7;
-                }
-            }
 
             #filters {
                 width: 100%;
