@@ -61,7 +61,7 @@
     </div>
     <Stats
         owner={info.owner.username}
-        isPrivate={info.isPrivate}
+        isPrivate={info.private}
         createdDate={info.created}
         license={info.license}
         codeWeight={info.codeSize}

@@ -12,7 +12,7 @@ type ProjectDTO = {
 	codeSize: string;
 	owner: UserDtoSimple;
 	creators: UserDtoSimple[];
-	isPrivate: boolean;
+	private: boolean;
 	latestReleaseVersion: string;
 	languages: Language[];
 	tags: string[];

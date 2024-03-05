@@ -16,7 +16,7 @@
 
 	let projectName = projectData.name,
 		projectNameValid = true,
-		isPrivate = projectData.isPrivate,
+		isPrivate = projectData.private,
 		description = projectData.description,
 		license = projectData.license ? projectData.license : "none",
 		tags = projectData.tags;
@@ -30,7 +30,7 @@
 			body: JSON.stringify({
 				name: projectName,
 				description: description,
-				isPrivate: isPrivate,
+				private: isPrivate,
 				license: license,
 				tags: tags,
 			}),

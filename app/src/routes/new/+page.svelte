@@ -33,7 +33,7 @@
         let body = JSON.stringify({
             name: projectName,
             description: description,
-            isPrivate: isPrivate,
+            private: isPrivate,
             license: license,
         });
 

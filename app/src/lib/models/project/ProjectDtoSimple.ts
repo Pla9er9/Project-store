@@ -6,7 +6,7 @@ type ProjectDtoSimple = {
 	likes: number;
 	created: string;
 	owner: UserDtoSimple;
-	isPrivate: boolean;
+	private: boolean;
 	mainLanguage: string;
 };
 
