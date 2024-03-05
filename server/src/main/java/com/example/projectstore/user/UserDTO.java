@@ -23,5 +23,4 @@ public class UserDTO {
     private int followers;
     private int following;
     private List<String> personalLinks;
-    private List<ProjectDtoSimple> projects;
 }

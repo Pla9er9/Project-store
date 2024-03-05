@@ -20,5 +20,5 @@ public class ProjectDtoSimple {
     private LocalDateTime created;
     private UserDtoSimple owner;
     private Boolean isPrivate;
-    Language mainLanguage;
+    private String mainLanguage;
 }

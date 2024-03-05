@@ -51,15 +51,15 @@
                 <small>{data.created.slice(0, 10)}</small>
             </div>
         </div>
-        {#if wide && data.mainLanguage && data.mainLanguage.name !== ""}
+        {#if wide && data.mainLanguage && data.mainLanguage}
             <div class="row language">
                 <div
                     class="languageBar"
                     style="background-color: {getColorOfLanguage(
-                        data.mainLanguage.name
+                        data.mainLanguage
                     )};"
                 ></div>
-                <small>{data.mainLanguage.name}</small>
+                <small>{data.mainLanguage}</small>
             </div>
         {/if}
         <p style="margin-left: {wide ? '0' : 'auto'};">{data.likes}</p>

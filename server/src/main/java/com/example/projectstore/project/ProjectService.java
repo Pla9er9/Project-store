@@ -70,9 +70,9 @@ public class ProjectService {
         return projectDto_;
     }
 
-    public List<ProjectDTO> getAllUserProjects(UUID userId) {
+    public List<ProjectDtoSimple> getAllUserProjects(UUID userId) {
         return projectRepository.findAllByOwnerIdOrderByCreated(userId).stream().map(
-                this::projectEntityToDto).collect(Collectors.toList());
+                this::projectEntityToSimpleDto).collect(Collectors.toList());
     }
 
     public String createProject(CreateProjectRequest request, Authentication authentication) {
@@ -190,7 +190,7 @@ public class ProjectService {
     public Page<ProjectDtoSimple> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByMainLanguage(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
             return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }
@@ -203,7 +203,7 @@ public class ProjectService {
     public Page<ProjectDtoSimple> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
         if (!language.equals("*")) {
-            return projectRepository.findByLanguages_name(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByMainLanguage(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
             return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
         }
@@ -223,6 +223,7 @@ public class ProjectService {
                 project.getLikes().size(),
                 null,
                 FileUtils.byteCountToDisplaySize(project.getCodeSize()),
+                project.getMainLanguage(),
                 project.getCreated(),
                 new UserDtoSimple(
                         project.getOwner().getId(),
@@ -237,17 +238,12 @@ public class ProjectService {
                 project.getLanguages().stream().map((language) ->
                         new LanguageDto(
                                 language.getName(),
-                                language.getFilesCount())
+                                language.getBytes())
                 ).collect(Collectors.toList()),
                 project.getTags());
     }
 
     public ProjectDtoSimple projectEntityToSimpleDto(Project project) {
-        Language mainLanguage = null;
-        if (!project.getLanguages().isEmpty()) {
-            mainLanguage = project.getLanguages().get(0);
-        }
-
         return new ProjectDtoSimple(
                 project.getId(),
                 project.getName(),
@@ -257,7 +253,7 @@ public class ProjectService {
                         project.getOwner().getId(),
                         project.getOwner().getUsername()),
                 project.isPrivate(),
-                mainLanguage
+                project.getMainLanguage()
         );
     }
 }

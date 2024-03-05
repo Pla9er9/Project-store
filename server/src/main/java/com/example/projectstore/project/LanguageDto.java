@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LanguageDto {
     private String name;
-    private int filesCount;
+    private long bytes;
 }

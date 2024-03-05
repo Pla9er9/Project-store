@@ -41,6 +41,7 @@ public class Project {
     private List<User> creators;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Language> languages;
+    private String mainLanguage;
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "tag", nullable = false)

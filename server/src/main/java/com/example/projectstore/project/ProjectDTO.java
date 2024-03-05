@@ -23,6 +23,7 @@ public class ProjectDTO {
     private int likes;
     private Boolean liked;
     private String codeSize;
+    private String mainLanguage;
     private LocalDateTime created;
     private UserDtoSimple owner;
     private List<UserDtoSimple> creators;

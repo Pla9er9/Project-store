@@ -6,7 +6,7 @@
 
     let sum = 0;
     languages.forEach((e) => {
-        sum += e.filesCount;
+        sum += e.bytes;
     });
 
     let i = -1;
@@ -30,7 +30,7 @@
             {#each languages.slice().reverse() as lang}
                 <div
                     class="line"
-                    style="width: {(lang.filesCount / sum) *
+                    style="width: {(lang.bytes / sum) *
                         100}%;background: {getColor()}"
                 />
             {/each}
@@ -42,7 +42,7 @@
                     <p>
                         {lang.name !== "" ? lang.name : "other"}
                         <span
-                            >{String((lang.filesCount / sum) * 100).slice(
+                            >{String((lang.bytes / sum) * 100).slice(
                                 0,
                                 4
                             )}%</span

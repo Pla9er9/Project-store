@@ -1,4 +1,4 @@
 export type Language = {
     name: string
-    filesCount: number
+    bytes: number
 }

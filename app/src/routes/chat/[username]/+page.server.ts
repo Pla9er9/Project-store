@@ -19,6 +19,9 @@ export async function load({ params, cookies }) {
 	else if (req.status == 200) { 
 		messages = await req.json();
 	}
+	if (messages) {
+		messages.content = messages.content.reverse()
+	}
 	return {
 		messages: messages,
 		username: params.username

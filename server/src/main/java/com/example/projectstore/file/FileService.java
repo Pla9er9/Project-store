@@ -157,23 +157,31 @@ public class FileService {
                 if (Objects.requireNonNull(file.getContentType()).startsWith("text")) {
                     var updated = false;
                     var langs = _project.getLanguages();
+                    long maxBytes = 0L;
+                    String name = null;
+
                     for (Language lang : langs
                     ) {
                         if (lang.getName().equals(extension)) {
                             updated = true;
-                            lang.setFilesCount(lang.getFilesCount() + 1);
-                            break;
+                            lang.setBytes(lang.getBytes() + file.getSize());
+                        }
+                        if (lang.getBytes() > maxBytes) {
+                            maxBytes = lang.getBytes();
+                            name = lang.getName();
                         }
                     }
                     if (!updated) {
                         langs.add(Language.
                                 builder()
                                 .name(extension)
-                                .filesCount(1)
+                                .bytes(file.getSize())
                                 .build());
+                        name = extension;
                     }
 
                     _project.setLanguages(langs);
+                    _project.setMainLanguage(name);
                     projectRepository.updateNumberOfFiles(_project.getId(), 1);
                 }
 
@@ -361,6 +369,8 @@ public class FileService {
         var project = authService.creatorAuthGate(projectId, authentication);
         var fullPath = securityFilter(projectId, path);
         Path p = Paths.get(fullPath);
+        var oldFile = new File(p.toUri());
+        var oldSize = oldFile.length();
 
         try {
             if (file.isEmpty()) {
@@ -370,14 +380,40 @@ public class FileService {
                 Files.copy(inputStream, p, StandardCopyOption.REPLACE_EXISTING);
             }
             var languages = new ArrayList<Language>();
+
+            long maxBytes = 0L;
+            String name = null;
+            var found = false;
+            var isTextFile = Objects.requireNonNull(file.getContentType()).startsWith("text");
+            var extension = FilenameUtils.getExtension(path);
+
             for (Language lang : project.getLanguages()
             ) {
-                if (lang.getFilesCount() > 0) {
+                if (isTextFile && lang.getName().equals(extension)
+                ) {
+                    lang.setBytes(lang.getBytes() + file.getSize() - oldSize);
+                    if (lang.getBytes() > 0) {
+                        found = true;
+                    }
+                }
+                if (lang.getBytes() > 0) {
                     languages.add(lang);
+                }
+                if (lang.getBytes() > maxBytes) {
+                    maxBytes = lang.getBytes();
+                    name = lang.getName();
                 }
             }
 
+            if (isTextFile && !found) {
+                languages.add(Language
+                        .builder()
+                        .name(extension)
+                        .bytes(file.getSize())
+                        .build());
+            }
             project.setLanguages(languages);
+            project.setMainLanguage(name);
             projectRepository.save(project);
 
         } catch (IOException e) {
@@ -398,6 +434,9 @@ public class FileService {
         if (!file.exists()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        var fileSize = file.length();
+        var isDir = file.isDirectory();
+        var name = file.getName();
         if (!file.delete()) {
             log.error("Could not delete the file");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -405,17 +444,34 @@ public class FileService {
 
         var project = projectRepository.findById(projectId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        var extension = FilenameUtils.getExtension(file.getName());
+        String extension = null;
+        Map<String, Long> langs = new HashMap<>();
+
+        if (!isDir) {
+            extension = FilenameUtils.getExtension(name);
+        } else {
+            langs = getLanguagesInPath(Path.of(fullPath));
+        }
 
         var languages = new ArrayList<Language>();
+        long maxBytes = 0L;
+
         for (Language lang : project.getLanguages()
         ) {
             if (lang.getName().equals(extension)) {
-                lang.setFilesCount(lang.getFilesCount() - 1);
-                break;
+                lang.setBytes(lang.getBytes() - fileSize);
             }
-            if (lang.getFilesCount() > 0) {
+
+            if (langs.get(lang.getName()) != null) {
+                lang.setBytes(lang.getBytes() - langs.get(lang.getName()));
+            }
+
+            if (lang.getBytes() > 0) {
                 languages.add(lang);
+            }
+
+            if (lang.getBytes() > maxBytes) {
+                maxBytes = lang.getBytes();
             }
         }
 
@@ -470,5 +526,22 @@ public class FileService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return readBytesFromFile(path);
+    }
+
+    public Map<String, Long> getLanguagesInPath(Path path) {
+        var file = new File(path.toString());
+        var langs = new HashMap<String, Long>();
+
+        if (file.isFile()) {
+            langs.put(FilenameUtils.getExtension(file.getName()), file.getTotalSpace());
+            return langs;
+        }
+
+        for (File f : Objects.requireNonNull(file.listFiles())
+        ) {
+            var p = getLanguagesInPath(f.toPath());
+            p.forEach((name, bytes) -> langs.merge(name, bytes, Long::sum));
+        }
+        return langs;
     }
 }

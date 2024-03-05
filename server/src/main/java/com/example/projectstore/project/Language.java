@@ -18,8 +18,6 @@ public class Language {
     @Id
     @GeneratedValue
     private UUID id;
-    @ManyToOne
-    private Project project;
     private String name;
-    private int filesCount;
+    private long bytes;
 }
