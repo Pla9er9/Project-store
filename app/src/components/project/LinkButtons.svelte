@@ -87,7 +87,7 @@
 	</LinkButton>
 </div>
 {#if showCreators}
-	<CreatorsDialog creators={[...creators, info.owner]} />
+	<CreatorsDialog data={info} />
 {/if}
 
 <style lang="scss">

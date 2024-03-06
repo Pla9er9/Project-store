@@ -13,6 +13,7 @@
 	import Select from "$components/forms/Select.svelte";
 	import getLicenses from "$lib/licenses";
 	import TagInput from "$components/forms/TagInput.svelte";
+    import { alertStore } from "$lib/stores/alertStore";
 
 	let projectName = projectData.name,
 		projectNameValid = true,
@@ -24,7 +25,7 @@
 	$: isFormValidated = projectNameValid;
 
 	async function editProject() {
-		await fetchHttp(`/project/${projectData.id}`, {
+		const res = await fetchHttp(`/project/${projectData.id}`, {
 			method: "put",
 			token: get(tokenStore),
 			body: JSON.stringify({
@@ -35,15 +36,32 @@
 				tags: tags,
 			}),
 		});
+		if (!res.ok) {
+			alertStore.update(a => {
+				a.message = "Could not save"
+				a.color = "red"
+				return a
+			})
+			return
+		}
 		location.reload();
 	}
 
 	async function deleteProject() {
-		await fetchHttp(`/project/${projectData.id}`, {
+		const res = await fetchHttp(`/project/${projectData.id}`, {
 			method: "delete",
 			token: get(tokenStore),
 		});
-		await goto(`${location.host}/${projectData.owner.username}`);
+		if (!res.ok) {
+			alertStore.update(a => {
+				a.message = "Could not delete project"
+				a.color = "red"
+				return a
+			})
+			console.log(res)
+			return
+		}
+		await goto(`/${projectData.owner.username}`);
 	}
 </script>
 

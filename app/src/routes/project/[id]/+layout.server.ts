@@ -6,7 +6,7 @@ export async function load({ params, cookies }) {
     const res = await fetchHttp(`/project/${params.id}`, {
         token: cookies.get("jwtToken"),
         server: true,
-        redirecting: true
+        showAlerts: false
     });
     const project_data: ProjectDTO = res.body;
     if (res.ok) {
@@ -14,6 +14,6 @@ export async function load({ params, cookies }) {
             project_data: project_data,
         };
     } else {
-        throw redirect(301, "/404")
+        throw redirect(303, "/404")
     }
 }

@@ -1,22 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import fetchHttp from "$lib/fetchHttp";
-	import { tokenStore } from "$lib/stores/tokenStore";
 	import { onMount } from "svelte";
-	import { get } from "svelte/store";
-
-	async function deleteAccount() {
-		let sure = confirm(
-			"Are you sure you want to delete account? You won't be able to undo the changes",
-		);
-		if (sure) {
-			await fetchHttp("/account", {
-				method: "delete",
-				token: get(tokenStore),
-			});
-			await goto(location.host);
-		}
-	}
 
 	async function logout() {
 		await fetchHttp(`${location.protocol}//${location.host}/logout`, {
@@ -55,10 +40,6 @@
 	<div class="row">
 		<img src="/icons/logout.svg" alt="logout" />
 		<button class="danger" on:click={logout}>Logout</button>
-	</div>
-	<div class="row">
-		<img src="/icons/delete.svg" alt="delete account" />
-		<button class="danger" on:click={deleteAccount}>Delete account</button>
 	</div>
 </div>
 

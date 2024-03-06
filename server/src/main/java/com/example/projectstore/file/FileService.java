@@ -6,6 +6,7 @@ import com.example.projectstore.project.ProjectRepository;
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -485,8 +486,10 @@ public class FileService {
         if (!directory.exists()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        if (!directory.delete()) {
-            log.error("Could not delete the directory");
+        try {
+            FileUtils.deleteDirectory(directory);
+        } catch (Exception e) {
+            log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

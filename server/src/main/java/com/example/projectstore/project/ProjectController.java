@@ -129,6 +129,24 @@ public class ProjectController {
         return invitationService.sendInvitation(id, request, authentication);
     }
 
+    @DeleteMapping("{id}/invitation/{invitationId}")
+    public void sendInvitationToProject(
+            @PathVariable UUID id,
+            @PathVariable UUID invitationId,
+            Authentication authentication
+    ) {
+        invitationService.deleteInvitation(invitationId, authentication);
+    }
+
+    @DeleteMapping("{id}/creators/{username}")
+    public void removeCreator(
+            @PathVariable UUID id,
+            @PathVariable String username,
+            Authentication authentication
+    ) {
+        projectService.removeCreator(id, username, authentication);
+    }
+
     @GetMapping(value = "{id}/download", produces = "application/zip")
     public byte[] getProjectCode(
             @PathVariable UUID id

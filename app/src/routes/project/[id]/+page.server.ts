@@ -1,26 +1,25 @@
 import fetchHttp from "$lib/fetchHttp";
+import { tokenStore } from "$lib/stores/tokenStore.js";
 import { compile } from "mdsvex";
+import { get } from "svelte/store";
 
 export async function load({ params }) {
     async function loadReadme() {
         const res = await fetchHttp(
             `/project/${params.id}/files?path=readme.md`,
-            {}
+            {
+                token: get(tokenStore),
+                server: true
+            }
         );
-
-        if (res?.ok) {
-            return res.body;
-        } else {
-            return "";
-        }
+        return res
     }
-
-    let readme = await loadReadme();
-    readme = await toMarkdown(readme);
+    const res = await loadReadme();
+    const md = await toMarkdown(res.body ? res.body : '');
 
     return {
         slug: params.id,
-        readme: readme,
+        readme: md,
     };
 }
 

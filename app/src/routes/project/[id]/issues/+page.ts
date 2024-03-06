@@ -1,24 +1,20 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import fetchHttp from '$lib/fetchHttp.js';
+import { tokenStore } from '$lib/stores/tokenStore.js';
 import { redirect } from '@sveltejs/kit';
+import { get } from 'svelte/store';
 
 export async function load({ params }) {
 	async function loadData() {
-		const req = await fetch(PUBLIC_API_URL + '/project/' + params.id + '/issues');
+		const res = await fetchHttp('/project/' + params.id + '/issues', {
+			token: get(tokenStore),
+			showAlerts: false
+		});
 
-		if (req.status == 404) {
+		if (!res.ok) {
 			throw redirect(301, '/404');
 		}
 
-		if (!req.ok) {
-			return {
-				slug: params.id,
-				data: undefined
-			};
-		}
-
-		const data = await req.json();
-
-		return data;
+		return res.body;
 	}
 
 	const data = await loadData();

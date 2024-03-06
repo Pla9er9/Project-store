@@ -2,8 +2,6 @@ package com.example.projectstore.user;
 
 import com.example.projectstore.account.AccountDto;
 import com.example.projectstore.config.JwtService;
-import com.example.projectstore.project.ProjectDtoSimple;
-import com.example.projectstore.project.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +24,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
-    private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UserDTO getUser(String username, HttpServletRequest request) {
@@ -114,11 +111,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteAccount(Authentication authentication) {
-        projectRepository.deleteAllByOwnerUsername(authentication.getName());
-        userRepository.deleteByUsername(authentication.getName());
-    }
-
     public void changePassword(Authentication authentication, String newPassword) {
         var user = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
@@ -193,13 +185,6 @@ public class UserService {
     public Set<UserDtoSearch> searchByUsername(String query) {
         var u = userRepository.searchByUserName(query, PageRequest.of(0, 20));
         return u.stream().map(this::userEntityToDtoSearch).collect(Collectors.toSet());
-    }
-
-    public UserDtoSimple userEntityToDtoSimple(User user) {
-        return new UserDtoSimple(
-                user.getId(),
-                user.getUsername()
-        );
     }
 
     public UserDtoSearch userEntityToDtoSearch(User user) {

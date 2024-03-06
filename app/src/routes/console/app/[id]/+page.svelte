@@ -3,8 +3,30 @@
     import BackBtn from "$components/BackBtn.svelte";
     import NewSecretPanel from "$components/console/NewSecretPanel.svelte";
     import Panel from "$components/console/Panel.svelte";
+    import Button from "$components/Button.svelte"
+    import fetchHttp from "$lib/fetchHttp";
+    import { tokenStore } from "$lib/stores/tokenStore";
+    import { get } from "svelte/store";
+    import { alertStore } from "$lib/stores/alertStore";
 
     export let data;
+
+    async function deleteApplication() {
+        const res = await fetchHttp(`/dev/application/${data.data.id}`, {
+            token: get(tokenStore),
+            method: "delete"
+        })
+        if (!res.ok) {
+            alertStore.update(a => {
+                a.message = "Could not delete application, try later"
+                a.color = "red"
+                return a
+            })
+            return
+        }
+        await goto("/console")
+    }
+
 </script>
 
 <main>
@@ -24,6 +46,10 @@
         />
         <Panel label="redirect urls" value={data.data.redirectUrls.join(" ")} icon="/icons/personal_data_outline.svg" width="100%" />
         <NewSecretPanel applicationId={data.slug} />
+        <div class="row btns">
+            <Button text="Edit" onClick={() => {}} outline={true}  width="105px" />
+            <Button text="Delete" onClick={deleteApplication} outline={true} width="105px" />
+        </div>
     </div>
 </main>
 
@@ -54,6 +80,12 @@
                 color: rgb(162, 161, 161);
                 margin-left: 15px;
             }
+        }
+
+        .btns {
+            width: 230px;
+            justify-content: space-between;
+            margin: 10px 15px;
         }
     }
 </style>

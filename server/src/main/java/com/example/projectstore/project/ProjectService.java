@@ -3,6 +3,9 @@ package com.example.projectstore.project;
 import com.example.projectstore.auth.AuthService;
 import com.example.projectstore.config.JwtService;
 import com.example.projectstore.file.FileService;
+import com.example.projectstore.invitation.InvitationRepository;
+import com.example.projectstore.issue.IssueCommentRepository;
+import com.example.projectstore.issue.IssueRepository;
 import com.example.projectstore.user.User;
 import com.example.projectstore.user.UserDtoSimple;
 import com.example.projectstore.user.UserRepository;
@@ -32,6 +35,9 @@ public class ProjectService {
     private final FileService fileService;
     private final AuthService authService;
     private final JwtService jwtService;
+    private final InvitationRepository invitationRepository;
+    private final IssueRepository issueRepository;
+    private final IssueCommentRepository issueCommentRepository;
 
     public ProjectDTO getProject(UUID id, HttpServletRequest request) {
         var project = projectRepository.findById(id).orElseThrow(
@@ -104,7 +110,7 @@ public class ProjectService {
         var project = authService.ownerAuthGate(projectId, authentication);
         project.setName(request.getName());
         project.setDescription(request.getDescription());
-        project.setPrivate(project.isPrivate());
+        project.setPrivate(request.isPrivate());
         project.setTags(request.getTags());
 
         if (request.getLicense() != null) {
@@ -116,8 +122,11 @@ public class ProjectService {
     public String deleteProject(
             Authentication authentication, UUID projectId) {
         authService.ownerAuthGate(projectId, authentication);
+        invitationRepository.deleteAllByProject_Id(projectId);
+        issueCommentRepository.deleteAllByIssue_Project_Id(projectId);
+        issueRepository.deleteAllByProject_Id(projectId);
         projectRepository.deleteById(projectId);
-        fileService.deleteDirectoryInCdn(String.valueOf(projectId));
+        fileService.deleteDirectoryInCdn("projects\\" + projectId);
         return "Deleted";
     }
 
@@ -190,9 +199,9 @@ public class ProjectService {
     public Page<ProjectDtoSimple> getTrending(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likesToday"));
         if (!language.equals("*")) {
-            return projectRepository.findByMainLanguage(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByTagsAndIsPrivateFalse(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
-            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByIsPrivateFalse(pageable).map(this::projectEntityToSimpleDto);
         }
     }
 
@@ -203,9 +212,9 @@ public class ProjectService {
     public Page<ProjectDtoSimple> getMostLikedProjects(Integer page, String language) {
         var pageable = PageRequest.of(page, 6, Sort.by("likes"));
         if (!language.equals("*")) {
-            return projectRepository.findByMainLanguage(language, pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByMainLanguageAndIsPrivateFalse(language, pageable).map(this::projectEntityToSimpleDto);
         } else {
-            return projectRepository.findAll(pageable).map(this::projectEntityToSimpleDto);
+            return projectRepository.findByIsPrivateFalse(pageable).map(this::projectEntityToSimpleDto);
         }
     }
 
@@ -255,5 +264,33 @@ public class ProjectService {
                 project.isPrivate(),
                 project.getMainLanguage()
         );
+    }
+
+    public void removeCreator(UUID id, String username, Authentication authentication) {
+        var project = projectRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var authUser = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        if (!project.getOwner().getUsername().equals(authUser.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        var updated = new ArrayList<User>();
+
+        for (User u : project.getCreators()
+        ) {
+            if (!u.getUsername().equals(username)) {
+                updated.add(u);
+            }
+        }
+
+        if (updated.size() == project.getCreators().size()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        project.setCreators(updated);
+        projectRepository.save(project);
     }
 }

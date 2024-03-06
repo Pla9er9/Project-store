@@ -1,5 +1,7 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import fetchHttp from '$lib/fetchHttp.js';
+import { tokenStore } from '$lib/stores/tokenStore.js';
 import { redirect } from '@sveltejs/kit';
+import { get } from 'svelte/store';
 
 export async function load({ params, url }) {
 	const filePath = url.searchParams.get('path');
@@ -9,28 +11,21 @@ export async function load({ params, url }) {
 	}
 
 	async function loadData() {
-		const res = await fetch(PUBLIC_API_URL + '/project/' + params.id + '/files?path=/' + encodeURIComponent(filePath ? filePath : ''));
+		const res = await fetchHttp('/project/' + params.id + '/files?path=/' + encodeURIComponent(filePath ? filePath : ''), {
+			token: get(tokenStore),
+			showAlerts: false,
+		});
 		if (res.status == 404) {
 			throw redirect(301, '/404');
 		}
 
 		if (!res.ok) {
-			return {
-				slug: params.id,
-				data: undefined
-			};
-		}
-		const data = await res.text();
-		let copy = undefined;
-		try {
-			copy = JSON.parse(data);
-		} catch {
-			copy = data;
+			throw redirect(301, '/404');
 		}
 
 		return {
 			slug: params.id,
-			data: copy
+			data: res.body
 		};
 	}
 

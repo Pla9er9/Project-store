@@ -109,6 +109,7 @@ public class ApplicationService {
     }
 
     public void deleteApplication(UUID id, String username) {
+        accessTokenRepository.deleteAllByApplication_IdAndUserAccount_Username(id, username);
         applicationRepository.deleteByIdAndOwner_Username(id, username);
     }
 

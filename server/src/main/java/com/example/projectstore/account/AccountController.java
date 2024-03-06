@@ -104,7 +104,6 @@ public class AccountController {
 
     @GetMapping("account/notifications")
     public void getNotifications() {
-
     }
 
     @DeleteMapping("account/loggedInDevices/{deviceId}")

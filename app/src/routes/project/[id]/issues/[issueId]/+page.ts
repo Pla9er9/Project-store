@@ -1,19 +1,21 @@
 import fetchHttp from '$lib/fetchHttp.js';
+import { tokenStore } from '$lib/stores/tokenStore';
 import { redirect } from '@sveltejs/kit';
+import { get } from 'svelte/store';
 
 export async function load({ params }) {
-	const data = await fetchHttp(`project/${params.id}/issues/${params.issueId}`, {
-		server: true,
-		showAlerts: false
+	const res = await fetchHttp(`project/${params.id}/issues/${params.issueId}`, {
+		showAlerts: false,
+		token: get(tokenStore)
 	});
 
-	if (data === undefined) {
-		throw redirect(304, "")
+	if (!res.ok) {
+		throw redirect(301, '/404');
 	}
 
 	return {
 		slug: params.id,
 		issueId: params.issueId,
-		data: data.body
+		data: res.body
 	};
 }

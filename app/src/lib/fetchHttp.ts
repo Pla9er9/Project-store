@@ -39,6 +39,8 @@ export default async function fetchHttp(
 		stringBody = body;
 	}
 
+	if (server) showAlerts = false
+
 	let res
 	if (noContentType) {
 		res = await fetch(apiPrefix + url, {
@@ -67,7 +69,7 @@ export default async function fetchHttp(
 	}
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {
-			throw redirect(300, 'login');
+			throw redirect(303, '/login');
 		}
 		await goto('login');
 		return {
@@ -93,7 +95,7 @@ export default async function fetchHttp(
 
 	if (res.status === 404 && redirecting) {
 		if (server) {
-			throw redirect(306, '404');
+			throw redirect(303, '/404');
 		} else {
 			await goto('404');
 			return {

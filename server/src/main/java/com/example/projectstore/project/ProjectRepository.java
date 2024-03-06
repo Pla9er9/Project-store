@@ -20,8 +20,6 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
 
     List<Project> findAllByOwnerIdOrderByCreated(@Param("ownerId") UUID ownerId);
 
-    void deleteAllByOwnerUsername(String username);
-
     @Modifying
     @Transactional
     @Query("UPDATE Project p set p.numberOfFiles = p.numberOfFiles + :nf WHERE p.id = :id")
@@ -42,7 +40,9 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @NotNull
     Project save(@NotNull Project project);
 
-    Page<Project> findByMainLanguage(@Param("lang") String language, Pageable pageable);
+    Page<Project> findByMainLanguageAndIsPrivateFalse(@Param("lang") String language, Pageable pageable);
+
+    Page<Project> findByIsPrivateFalse(Pageable pageable);
 
     List<Project> findTop3ByOwner_username(String username);
 }
