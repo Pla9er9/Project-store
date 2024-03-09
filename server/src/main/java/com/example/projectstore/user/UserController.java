@@ -52,4 +52,20 @@ public class UserController {
     ) {
         userService.unfollowUser(username, authentication);
     }
+
+    @PostMapping("/block")
+    public void blockUser(
+            @PathVariable String username,
+            Authentication authentication
+    ) {
+        userService.blockUser(username, authentication.getName());
+    }
+
+    @PutMapping("/unblock")
+    public void unblockUser(
+            @PathVariable String username,
+            Authentication authentication
+    ) {
+        userService.unblockUser(username, authentication.getName());
+    }
 }

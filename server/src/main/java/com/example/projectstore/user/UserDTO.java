@@ -1,6 +1,5 @@
 package com.example.projectstore.user;
 
-import com.example.projectstore.project.ProjectDtoSimple;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,7 @@ public class UserDTO {
     private String firstname;
     private String lastname;
     private boolean isFollowed;
+    private boolean isBlocked;
     private int followers;
     private int following;
     private List<String> personalLinks;

@@ -33,10 +33,8 @@
     />
     {#if switchValue === projectSwitchBtnText}
         <UserProjects userId={data.data.userId} />
-    {:else if switchValue === "Description"}
-        {#if data.data.description && data.data.description != ""}
-            <Readme readme={data.data.description} />
-        {/if}
+    {:else if switchValue === "Description" && data.data.description && data.data.description != ""}
+        <Readme readme={data.data.description} />
     {/if}
 </main>
 

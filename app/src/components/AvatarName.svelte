@@ -11,6 +11,7 @@
     import { tokenStore } from "$lib/stores/tokenStore";
     import { onMount } from "svelte";
     import type { UserDto } from "$lib/models/user/UserDto";
+    import { alertStore } from "$lib/stores/alertStore";
 
     const token = get(tokenStore);
 
@@ -47,6 +48,38 @@
         userdata.followers -= 1;
     }
 
+    async function unblock() {
+        const res = await fetchHttp(`/user/${userdata.username}/unblock`, {
+            token: get(tokenStore),
+            method: "put"
+        })
+        if (!res.ok) {
+            alertStore.update(a => {
+                a.message = "Could not unblock user, try later"
+                a.color = "red"
+                return a
+            })
+            return
+        }
+        userdata.blocked = false
+    }
+
+    async function block() {
+        const res = await fetchHttp(`/user/${userdata.username}/block`, {
+            token: get(tokenStore),
+            method: "post"
+        })
+        if (!res.ok) {
+            alertStore.update(a => {
+                a.message = "Could not block user, try later"
+                a.color = "red"
+                return a
+            })
+            return
+        }
+        userdata.blocked = true
+    }
+
     let followBtnWidth = "120px";
 
     onMount(() => {
@@ -75,27 +108,20 @@
         <div class="follows">
             <p>{userdata.followers} followers {userdata.following} following</p>
         </div>
-    </div>
-    {#if token !== undefined}
-        {#if userdata.username != JSON.parse(atob(token.split(".")[1])).sub}
-            <div id="actionBtns" class="row" style="margin-left: auto;">
-                <FollowBtn
-                    width={followBtnWidth}
-                    following={userdata.followed}
-                    onFollow={follow}
-                    onUnfollow={unfollow}
-                />
-                <a
-                    href={location.href.replace(
-                        location.host,
-                        location.host + "/chat"
-                    )}
-                    class="msgBtn row"
-                >
-                    Chat
-                </a>
-            </div>
+        {#if token && userdata.username != JSON.parse(atob(token.split(".")[1])).sub}
+            <button on:click={userdata.blocked ? unblock : block}>{userdata.blocked ? "Unblock" : "Block"} {userdata.username}</button>
         {/if}
+    </div>
+    {#if token && userdata.username != JSON.parse(atob(token.split(".")[1])).sub}
+        <div id="actionBtns" class="row" style="margin-left: auto;">
+            <FollowBtn
+                width={followBtnWidth}
+                following={userdata.followed}
+                onFollow={follow}
+                onUnfollow={unfollow}
+            />
+            <a href="/chat/{userdata.username}" class="msgBtn row">Chat</a>
+        </div>
     {/if}
 </div>
 
@@ -111,7 +137,7 @@
             margin-left: 30px;
             margin-right: 40px;
             align-items: start;
-            
+
             h1 {
                 margin: 0;
                 color: #fff;
@@ -134,6 +160,21 @@
                     margin-top: 4px;
                     color: var(--mainColor);
                     font-size: 10px;
+                }
+            }
+
+            button {
+                margin: 3px 0 -1px 0;
+                background: transparent;
+                padding: 0;
+                border: none;
+                cursor: pointer;
+                font-size: 11px;
+                color: var(--danger);
+                font-family: 'Fira sans';
+
+                &:hover {
+                    color: red;
                 }
             }
         }

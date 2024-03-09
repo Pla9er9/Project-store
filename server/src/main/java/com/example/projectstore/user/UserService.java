@@ -31,17 +31,13 @@ public class UserService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         boolean isFollowed = false;
+        boolean isBlocked = false;
         var authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.length() > 8) {
             var authUser = userRepository.findByUsername(jwtService.extractUsername(authHeader.substring(7)));
             if (authUser.isPresent()) {
-                for (User u : authUser.get().getFollowing()
-                ) {
-                    if (u.getUsername().equals(username)) {
-                        isFollowed = true;
-                        break;
-                    }
-                }
+                isFollowed = authUser.get().getFollowing().contains(user);
+                isBlocked = authUser.get().getBlockedUsers().contains(user);
             }
         }
 
@@ -52,6 +48,7 @@ public class UserService {
                 user.getFirstname(),
                 user.getLastname(),
                 isFollowed,
+                isBlocked,
                 user.getFollowers().size(),
                 user.getFollowing().size(),
                 stringLinksToList(user.getPersonalLinks())
@@ -96,11 +93,12 @@ public class UserService {
         );
     }
 
-    public void editAccount(
+    public String editAccount(
             AccountDto request,
             Authentication authentication) {
         var user = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        var usernameChanged = !user.getUsername().equals(request.getUsername());
 
         user.setUsername(request.getUsername());
         user.setDescription(request.getDescription());
@@ -109,6 +107,11 @@ public class UserService {
         user.setLastname(request.getLastname());
         user.setPersonalLinks(String.join(";", request.getPersonalLinks()));
         userRepository.save(user);
+
+        if (usernameChanged) {
+            return jwtService.generateToken(user);
+        }
+        return "";
     }
 
     public void changePassword(Authentication authentication, String newPassword) {
@@ -196,5 +199,42 @@ public class UserService {
                 user.getFollowers().size(),
                 user.getProjects().size()
         );
+    }
+
+    public void blockUser(String username, String name) {
+        if (username.equals(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        var user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        var user2 = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var blockedUsers = user.getBlockedUsers();
+        blockedUsers.add(user2);
+
+        user.setBlockedUsers(blockedUsers);
+        userRepository.save(user);
+
+    }
+
+    public void unblockUser(String username, String name) {
+        if (username.equals(name)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        var user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        var user2 = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var blockedUsers = user.getBlockedUsers();
+        blockedUsers.remove(user2);
+
+        user.setBlockedUsers(blockedUsers);
+        userRepository.save(user);
     }
 }

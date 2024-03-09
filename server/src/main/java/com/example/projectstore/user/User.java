@@ -55,8 +55,10 @@ public class User implements UserDetails {
     private List<Project> projects = List.of();
     @ManyToMany
     private List<Project> likedProjects = List.of();
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Application> applications = Set.of();
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<User> blockedUsers = Set.of();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
