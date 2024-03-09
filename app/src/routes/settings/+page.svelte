@@ -5,11 +5,10 @@
     import Input from "$components/forms/Input.svelte";
     import TextArea from "$components/forms/TextArea.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
-    import { PUBLIC_API_URL } from "$env/static/public";
     import { goto } from "$app/navigation";
     import Avatar from "$components/Avatar.svelte";
     import fetchHttp from "$lib/fetchHttp.js";
-    import { redirect } from "@sveltejs/kit";
+    import { alertStore } from "$lib/stores/alertStore.js";
 
     let links = data.data.personalLinks;
     let linksLength = 0;
@@ -44,16 +43,22 @@
             personalLinks: [link1, link2, link3],
         };
 
-        const res = await fetch(PUBLIC_API_URL + "/account", {
-            method: "put",
+        const res = await fetch("/settings", {
+            method: "post",
             headers: {
-                Authorization: "Bearer " + data.token,
                 "Content-Type": "application/json;charset=UTF-8",
             },
             body: JSON.stringify(body),
         });
+
         if (res.ok) {
-            goto("/" + data.username);
+            location.reload()
+        } else {
+            alertStore.update(a => {
+                a.message = "Could not save settings"
+                a.color = "red"
+                return a
+            })
         }
     }
 

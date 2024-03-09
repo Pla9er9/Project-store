@@ -44,15 +44,10 @@ public class AccountController {
     }
 
     @PutMapping("account")
-    public void editAccount(
+    public String editAccount(
             @Valid @RequestBody AccountDto request,
             Authentication authentication) {
-        userService.editAccount(request, authentication);
-    }
-
-    @DeleteMapping("account")
-    public void deleteAccount(Authentication authentication) {
-        userService.deleteAccount(authentication);
+        return userService.editAccount(request, authentication);
     }
 
     @GetMapping("oauth2/account")
