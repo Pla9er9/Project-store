@@ -5,11 +5,13 @@
     onMount(() => {
         host = "http://" + window.location.host;
     });
+
+    const year = new Date().getFullYear()
 </script>
 
 <footer class="row">
     <img src="/icons/project.svg" alt="" />
-    <p>Project store 2024</p>
+    <p>Project store {year}</p>
     <div class="row links">
         <a href="{host}/status">Server status</a>
         <a href="{host}/explore">Explore</a>
