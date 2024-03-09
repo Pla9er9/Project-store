@@ -1,37 +1,41 @@
-// import { SECRET_KEY } from '$env/static/private';
-// import { redirect } from '@sveltejs/kit';
-// import jwt from 'jsonwebtoken';
+import { redirect } from '@sveltejs/kit';
 
-// // const securedRoutes: string[] = [
-// //     "change-password", "edit-account", "new-project"
-// // ]
+const securedRoutes = [
+    "/settings", "/new", "/home", "/console", "/chat", "/logout"
+]
 
-// export async function handle({ event, resolve }) {
-//     const securedRoute = event.url.pathname === "/new-project"
-//     console.log(event.url.pathname)
-// //     console.log(event.url.pathname)
-// //     for (let i = 0; i < securedRoutes.length; i++) {
-// //         if (event.url.pathname.startsWith("/" + securedRoutes[i])) {
-// //             securedRoute = true
-// //             break
-// //         }
-// //     }
+const noAuthRoutes = [
+    "/login", "/register"
+]
 
-//     if (!securedRoute) {
-//         const response = await resolve(event);
-//         return response;
-//     }
+export async function handle({ event, resolve }) {
+    const token = event.cookies.get('jwtToken')
+    const auth = authenticate(token) !== null
+    const routes = auth ? noAuthRoutes : securedRoutes
+    
+    let isRouteNotAllowed = false
+    
+    for (const route of routes) {
+        if (event.url.pathname.startsWith(route)) {
+            isRouteNotAllowed = true
+            break
+        } 
+    }
+    if (isRouteNotAllowed) {
+        console.log(`/${auth ? 'home' : 'login'}`)
+        throw redirect(303, `/${auth ? 'home' : 'login'}`)
+    }
 
-//     const authToken = event.cookies.get("jwtToken")
-//     if (!authToken) {
-//         throw redirect(302, "/login")
-//     }
+    return await resolve(event)
+}
 
-//     const claims = jwt.verify(authToken, SECRET_KEY);
+function authenticate(token: string | undefined): string | null {
+    if (!token) return null
 
-//     if(authToken && claims){
-//         const response = await resolve(event);
-//         return response;
-//     }
-//     throw redirect(302, "/login")
-// }
+    try {
+        const usernameFromToken = JSON.parse(atob(token.split(".")[1])).sub;
+        return usernameFromToken
+    } catch (_) {
+        return null
+    }
+}
