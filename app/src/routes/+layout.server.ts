@@ -14,7 +14,7 @@ export const load: LayoutServerLoad = async ({ cookies, route, url }) => {
 		};
 	}
 	if (route.id?.toString() === "" && token) {
-		throw redirect(300, "/home")
+		throw redirect(303, "/home")
 	}
 	const username: string = JSON.parse(atob(token.split('.')[1])).sub;
 	return {
