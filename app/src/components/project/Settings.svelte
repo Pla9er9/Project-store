@@ -58,7 +58,6 @@
 				a.color = "red"
 				return a
 			})
-			console.log(res)
 			return
 		}
 		await goto(`/${projectData.owner.username}`);

@@ -22,7 +22,6 @@ export async function handle({ event, resolve }) {
         } 
     }
     if (isRouteNotAllowed) {
-        console.log(`/${auth ? 'home' : 'login'}`)
         throw redirect(303, `/${auth ? 'home' : 'login'}`)
     }
 
