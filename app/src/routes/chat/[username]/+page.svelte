@@ -25,6 +25,7 @@
     let messages: any[] = [];
     let apiPage = 0;
     let auto = false
+    let active = true
 
     if (data.messages != undefined) {
         messages = data.messages.content
@@ -55,12 +56,14 @@
             onConnected,
             () => alert("Error"),
             (e: Event) => {
-                console.error(e);
-                alertStore.update((a) => {
-                    a.color = "red";
-                    a.message = "Connection with server closed";
-                    return a;
-                });
+                if (active) {
+                    console.error(e);
+                    alertStore.update((a) => {
+                        a.color = "red";
+                        a.message = "Connection with server closed";
+                        return a;
+                    });
+                }
             }
         );
 
@@ -71,10 +74,12 @@
     });
 
     beforeNavigate(() => {
+        active = false
         const body = document.querySelector("body");
         if (body) {
             body.style.overflow = "auto";
         }
+        stompClient.deactivate()
     });
 
     function onConnected() {
@@ -86,6 +91,13 @@
     }
 
     async function onMessageReceived(payload: IMessage) {
+        if (payload.body === "\"blocked\"") {
+            return alertStore.update(a => {
+                a.message = `You have been blocked by ${data.username}`
+                a.color = "yellow"
+                return a
+            })
+        }
         var message = JSON.parse(payload.body);
         messages = [...messages, message];
         await new Promise((r) => setTimeout(r, 50));
@@ -195,12 +207,14 @@
                     </a>
                 </div>
             {/if}
-            {#if auto}
-                <Observer onvisible={loadMoreMessages} />
-            {:else}
-                <div style="margin: 20px auto; width: max-content">
-                    <Button onClick={() => {auto = true}} text="Load more" outline={true} />
-                </div>
+            {#if data.messages.totalPages !== 0 && apiPage !== data.messages.totalPages - 1}
+                {#if auto}
+                    <Observer onvisible={loadMoreMessages} />
+                {:else}
+                    <div style="margin: 20px auto; width: max-content">
+                        <Button onClick={() => {auto = true}} text="Load more" outline={true} />
+                    </div>
+                {/if}
             {/if}
             {#each messages as message}
                 <Message {message} {username} />

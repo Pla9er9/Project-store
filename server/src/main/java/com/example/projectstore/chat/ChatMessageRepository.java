@@ -12,16 +12,12 @@ import java.util.UUID;
 
 @Repository
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, UUID> {
-    @Query("SELECT c FROM ChatMessage c WHERE c.chatId = ?1")
-    List<ChatMessage> findAllByChatId(String chatId);
-
     @Query
     Page<ChatMessage> findAllByChatIdOrderBySendDateTimeDesc(String chatId, Pageable pageable);
 
-    @Query("SELECT DISTINCT m.senderUsername FROM ChatMessage m WHERE m.recipientUsername = :username AND m.senderUsername != :username")
+    @Query("SELECT DISTINCT m.sender.username FROM ChatMessage m WHERE m.recipient.username = :username AND m.sender.username != :username")
     List<String> findChatsOpenedByRecipient(@Param("username") String username);
 
-    @Query("SELECT DISTINCT m.recipientUsername FROM ChatMessage m WHERE m.senderUsername = :username AND m.recipientUsername != :username")
+    @Query("SELECT DISTINCT m.recipient.username FROM ChatMessage m WHERE m.sender.username = :username AND m.recipient.username != :username")
     List<String> findChatsOpenedBySender(@Param("username") String username);
-
 }

@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,14 +27,14 @@ public class ChatController {
     private final ChatMessageService chatMessageService;
     private final FileService fileService;
 
-    @GetMapping("/api/v1/messages/{senderId}/{recipientId}")
-    public ResponseEntity<Page<ChatMessage>> getMessages(
-            @PathVariable("senderId") String senderId,
-            @PathVariable("recipientId") String recipientId,
+    @GetMapping("/api/v1/messages/{senderUsername}/{recipientUsername}")
+    public ResponseEntity<Page<ChatMessageDto>> getMessages(
+            @PathVariable("senderUsername") String senderUsername,
+            @PathVariable("recipientUsername") String recipientUsername,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page
     ) {
         return ResponseEntity.ok(
-                chatMessageService.getChatMessages(senderId, recipientId, page));
+                chatMessageService.getChatMessages(senderUsername, recipientUsername, page));
     }
 
     @GetMapping("/api/v1/cdn/images/{filename}")
@@ -46,16 +44,19 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public void processMessage(
-            @Valid @Payload ChatMessage chatMessage
+            @Valid @Payload ChatMessageDto chatMessage
     ) {
         chatMessage.setType("text");
-        chatMessage.setSendDateTime(LocalDateTime.now());
         ChatMessage savedMsg = chatMessageService.saveMessage(chatMessage);
+
+        if (savedMsg == null) {
+            return;
+        }
 
         var notification = new ChatNotification(
                 savedMsg.getId(),
-                savedMsg.getRecipientUsername(),
-                savedMsg.getSenderUsername(),
+                chatMessage.getRecipientUsername(),
+                chatMessage.getSenderUsername(),
                 savedMsg.getContent(),
                 "text",
                 savedMsg.getSendDateTime()
@@ -83,42 +84,29 @@ public class ChatController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        var id = UUID.randomUUID();
-
-        fileService.saveNewChatImage(id, chatImage.getFileExtension(), chatImage.getImage());
-
-        var chatMessage = new ChatMessage(
-                id,
-                chatImage.getChatId(),
-                id + "." + chatImage.getFileExtension(),
-                chatImage.getSenderUsername(),
-                chatImage.getRecipientUsername(),
-                LocalDateTime.now(),
-                "image"
-        );
-        ChatMessage savedMsg = chatMessageService.saveMessage(chatMessage);
+        var savedMsg = chatMessageService.saveImageMessage(chatImage);
 
         var notification = new ChatNotification(
                 savedMsg.getId(),
-                savedMsg.getRecipientUsername(),
-                savedMsg.getSenderUsername(),
+                chatImage.getRecipientUsername(),
+                chatImage.getSenderUsername(),
                 savedMsg.getContent(),
                 "image",
                 savedMsg.getSendDateTime()
         );
 
         messagingTemplate.convertAndSendToUser(
-                chatMessage.getSenderUsername(),
+                chatImage.getSenderUsername(),
                 "/queue/messages",
                 notification
         );
 
         messagingTemplate.convertAndSendToUser(
-                chatMessage.getRecipientUsername(),
+                chatImage.getRecipientUsername(),
                 "/queue/messages",
                 notification
         );
 
-        return chatMessage;
+        return savedMsg;
     }
 }

@@ -1,23 +1,30 @@
 package com.example.projectstore.chat;
 
+import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final UserRepository userRepository;
 
     public Optional<String> getChatRoomId(
             String senderId,
             String recipientId,
             boolean createNewRoomIfNotExists
     ) {
+
         return chatRoomRepository
-                .findBySenderIdAndRecipientId(senderId, recipientId)
+                .findChatroom(senderId, recipientId)
                 .map(ChatRoom::getChatId)
                 .or(() -> {
                     if (createNewRoomIfNotExists) {
@@ -29,25 +36,23 @@ public class ChatRoomService {
                 });
     }
 
-    private String createChatId(String senderId, String recipientId) {
-        var chatId = String.format("%s_%s", senderId, recipientId);
+    private String createChatId(String senderUsername, String recipientUsername) {
+        var chatId = String.format("%s_%s", senderUsername, recipientUsername);
+
+        var sender = userRepository.findByUsername(senderUsername)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        var recipient = userRepository.findByUsername(recipientUsername)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         ChatRoom senderRecipient = ChatRoom
                 .builder()
                 .chatId(chatId)
-                .senderId(senderId)
-                .recipientId(recipientId)
-                .build();
-
-        ChatRoom recipientSender = ChatRoom
-                .builder()
-                .chatId(chatId)
-                .senderId(recipientId)
-                .recipientId(senderId)
+                .sender(sender)
+                .recipient(recipient)
                 .build();
 
         chatRoomRepository.save(senderRecipient);
-        chatRoomRepository.save(recipientSender);
 
         return chatId;
     }
