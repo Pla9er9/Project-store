@@ -2,12 +2,8 @@ package com.example.projectstore.server_status;
 
 import com.example.projectstore.auth.AuthService;
 import com.example.projectstore.auth.SignInRequest;
-import com.example.projectstore.auth.SignUpRequest;
-import com.example.projectstore.chat.ChatMessage;
 import com.example.projectstore.chat.ChatMessageRepository;
 import com.example.projectstore.file.FileService;
-import com.example.projectstore.project.Project;
-import com.example.projectstore.project.ProjectRepository;
 import com.example.projectstore.project.ProjectService;
 import com.example.projectstore.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -22,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class StatusService {
 
     private final UserRepository userRepository;
-    private final ProjectRepository projectRepository;
     private final FileService fileService;
     private final ChatMessageRepository chatMessageRepository;
     private final ProjectService projectService;
@@ -65,8 +60,7 @@ public class StatusService {
             return true;
         } catch (ResponseStatusException e) {
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.info(e.getMessage());
             return false;
         }
@@ -86,7 +80,7 @@ public class StatusService {
             return true;
         } catch (Exception e) {
             log.info(e.getMessage());
-            return  false;
+            return false;
         }
     }
 
@@ -96,18 +90,17 @@ public class StatusService {
             return true;
         } catch (Exception e) {
             log.info(e.getMessage());
-            return  false;
+            return false;
         }
     }
 
     public boolean isChat() {
         try {
-            var message = chatMessageRepository.save(new ChatMessage());
-            chatMessageRepository.delete(message);
+            chatMessageRepository.findAll(PageRequest.of(0, 10));
             return true;
         } catch (Exception e) {
             log.info(e.getMessage());
-            return  false;
+            return false;
         }
     }
 }
