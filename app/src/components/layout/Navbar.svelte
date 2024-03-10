@@ -45,15 +45,12 @@
             <LinkButton text="Sign up" link="/register" />
         </div>
     {:else}
-        <a class="iconBtn" href="/explore">
-            <img src="/icons/explore.svg" alt="" />
-        </a>
         <a class="iconBtn" href="/new">
             <img src="/icons/plus.svg" alt="" />
         </a>
-        <button class="iconBtn">
-            <img src="/icons/notification.svg" alt="" />
-        </button>
+        <a class="iconBtn" href="/explore">
+            <img src="/icons/explore.svg" alt="" />
+        </a>
         <a class="iconBtn" href="/settings">
             <img src="/icons/settings.svg" alt="" />
         </a>
