@@ -7,8 +7,6 @@
     import UserProjects from "$components/user/UserProjects.svelte";
 
     let switchValue = "Description";
-
-    let projectSwitchBtnText = `Projects`;
 </script>
 
 <svelte:head>
@@ -29,9 +27,9 @@
     </div>
     <SwitchButton
         bind:currentValue={switchValue}
-        values={["Description", projectSwitchBtnText]}
+        values={["Description", "Projects"]}
     />
-    {#if switchValue === projectSwitchBtnText}
+    {#if switchValue === "Projects"}
         <UserProjects userId={data.data.userId} />
     {:else if switchValue === "Description" && data.data.description && data.data.description != ""}
         <Readme readme={data.data.description} />

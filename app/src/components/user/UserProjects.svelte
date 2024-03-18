@@ -5,11 +5,15 @@
 	import Result from '$components/search/Result.svelte';
     import fetchHttp from '$lib/fetchHttp';
     import { alertStore } from '$lib/stores/alertStore';
+    import { tokenStore } from "$lib/stores/tokenStore";
+    import { get } from "svelte/store";
 
 	let projects: any[] = []
 
 	async function load() {
-		const res = await fetchHttp(`/project?userId=${userId}`, {})
+		const res = await fetchHttp(`/project?userId=${userId}`, {
+			token: get(tokenStore)
+		})
 		if (!res.ok) {
 			alertStore.update(a => {
 				a.message = "Could not load user projects"
@@ -19,7 +23,6 @@
 		}
 		projects = res.body
 	}
-
 </script>
 
 <div id="projects">
@@ -27,7 +30,7 @@
 		<LoadingIndicator size="40px" />
 	{:then _} 
 		{#each projects as project}
-			<div style="max-width: 400px;width:95%;margin: 8px 0;">
+			<div class="resultWrapper">
 				<Result data={project} type="project" wide={false} />
 			</div>
 		{/each}
@@ -44,6 +47,12 @@
 		overflow-x: hidden;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-around;
+		justify-content: start;
+
+		.resultWrapper {
+			width:95%;
+			max-width: 400px;
+			margin: 8px 12px;
+		}
 	}
 </style>
