@@ -61,7 +61,7 @@ public class ReleaseService {
     }
 
     public void uploadRelease(UUID projectId, MultipartFile file, String version, Authentication authentication) {
-        var project = authService.creatorAuthGate(projectId, authentication);
+        var project = authService.creatorAuthGate(projectId, authentication.getName());
         deleteRelease(projectId, authentication);
         var filename = file.getOriginalFilename();
         assert filename != null;
@@ -88,7 +88,7 @@ public class ReleaseService {
     }
 
     public void deleteRelease(UUID projectId, Authentication authentication) {
-        var project = authService.creatorAuthGate(projectId, authentication);
+        var project = authService.creatorAuthGate(projectId, authentication.getName());
 
         Path p = Paths.get(this.cdnPath + "\\projects\\" + projectId + "\\release\\");
         try {

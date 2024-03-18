@@ -1,5 +1,7 @@
 package com.example.projectstore.invitation;
 
+import com.example.projectstore.auth.AuthService;
+import com.example.projectstore.config.JwtService;
 import com.example.projectstore.project.ProjectRepository;
 import com.example.projectstore.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ public class InvitationService {
     private final InvitationRepository invitationRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
+    private final AuthService authService;
+    private final JwtService jwtService;
 
     public List<InvitationDto> getAllInvitations(UUID projectId) {
         return invitationRepository.findAllByProject_Id(projectId)

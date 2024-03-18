@@ -20,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,19 +38,29 @@ public class ProjectService {
     private final IssueRepository issueRepository;
     private final IssueCommentRepository issueCommentRepository;
 
-    public ProjectDTO getProject(UUID id, HttpServletRequest request) {
+    public ProjectDTO getProject(UUID id, String authHeader) {
+        var project = getProjectSafely(id, authHeader);
+        var user = getUserFromToken(authHeader);
+        var projectDto_ = projectEntityToDto(project);
+        projectDto_.setLiked(isProjectLiked(user, id));
+        return projectDto_;
+    }
+
+    public User getUserFromToken(String token) {
+        return userRepository.findByUsername(jwtService.extractUsername(token.substring(7))).orElse(null);
+    }
+
+    public Project getProjectSafely(UUID id, String authHeader) {
         var project = projectRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
 
-        boolean isLiked = false;
-        var authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.length() > 8) {
-            var authUser = userRepository.findByUsername(jwtService.extractUsername(authHeader.substring(7)));
-            if (authUser.isPresent()) {
+            var authUsername = jwtService.extractUsername(authHeader.substring(7));
+            if (authUsername != null) {
                 if (project.isPrivate()) {
-                    var auth = authUser.get().getId().equals(project.getOwner().getId());
+                    var auth = authUsername.equals(project.getOwner().getUsername());
                     for (User u : project.getCreators()) {
-                        if (authUser.get().getId().equals(u.getId()) || auth) {
+                        if (authUsername.equals(u.getUsername()) || auth) {
                             auth = true;
                             break;
                         }
@@ -60,25 +69,36 @@ public class ProjectService {
                         throw new ResponseStatusException(HttpStatus.FORBIDDEN);
                     }
                 }
-                for (Project p : authUser.get().getLikedProjects()
-                ) {
-                    if (p.getId().equals(project.getId())) {
-                        isLiked = true;
-                        break;
-                    }
-                }
             }
         } else if (project.isPrivate()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        var projectDto_ = projectEntityToDto(project);
-        projectDto_.setLiked(isLiked);
-        return projectDto_;
+
+        return project;
     }
 
-    public List<ProjectDtoSimple> getAllUserProjects(UUID userId) {
-        return projectRepository.findAllByOwnerIdOrderByCreated(userId).stream().map(
-                this::projectEntityToSimpleDto).collect(Collectors.toList());
+    public boolean isProjectLiked(User user, UUID projectId) {
+        boolean isLiked = false;
+        for (Project p : user.getLikedProjects()
+        ) {
+            if (p.getId().equals(projectId)) {
+                isLiked = true;
+                break;
+            }
+        }
+        return isLiked;
+    }
+
+    public List<ProjectDtoSimple> getAllUserProjects(UUID userId, String token) {
+        if (token == null || token.equals("")) {
+            return projectRepository.findAllByOwnerIdAndIsPrivateFalseOrderByCreated(userId).stream().map(
+                    this::projectEntityToSimpleDto).collect(Collectors.toList());
+        } else {
+            var name = jwtService.extractUsername(token.substring(7));
+
+            return projectRepository.findAllByOwnerId(userId, name).stream().map(
+                    this::projectEntityToSimpleDto).collect(Collectors.toList());
+        }
     }
 
     public String createProject(CreateProjectRequest request, Authentication authentication) {
@@ -107,7 +127,7 @@ public class ProjectService {
             EditProjectRequest request,
             UUID projectId) {
 
-        var project = authService.ownerAuthGate(projectId, authentication);
+        var project = authService.ownerAuthGate(projectId, authentication.getName());
         project.setName(request.getName());
         project.setDescription(request.getDescription());
         project.setPrivate(request.isPrivate());
@@ -121,7 +141,7 @@ public class ProjectService {
 
     public String deleteProject(
             Authentication authentication, UUID projectId) {
-        authService.ownerAuthGate(projectId, authentication);
+        authService.ownerAuthGate(projectId, authentication.getName());
         invitationRepository.deleteAllByProject_Id(projectId);
         issueCommentRepository.deleteAllByIssue_Project_Id(projectId);
         issueRepository.deleteAllByProject_Id(projectId);

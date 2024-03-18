@@ -13,12 +13,16 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.LockModeType;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
 
-    List<Project> findAllByOwnerIdOrderByCreated(@Param("ownerId") UUID ownerId);
+    List<Project> findAllByOwnerIdAndIsPrivateFalseOrderByCreated(@Param("ownerId") UUID ownerId);
+
+    @Query("SELECT p FROM Project p LEFT JOIN p.creators c WHERE p.owner.id = :ownerId AND (p.owner.username = :username OR p.isPrivate = FALSE OR c.username = :username) ORDER BY p.created")
+    Set<Project> findAllByOwnerId(@Param("ownerId") UUID ownerId, @Param("username") String username);
 
     @Modifying
     @Transactional

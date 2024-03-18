@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -114,8 +113,8 @@ public class AuthService {
         return randomString;
     }
 
-    public Project ownerAuthGate(UUID projectId, Authentication authentication) {
-        var user = userRepository.findByUsername(authentication.getName())
+    public Project ownerAuthGate(UUID projectId, String name) {
+        var user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
         var p = projectRepository.findById(projectId).orElseThrow(
@@ -127,8 +126,24 @@ public class AuthService {
         return p;
     }
 
-    public Project creatorAuthGate(UUID projectId, Authentication authentication) {
-        var user = userRepository.findByUsername(authentication.getName())
+    public Project ownerAuthGateByToken(UUID projectId, String token) {
+        if (token == null || token.length() < 8) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        var name = jwtService.extractUsername(token.substring(7));
+        return ownerAuthGate(projectId, name);
+    }
+
+    public Project creatorAuthGateByToken(UUID projectId, String token) {
+        if (token == null || token.length() < 8) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        var name = jwtService.extractUsername(token.substring(7));
+        return creatorAuthGate(projectId, name);
+    }
+
+    public Project creatorAuthGate(UUID projectId, String name) {
+        var user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
         var p = projectRepository.findById(projectId).orElseThrow(

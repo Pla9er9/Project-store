@@ -1,5 +1,6 @@
 package com.example.projectstore.project;
 
+import com.example.projectstore.auth.AuthService;
 import com.example.projectstore.file.FileService;
 import com.example.projectstore.invitation.InvitationDto;
 import com.example.projectstore.invitation.InvitationService;
@@ -9,13 +10,11 @@ import com.example.projectstore.release.ReleaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,15 +34,14 @@ public class ProjectController {
     private final IssueService issueService;
     private final ReleaseService releaseService;
     private final InvitationService invitationService;
+    private final AuthService authService;
 
     @GetMapping
     public ResponseEntity<List<ProjectDtoSimple>> getAllUserProjects(
-            @RequestParam UUID userId
+            @RequestParam UUID userId,
+            HttpServletRequest request
     ) {
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-        return ResponseEntity.ok(projectService.getAllUserProjects(userId));
+        return ResponseEntity.ok(projectService.getAllUserProjects(userId, request.getHeader("Authorization")));
     }
 
     @GetMapping("/trending")
@@ -67,7 +65,7 @@ public class ProjectController {
             @PathVariable UUID id,
             HttpServletRequest request
     ) {
-        return projectService.getProject(id, request);
+        return projectService.getProject(id, request.getHeader("Authorization"));
     }
 
     @PostMapping
@@ -115,8 +113,10 @@ public class ProjectController {
 
     @GetMapping("{id}/invitations")
     public List<InvitationDto> getAllProjectInvitations(
-            @PathVariable UUID id
+            @PathVariable UUID id,
+            HttpServletRequest request
     ) {
+        authService.ownerAuthGateByToken(id, request.getHeader("Authorization"));
         return invitationService.getAllInvitations(id);
     }
 
@@ -149,16 +149,20 @@ public class ProjectController {
 
     @GetMapping(value = "{id}/download", produces = "application/zip")
     public byte[] getProjectCode(
-            @PathVariable UUID id
+            @PathVariable UUID id,
+            HttpServletRequest request
     ) throws IOException {
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
         return fileService.getZip(id);
     }
 
     @GetMapping("{id}/files")
     public ResponseEntity<String> getFile(
             @PathVariable UUID id,
-            @Nullable @RequestParam(defaultValue = "", required = false) String path
+            @Nullable @RequestParam(defaultValue = "", required = false) String path,
+            HttpServletRequest request
     ) {
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
         return ResponseEntity.ok(fileService.getByPathInProject(id, path));
     }
 
@@ -194,7 +198,9 @@ public class ProjectController {
     @GetMapping("{id}/issues")
     public ResponseEntity<Page<IssueDtoSimple>> getIssues(
             @PathVariable UUID id,
-            @RequestParam(required = false, defaultValue = "0") int page) {
+            @RequestParam(required = false, defaultValue = "0") int page,
+            HttpServletRequest request) {
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
         return ResponseEntity.ok(issueService.getAllIssue(id, page));
     }
 
@@ -205,11 +211,6 @@ public class ProjectController {
             Authentication authentication
     ) {
         issueService.createIssue(id, newIssueRequest, authentication);
-    }
-
-    @GetMapping("{id}/issues/{issueId}")
-    public ResponseEntity<IssueDto> getIssue(@PathVariable UUID issueId) {
-        return ResponseEntity.ok(issueService.getIssue(issueId));
     }
 
     @PostMapping("{id}/issues/{issueId}/close")
@@ -223,9 +224,10 @@ public class ProjectController {
     @GetMapping("{id}/release")
     public @ResponseBody byte[] getRelease(
             @PathVariable UUID id,
+            HttpServletRequest request,
             HttpServletResponse response
     ) {
-
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
         var release = releaseService.getLatestRelease(id);
         response.setContentType("application/force-download");
         response.setContentLength(release.getBytes().length);
@@ -243,7 +245,6 @@ public class ProjectController {
     ) {
         releaseService.uploadRelease(id, file, version, authentication);
     }
-
 
     @DeleteMapping("{id}/release")
     public void deleteRelease(

@@ -137,7 +137,7 @@ public class FileService {
             MultipartFile file,
             Authentication authentication
     ) {
-        authService.creatorAuthGate(projectId, authentication);
+        authService.creatorAuthGate(projectId, authentication.getName());
         securityFilterNonExistingFile(projectId, path);
 
         try {
@@ -367,7 +367,7 @@ public class FileService {
             MultipartFile file,
             Authentication authentication) {
 
-        var project = authService.creatorAuthGate(projectId, authentication);
+        var project = authService.creatorAuthGate(projectId, authentication.getName());
         var fullPath = securityFilter(projectId, path);
         Path p = Paths.get(fullPath);
         var oldFile = new File(p.toUri());
@@ -428,7 +428,7 @@ public class FileService {
             String path,
             Authentication authentication) {
 
-        authService.creatorAuthGate(projectId, authentication);
+        authService.creatorAuthGate(projectId, authentication.getName());
 
         var fullPath = securityFilter(projectId, path);
         File file = new File(fullPath);
