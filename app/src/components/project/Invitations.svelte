@@ -159,7 +159,7 @@
         small {
             margin-left: auto;
             margin-right: 10px;
-            color: rgb(110, 110, 110);
+            color: rgb(110 110 110);
             font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
                 sans-serif;
         }

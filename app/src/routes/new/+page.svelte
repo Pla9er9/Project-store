@@ -147,7 +147,7 @@
         max-width: 720px;
         min-height: 400px;
         position: absolute;
-        padding: 30px 0px;
+        padding: 30px 0;
         left: 0;
         right: 0;
         display: flex;
@@ -159,12 +159,12 @@
             width: 100%;
             margin-bottom: 25px;
             text-align: center;
-            color: #eeeeee;
-            font-family: "Fira sans";
+            color: #eee;
+            font-family: "Fira sans", sans-serif;
             line-height: 32px;
 
             small {
-                color: rgb(172, 172, 172);
+                color: rgb(172 172 172);
                 font-size: 14px;
                 line-height: 0px;
             }
@@ -182,7 +182,7 @@
         }
     }
 
-    @media screen and (max-width: 400px) {
+    @media screen and (width <= 400px) {
 		main {
             margin-top: 30px;
             border: none;

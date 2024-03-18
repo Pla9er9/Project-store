@@ -88,7 +88,7 @@
         button {
             width: 32px;
             height: 100%;
-            background-color: #ffffff00;
+            background-color: transparent;
             border: none;
             cursor: pointer;
             margin: 0 1px;

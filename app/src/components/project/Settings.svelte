@@ -128,7 +128,7 @@
 		width: 245px;
 		height: 40px;
 		outline: solid 1px var(--danger);
-		margin: 10px 0 25px 0;
+		margin: 10px 0 25px;
 		cursor: pointer;
 		background: inherit;
 		border: none;
@@ -146,6 +146,7 @@
 			margin: 0 auto;
 		}
 	}
+
 	.column {
 		margin: auto 25px;
 	}

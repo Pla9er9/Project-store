@@ -60,7 +60,7 @@
                     font-size: 15px;
                     font-family: sans-serif;
                     font-weight: 300;
-                    color: rgb(0, 110, 255);
+                    color: rgb(0 110 255);
                     text-decoration: none;
                 }
 

@@ -129,7 +129,7 @@
                     transition: 100ms ease-in-out;
 
                     &:hover {
-                        background-color: rgba(192, 192, 192, 0.137);
+                        background-color: rgba(192 192 192 / 13.7%);
                         outline: solid 1px gray;
                     }
                 }

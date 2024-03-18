@@ -44,13 +44,12 @@
         }
     }
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (width <= 1200px) {
         main {
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: repeat(3, 1fr);
-            grid-column-gap: 0px;
-            grid-row-gap: 0px;
+            grid-gap: 0;
             height: 1570px;
 
             .column {

@@ -181,11 +181,13 @@
         img {
             width: 20px;
         }
+        
         .row {
             width: 550px;
             justify-content: space-around;
             flex-wrap: wrap;
         }
+
         .avatarPanel {
             width: 215px;
             margin-left: 12px;
@@ -204,7 +206,7 @@
                     outline: solid 1px var(--lightBorder);
                     content: "new";
                     position: absolute;
-                    color: #ffffff;
+                    color: #fff;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -212,17 +214,18 @@
                     cursor: pointer;
                 }
             }
+
             button {
                 width: 88px;
                 height: 30px;
-                background-color: rgb(58, 8, 8);
+                background-color: rgb(58 8 8);
                 color: #fff;
                 border: solid 1px #ffffff1f;
                 border-radius: 4px;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: rgba(246, 5, 5, 0.364);
+                    background-color: rgba(246 5 5 / 36.4%);
                 }
             }
         }

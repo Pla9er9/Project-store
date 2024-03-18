@@ -252,7 +252,7 @@
 
                 p {
                     font-size: 22px;
-                    font-family: "Inter";
+                    font-family: Inter, sans-serif;
                     font-weight: 100;
 
                     &:hover {
@@ -270,10 +270,11 @@
         }
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (width <= 800px) {
         #chatList {
             display: none;
         }
+
         .chat {
             width: 100% !important;
         }

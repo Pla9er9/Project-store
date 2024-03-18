@@ -37,7 +37,7 @@
         box-sizing: border-box;
 
         h1 {
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             font-size: 20px;
             margin-right: auto;
             min-width: 120px;

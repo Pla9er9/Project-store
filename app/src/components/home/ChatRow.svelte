@@ -25,8 +25,8 @@
 
         .userProfileLink {
             margin: 0 auto 0 15px;
-            color: rgb(184, 184, 184);
-            font-family: "Fira sans";
+            color: rgb(184 184 184);
+            font-family: "Fira sans", sans-serif;
             font-size: 13px;
             transition: color 150ms ease-in-out;
 

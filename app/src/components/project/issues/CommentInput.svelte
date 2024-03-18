@@ -29,7 +29,7 @@
 		margin-top: 100px;
 		margin-bottom: 40px;
 		display: flex;
-		outline: solid 1px rgba(128, 128, 128, 0.5);
+		outline: solid 1px rgba(128 128 128 / 50%);
 		border-radius: 10px;
 
 		* {
@@ -55,21 +55,21 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-family: 'Fira sans';
+			font-family: 'Fira sans', sans-serif;
 			transition: fill 250ms ease-in-out;
 			background-color: inherit;
 			cursor: pointer;
 			border: none;
 			border-bottom-left-radius: 0;
 
-			&:hover svg {
-				fill: var(--mainColor);
-			}
-
 			svg {
 				width: 20px;
 				height: 20px;
 				fill: #fff;
+			}
+
+			&:hover svg {
+				fill: var(--mainColor);
 			}
 		}
 	}

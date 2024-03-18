@@ -40,8 +40,9 @@
     p {
         margin-top: 0;
         font-family: sans-serif;
-        color: rgb(161, 161, 161);
+        color: rgb(161 161 161);
     }
+
     .tags {
         width: 90%;
         max-width: 750px;
@@ -53,7 +54,7 @@
             margin: 0 4px;
             padding: 3px 8px;
             border: solid 1px var(--lightBorder);
-            background-color: rgba(220, 220, 220, 0.041);
+            background-color: rgba(220 220 220 / 4.1%);
             border-radius: 15px;
             color: gainsboro;
             font-family: monospace;

@@ -82,7 +82,7 @@
         p {
             width: 230px;
             margin: 0;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             font-size: 24px;
         }
     }

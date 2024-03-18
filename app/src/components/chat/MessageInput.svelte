@@ -71,7 +71,7 @@
 
     .row {
         width: 100%;
-        background-color: #ffffff00;
+        background-color: transparent;
 
         * {
             border-radius: 10px;
@@ -110,7 +110,7 @@
             margin: 5px 0 0 2px;
             content: "";
             display: inline-block;
-            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            background: linear-gradient(to top, #f9f9f9, #e3e3e3);
             border: 1px solid var(--lightBorder);
             border-radius: 5px;
             background-image: url("/icons/image_add.svg");
@@ -141,21 +141,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             transition: fill 250ms ease-in-out;
             background-color: var(--background);
             cursor: pointer;
             border: none;
             border-bottom-left-radius: 0;
 
-            &:hover svg {
-                fill: var(--mainColor);
-            }
-
             svg {
                 width: 20px;
                 height: 20px;
                 fill: #fff;
+            }
+
+            &:hover svg {
+                fill: var(--mainColor);
             }
         }
     }

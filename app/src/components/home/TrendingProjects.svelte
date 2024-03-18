@@ -45,7 +45,7 @@
         box-sizing: border-box;
 
         * {
-            margin: 5px 5px 14px 5px;
+            margin: 5px 5px 14px;
         }
 
         img {

@@ -62,10 +62,6 @@
         border-bottom: solid 1px #595858;
         border-radius: 5px;
 
-        &:hover .close {
-            display: block;
-        }
-
         .close {
             width: max-content;
             background-color: inherit;
@@ -79,9 +75,13 @@
             }
         }
 
+        &:hover .close {
+            display: block;
+        }
+
         p {
             font-size: 13px;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             margin: 0 auto 5px 2px;
         }
 

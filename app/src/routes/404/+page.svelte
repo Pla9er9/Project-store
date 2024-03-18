@@ -48,7 +48,8 @@
             }
         }
     }
-    @media screen and (max-width: 480px) {
+    
+    @media screen and (width <= 480px) {
         h1:first-child {
             font-size: 160px !important;
         }

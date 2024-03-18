@@ -19,13 +19,13 @@
     #changesBar {
         width: 400px;
         height: 100vh;
-        border-left: solid 1px rgb(77, 77, 77);
+        border-left: solid 1px rgb(77 77 77);
         padding: 20px 15px;
         box-sizing: border-box;
 
         p {
             align-self: flex-start;
-            margin: 5px 15px 20px 15px;
+            margin: 5px 15px 20px;
         }
     }
 </style>

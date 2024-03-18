@@ -141,14 +141,14 @@
             h1 {
                 margin: 0;
                 color: #fff;
-                font-family: "Fira sans";
+                font-family: "Fira sans", sans-serif;
             }
 
             p {
                 margin: 0;
-                font-family: "Fira sans";
+                font-family: "Fira sans", sans-serif;
                 font-size: 14px;
-                color: rgb(185, 185, 185);
+                color: rgb(185 185 185);
             }
 
             .follows {
@@ -164,14 +164,14 @@
             }
 
             button {
-                margin: 3px 0 -1px 0;
+                margin: 3px 0 -1px;
                 background: transparent;
                 padding: 0;
                 border: none;
                 cursor: pointer;
                 font-size: 11px;
                 color: var(--danger);
-                font-family: 'Fira sans';
+                font-family: 'Fira sans', sans-serif;
 
                 &:hover {
                     color: red;
@@ -194,7 +194,7 @@
         }
     }
 
-    @media screen and (max-width: 512px) {
+    @media screen and (width <= 512px) {
         .avatarName {
             justify-content: center;
             margin-top: -15px;

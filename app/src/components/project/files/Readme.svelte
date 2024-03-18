@@ -31,12 +31,12 @@
 	img {
 		width: 140px;
 		height: 140px;
-		margin: 25px 0 20px 0;
+		margin: 25px 0 20px;
 	}
 
 	p {
 		font-size: 15px;
-		margin: 18px 0 30px 0;
+		margin: 18px 0 30px;
 		text-align: center;
 		font-family: monospace;
 	}

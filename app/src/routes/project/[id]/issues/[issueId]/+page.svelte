@@ -59,7 +59,7 @@
         >
         <p>{issue.created.slice(0, 10)}</p>
     </div>
-    <p style="margin: 20px 0 40px 0; font-family: sans-serif">
+    <p style="margin: 20px 0 40px; font-family: sans-serif">
         {issue.description}
     </p>
     {#each issue.comments as comment}
@@ -80,8 +80,8 @@
             height: 35px;
             color: #fff;
             margin-left: auto;
-            border: solid 1px rgb(114, 6, 255);
-            background-color: rgba(62, 2, 141, 0.466);
+            border: solid 1px rgb(114 6 255);
+            background-color: rgba(62 2 141 / 46.6%);
             border-radius: 15px;
             cursor: pointer;
         }
@@ -89,7 +89,7 @@
         a,
         p {
             color: #fff;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             transition: 150ms ease-in-out;
             font-size: 15px;
             margin: 15px;
@@ -120,20 +120,20 @@
             }
 
             .open {
-                background: rgb(136, 252, 3);
+                background: rgb(136 252 3);
                 background: radial-gradient(
                     circle,
-                    rgba(136, 252, 3, 1) 0%,
-                    rgba(39, 126, 0, 1) 100%
+                    rgba(136 252 3) 0%,
+                    rgba(39 126 0) 100%
                 );
             }
 
             .closed {
-                background: rgb(164, 0, 251);
+                background: rgb(164 0 251);
                 background: radial-gradient(
                     circle,
-                    rgba(164, 0, 251, 1) 0%,
-                    rgba(55, 0, 238, 1) 100%
+                    rgba(164 0 251) 0%,
+                    rgba(55 0 238) 100%
                 );
             }
         }

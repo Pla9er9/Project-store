@@ -45,11 +45,11 @@
 
         a {
             width: 100%;
-            margin: 15px 0 15px 0;
+            margin: 15px 0;
             text-indent: 45px;
-            color: rgb(146, 146, 146);
+            color: rgb(146 146 146);
             font-size: 15px;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
 
             &:hover {
                 color: #fff;

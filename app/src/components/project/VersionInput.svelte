@@ -11,7 +11,7 @@
         background-color: inherit;
         border: solid 1px var(--lightBorder);
         border-radius: 5px;
-        margin: 15px 0 25px 0px;
+        margin: 15px 0 25px;
         display: flex;
         align-items: center;
         outline: none;

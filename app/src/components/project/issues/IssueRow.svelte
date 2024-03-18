@@ -35,27 +35,28 @@
             margin-right: 20px;
             border-radius: 50%;
         }
+        
         .open {
-            background: rgb(136, 252, 3);
+            background: rgb(136 252 3);
             background: radial-gradient(
                 circle,
-                rgba(136, 252, 3, 1) 0%,
-                rgba(39, 126, 0, 1) 100%
+                rgba(136 252 3) 0%,
+                rgba(39 126 0) 100%
             );
         }
 
         .closed {
-            background: rgb(164, 0, 251);
+            background: rgb(164 0 251);
             background: radial-gradient(
                 circle,
-                rgba(164, 0, 251, 1) 0%,
-                rgba(55, 0, 238, 1) 100%
+                rgba(164 0 251 / 100%) 0%,
+                rgba(55 0 238 / 100%) 100%
             );
         }
 
         p {
             font-size: 15px;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             margin-right: auto;
         }
 
@@ -64,7 +65,7 @@
                 sans-serif;
             min-width: max-content;
             font-size: 12px;
-            color: rgb(139, 139, 139);
+            color: rgb(139 139 139);
         }
 
         &:first-of-type {

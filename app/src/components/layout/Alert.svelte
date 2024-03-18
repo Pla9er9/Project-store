@@ -43,10 +43,10 @@
 		left: 0;
 		right: 0;
 		margin: 20px auto;
-		background: #111111;
+		background: #111;
 		border: solid 1px #2d343d;
 		display: flex;
-		font-family: 'Fira sans';
+		font-family: 'Fira sans', sans-serif;
 		font-size: 14px;
 		align-items: center;
 		border-radius: 10px;
@@ -78,13 +78,13 @@
 				background-color: #f98080;
 			}
 
-			&:hover svg {
-				fill: #000;
-			}
-
 			svg {
 				fill: #f98080;
 				margin: 0;
+			}
+
+			&:hover svg {
+				fill: #000;
 			}
 		}
 	}

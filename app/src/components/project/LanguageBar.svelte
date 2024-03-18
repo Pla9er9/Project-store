@@ -60,7 +60,7 @@
         width: 90%;
         height: 70px;
         background: #111;
-        border: solid 1px #ffffff11;
+        border: solid 1px #fff1;
         border-radius: 9px;
         justify-content: space-around;
         padding-bottom: 8px;
@@ -94,7 +94,7 @@
             }
 
             p {
-                font-family: "Fira sans";
+                font-family: "Fira sans", sans-serif;
                 font-size: 13px;
 
                 span {

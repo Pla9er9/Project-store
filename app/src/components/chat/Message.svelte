@@ -72,7 +72,7 @@
         border-radius: 15px;
 
         p {
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             margin: 0;
             color: #e9e9e9;
         }
@@ -86,7 +86,7 @@
 
     .yourMessage {
         margin-left: auto;
-        background-color: rgb(0, 110, 255);
+        background-color: rgb(0 110 255);
     }
 
     .notYourMessage {

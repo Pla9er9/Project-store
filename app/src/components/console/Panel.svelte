@@ -23,11 +23,10 @@
         border-radius: 5px;
         display: flex;
         align-items: center;
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: auto hidden;
 
         .label {
-            font-family: 'Fira sans';
+            font-family: 'Fira sans', sans-serif;
             margin-right: auto;
         }
 
@@ -36,7 +35,7 @@
             width: max-content;
             max-height: 30px;
             overflow-x: auto;
-            font-family: 'Fira sans';
+            font-family: 'Fira sans', sans-serif;
             font-size: 14px;
             white-space: nowrap;
             color: var(--mainColor);

@@ -38,7 +38,7 @@
 
         h1 {
             width: 80%;
-            font-family: 'Inter';
+            font-family: Inter, sans-serif;
             font-weight: 100;
             font-size: 40px;
         }
@@ -55,6 +55,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(180deg);
             }
@@ -67,7 +68,7 @@
         }
     }
 
-    @media screen and (max-width: 568px) {
+    @media screen and (width <= 568px) {
 		h1 {
             font-size: 30px !important;
         }

@@ -20,7 +20,7 @@
             />
             <h2>Applications</h2>
         </div>
-        <div class="row" style="margin: 20px 0 0 0px;">
+        <div class="row" style="margin: 20px 0 0;">
             <NewApplication />
             {#each data.data as d}
                 <Application name={d.name} date={d.created} id={d.id} />
@@ -41,11 +41,11 @@
         h1 {
             color: #dbd7d7;
             font-size: 38px;
-            font-family: "Inter";
+            font-family: Inter, serif;
         }
 
         h2 {
-            color: rgb(224, 209, 209);
+            color: rgb(224 209 209);
             font-family: sans-serif;
             font-weight: 100;
             font-size: 26px;
@@ -59,8 +59,7 @@
         }
     }
 
-    @media screen and (max-width: 400px) {
-		
+    @media screen and (width <= 400px) {
         h1 {
             width: 100%;
             text-align: center;

@@ -37,11 +37,10 @@
         border-radius: 5px;
         display: flex;
         align-items: center;
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: auto hidden;
 
         .label {
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             margin-right: auto;
         }
 
@@ -50,7 +49,7 @@
             width: max-content;
             max-height: 30px;
             overflow-x: auto;
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             font-size: 14px;
             white-space: nowrap;
             color: var(--mainColor);
@@ -68,12 +67,11 @@
         button {
             width: 100px;
             height: 32px;
-            border: none;
             margin-right: 5px;
             border: solid 2px var(--mainColor);
+            border-radius: 5px;
             color: #fff;
             background-color: var(--background);
-            border-radius: 5px;
             cursor: pointer;
             transition:
                 background 250ms ease-in-out,

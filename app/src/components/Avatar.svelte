@@ -13,9 +13,9 @@
     id="avatar"
     style="
 	background-image: url('{url}');
-	--size: {size};	
 	margin: {margin};
-	cursor:{cursor};"
+	cursor:{cursor};
+    --size: {size};"
 />
 
 <style>
@@ -26,7 +26,7 @@
         max-height: var(--size);
         border: solid 1px var(--lightBorder);
         border-radius: 100%;
-        background-color: rgba(241, 241, 241, 0);
+        background-color: transparent;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;

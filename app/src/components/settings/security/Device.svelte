@@ -35,7 +35,6 @@
 	.device {
 		width: 100%;
 		min-height: 55px;
-		padding: 18px 0;
 		background-color: inherit;
 		display: flex;
 		align-items: center;
@@ -50,7 +49,7 @@
 			height: max-content;
 			font-family: sans-serif;
 			font-size: 12px;
-			color: rgb(200, 198, 198);
+			color: rgb(200 198 198);
 			margin-right: auto;
 			margin-left: 18px;
 		}
@@ -60,7 +59,7 @@
 			margin: 0 10px;
 			font-size: 12px;
 			font-family: monospace;
-			color: rgb(105, 106, 105);
+			color: rgb(105 106 105);
 		}
 
 		button {

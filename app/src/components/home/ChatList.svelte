@@ -29,7 +29,7 @@
         </div>
     {:else if response.length === 0}
         <p
-            style="margin: 45px auto;color: gray; font-family: 'Fira sans';font-size: 13px;"
+            style="margin: 45px auto;color: gray; font-family: 'Fira sans', sans-serif;font-size: 13px;"
         >
             0 chats open
         </p>
@@ -53,7 +53,7 @@
         box-sizing: border-box;
 
         * {
-            margin: 5px 5px 14px 5px;
+            margin: 5px 5px 14px;
         }
 
         img {

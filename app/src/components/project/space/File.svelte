@@ -62,11 +62,11 @@
         menuOpened = false;
         if (event.detail.isDir) {
             directories = directories.filter(
-                (value) => path + "/" + value !== event.detail.path,
+                (value) => path + "/" + value !== event.detail.path
             );
         } else {
             files = files.filter(
-                (value) => path + "/" + value !== event.detail.path,
+                (value) => path + "/" + value !== event.detail.path
             );
         }
     }
@@ -85,7 +85,7 @@
         const res = await fetch(
             `${PUBLIC_API_URL}/project/${
                 get(spaceStore).projectId
-            }/files?path=${encodeURIComponent(path)}`,
+            }/files?path=${encodeURIComponent(path)}`
         );
         const body = await res.json();
         if (body.folders !== undefined) {
@@ -247,19 +247,38 @@
             font-family: sans-serif;
         }
 
+        img {
+            width: 18px;
+            height: 18px;
+            margin-left: var(--marginL);
+            margin-right: 12px;
+        }
+
+        .more {
+            width: 30px;
+            height: 28px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            padding: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background-color: #fff0;
+
+            img {
+                width: 16px;
+                height: 16px;
+                margin: 0;
+            }
+        }
+
         &:hover {
             background-color: #ffffff21;
 
             .more {
                 display: flex !important;
             }
-        }
-
-        img {
-            width: 18px;
-            height: 18px;
-            margin-left: var(--marginL);
-            margin-right: 12px;
         }
     }
 
@@ -275,27 +294,8 @@
             padding: 0;
 
             &:last-of-type:hover {
-                background-color: rgba(253, 67, 67, 0.178);
+                background-color: rgba(253 67 67 / 17.8%);
             }
-        }
-    }
-
-    .more {
-        width: 30px;
-        height: 28px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        padding: 0;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        background-color: #ffffff00;
-
-        img {
-            width: 16px;
-            height: 16px;
-            margin: 0;
         }
     }
 </style>

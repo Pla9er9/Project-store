@@ -80,10 +80,7 @@
         width: 95%;
         height: 640px;
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
         margin: auto;
         display: flex;
         flex-direction: column;
@@ -103,8 +100,8 @@
             margin-bottom: 30px;
 
             h1 {
-                font-family: "Fira sans";
-                color: rgb(207, 206, 206);
+                font-family: "Fira sans", sans-serif;
+                color: rgb(207 206 206);
                 margin-left: 15px;
             }
         }

@@ -125,16 +125,16 @@
         h1 {
             font-size: 40px;
             color: #e5e0f0;
-            margin: 70px 0 8px 0;
-            font-family: "Inter";
+            margin: 70px 0 8px;
+            font-family: Inter, serif;
             font-weight: 100;
             text-align: center;
         }
 
         small {
             font-size: 22px;
-            color: rgb(154, 153, 153);
-            font-family: "Fira sans";
+            color: rgb(154 153 153);
+            font-family: "Fira sans", sans-serif;
             margin-bottom: 40px;
         }
 

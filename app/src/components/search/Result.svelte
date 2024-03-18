@@ -77,7 +77,7 @@
         border-radius: 4px;
 
         a {
-            font-family: "Fira sans";
+            font-family: "Fira sans", sans-serif;
             color: #fff;
 
             &:hover {
@@ -91,6 +91,7 @@
             font-family: sans-serif;
             margin-top: 3px;
         }
+
         .language {
             margin-right: auto;
             width: 100px;
@@ -114,12 +115,12 @@
 
         p {
             font-size: 15px;
-            color: rgb(213, 215, 216);
+            color: rgb(213 215 216);
             font-family: sans-serif;
         }
     }
 
-    @media screen and (max-width: 520px) {
+    @media screen and (width <= 520px) {
         .projects {
             display: none;
         }

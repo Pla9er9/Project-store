@@ -32,7 +32,7 @@
     {:else if response.length === 0}
         <div class="column" style="margin: 45px auto;">
             <p
-                style="color: gray; font-family: 'Fira sans';font-size: 13px; margin-bottom: 25px;"
+                style="color: gray; font-family: 'Fira sans', sans-serif; font-size: 13px; margin-bottom: 25px;"
             >
                 You dont have any projects
             </p>
@@ -69,7 +69,7 @@
         align-items: start;
 
         * {
-            margin: 5px 5px 14px 5px;
+            margin: 5px 5px 14px;
         }
 
         img {

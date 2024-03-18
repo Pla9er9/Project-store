@@ -96,7 +96,7 @@
                 justify-content: start;
 
                 h1 {
-                    font-family: "Inter";
+                    font-family: Inter, serif;
                     font-weight: 100;
                     margin-right: auto;
                     font-size: 45px;
@@ -107,7 +107,7 @@
                     width: 80%;
                     max-width: 400px;
                     margin: 0 auto 0 10px;
-                    color: rgb(170, 170, 170);
+                    color: rgb(170 170 170);
                     font-family: sans-serif;
                 }
             }

@@ -36,18 +36,17 @@
 
         p {
             color: #dbdbdb;
-            font-family: 'Fira sans';
+            font-family: 'Fira sans', sans-serif;
             font-size: 15px;
             margin: 0 10px;
         }
 
         img {
             width: 18px;
-            margin-right: 0px;
+            margin-right: 0;
         }
 
         a {
-            font-family: sans-serif;
             color: #9c9c9c;
             font-family: sans-serif;
             font-weight: 100;
@@ -56,12 +55,12 @@
             margin: 5px 16px;
 
             &:hover {
-                color: rgb(195, 240, 128);
+                color: rgb(195 240 128);
             }
         }
     }
 
-    @media screen and (max-width: 764px) {
+    @media screen and (width <= 764px) {
         .links {
             width: 100%;
             margin-top: 20px;
@@ -70,8 +69,7 @@
 
             a {
                 max-width: 140px;
-                margin-left: 5px;
-                margin: 8px 0;
+                margin: 8px 0 8px 5px;
                 width: 40%;
                 text-align: start;
             }

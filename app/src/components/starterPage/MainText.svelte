@@ -33,7 +33,7 @@
 	h1 {
 		text-align: center;
 		color: #fff;
-		font-family: 'Staatliches', sans-serif;
+		font-family: Staatliches, sans-serif;
 		font-size: 130px;
 		font-weight: 100;
 		margin-bottom: 0;
@@ -48,7 +48,7 @@
 		}
 	}
 
-	@media screen and (max-width: 650px) {
+	@media screen and (width <= 650px) {
 		h1 {
 			font-size: 19vw;
 		}

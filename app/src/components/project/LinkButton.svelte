@@ -14,8 +14,8 @@
 		margin: 8px 5px;
 		display: flex;
 		align-items: center;
-		background-color: #111111;
-		border: solid 1px #ffffff11;
+		background-color: #111;
+		border: solid 1px #fff1;
 		border-radius: 9px;
 
 		&:hover {

@@ -148,7 +148,7 @@
 
                 p {
                     font-family: sans-serif;
-                    color: rgb(158, 157, 157);
+                    color: rgb(158 157 157);
 
                     &:first-of-type {
                         margin-left: 20px;

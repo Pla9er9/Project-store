@@ -24,7 +24,6 @@
 
 <style lang="scss">
     main {
-
         h1 {
             margin-right: auto;
         }
@@ -32,8 +31,8 @@
         p {
             margin-left: 14px;
             font-size: 18px;
-            color: rgb(188, 185, 185);
-            font-family: "Fira sans";
+            color: rgb(188 185 185);
+            font-family: "Fira sans", sans-serif;
         }
 
         .section {
@@ -57,7 +56,7 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: rgba(128, 255, 0, 0.051);
+                    background-color: rgba(128 255 0 / 5.1%);
                     color: #fff;
                 }
             }

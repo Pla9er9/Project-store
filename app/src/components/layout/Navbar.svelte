@@ -88,7 +88,7 @@
                 margin-bottom: 4px;
                 font-size: 20px;
                 color: #fff;
-                font-family: "Syne", sans-serif;
+                font-family: Syne, sans-serif;
             }
         }
 
@@ -105,7 +105,7 @@
 
             &:hover {
                 border-radius: 50%;
-                background-color: rgba(128, 128, 128, 0.13);
+                background-color: rgba(128 128 128 / 13%);
             }
 
             img {
@@ -136,12 +136,13 @@
         }
     }
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (width <= 600px) {
         .iconBtn,
         #avatarLink,
         #authBar {
             display: none !important;
         }
+
         button {
             display: block !important;
         }

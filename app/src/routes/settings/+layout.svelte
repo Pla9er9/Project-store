@@ -22,12 +22,12 @@
         }
     }
 
-    @media screen and (max-width: 930px) {
+    @media screen and (width <= 930px) {
         main {
             flex-direction: column;
 
             .wrapper {
-                margin: 60px auto 0 auto !important;
+                margin: 60px auto 0 !important;
             }
         }
     }

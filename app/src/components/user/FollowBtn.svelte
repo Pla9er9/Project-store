@@ -12,12 +12,13 @@
 <style lang="scss">
 	button {
 		height: 30px;
-		background: rgb(0, 110, 255);
+		background: rgb(0 110 255);
 		color: #fff;
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
 	}
+
 	.following {
 		background-color: inherit;
 		border: 1px solid #fff;

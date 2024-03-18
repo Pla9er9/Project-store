@@ -22,7 +22,7 @@
         transition: 150ms ease-in-out;
 
         &:hover {
-            background: rgba(128, 128, 128, 0.062);
+            background: rgba(128 128 128 / 6.2%);
         }
 
         img {

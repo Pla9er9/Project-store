@@ -9,6 +9,7 @@
 	class="checkBox"
 	style="
 		--background: {value ? 'var(--mainColor)' : '#ffffff08'};
+
 		border: {border}"
 >
 	<slot />
@@ -32,9 +33,9 @@
 
 		p {
 			color: #ffffff6b;
-			font-family: "Fira sans";
+			font-family: "Fira sans", sans-serif;
 			font-size: 14px;
-			margin: 0px;
+			margin: 0;
 			text-indent: 15px;
 		}
 

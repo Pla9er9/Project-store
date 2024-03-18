@@ -55,6 +55,17 @@
         background-color: #0a0a0a00;
         margin-bottom: 40px;
 
+        p {
+            font-size: 15px;
+            font-family: monospace;
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            margin: 25px 0 20px;
+        }
+
         a {
             width: 100%;
             height: 55px;
@@ -62,7 +73,7 @@
             display: flex;
             align-items: center;
             border: none;
-            border-bottom: solid 1px #333333;
+            border-bottom: solid 1px #333;
             transition: 100ms ease-in-out;
 
             &:hover {
@@ -83,16 +94,5 @@
                 cursor: pointer;
             }
         }
-    }
-
-    img {
-        width: 120px;
-        height: 120px;
-        margin: 25px 0 20px 0;
-    }
-
-    p {
-        font-size: 15px;
-        font-family: monospace;
     }
 </style>

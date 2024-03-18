@@ -79,7 +79,7 @@
         }
     }
 
-    @media screen and (max-width: 476px) {
+    @media screen and (width <= 476px) {
 		main {
             align-items: center !important;
         

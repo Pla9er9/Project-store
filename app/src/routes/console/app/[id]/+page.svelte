@@ -68,7 +68,7 @@
             h1 {
                 overflow-x: auto;
                 margin: 0 auto 0 0;
-                font-family: "Fira sans";
+                font-family: "Fira sans", sans-serif;
                 font-size: 28px;
                 white-space: nowrap;
             }
@@ -77,7 +77,7 @@
                 min-width: max-content;
                 font-size: 14px;
                 font-family: sans-serif;
-                color: rgb(162, 161, 161);
+                color: rgb(162 161 161);
                 margin-left: 15px;
             }
         }

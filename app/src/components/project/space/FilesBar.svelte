@@ -82,7 +82,7 @@
         height: 100vh;
         padding: 20px 15px;
         box-sizing: border-box;
-        border-right: solid 1px rgb(77, 77, 77);
+        border-right: solid 1px rgb(77 77 77);
         display: flex;
         position: static;
         flex-direction: column;
@@ -104,7 +104,7 @@
         position: fixed;
         left: 235px;
         justify-content: center;
-        bottom: 0px;
+        bottom: 0;
         cursor: pointer;
         transition: box-shadow 150ms ease-in-out;
 

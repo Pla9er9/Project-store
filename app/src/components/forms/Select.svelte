@@ -34,7 +34,7 @@
 
         p {
             text-indent: 10px;
-            font-family: 'Fira sans';
+            font-family: 'Fira sans', sans-serif;
             font-size: 14px;
             color: #ffffff6b;
         }
@@ -47,7 +47,7 @@
             background-color: #0c0b0b;
             border: solid 1px #ffffff1e;
             border-radius: 10px;
-            color: rgb(221, 222, 223);
+            color: rgb(221 222 223);
             outline: none;
             text-indent: 8px;
             font-family: monospace;

@@ -51,7 +51,7 @@
         max-width: 720px;
         height: 48px;
         padding: 0 10px;
-        margin: -10px 0 30px 0;
+        margin: -10px 0 30px;
         box-sizing: border-box;
         overflow-x: auto;
         border: solid 1px var(--lightBorder);

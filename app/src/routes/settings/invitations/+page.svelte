@@ -27,7 +27,8 @@
 	img {
 		width: 100px;
 	}
+	
 	p {
-		font-family: "Fira sans";
+		font-family: "Fira sans", sans-serif;
 	}
 </style>

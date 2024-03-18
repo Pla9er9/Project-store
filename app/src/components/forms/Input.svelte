@@ -22,9 +22,9 @@
     <div
         class="input row"
         style="
+        max-width: {width};
         --state: {correct ? 'var(--mainColor)' : 'var(--danger)'};
         --border: {correct || !clicked ? 'var(--lightBorder)' : 'var(--danger)'};
-        max-width: {width};
         "
     >
         <slot />

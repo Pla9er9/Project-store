@@ -12,11 +12,11 @@
 
 <div
 	style="
-    --bg: {isValid ? '#88fc0323' : 'inherit'};
-    --outlineColor: {isValid ? 'var(--mainColor)' : 'var(--lightBorder)'};
-    --cursor: {isValid ? 'pointer' : 'not-allowed'};
 	padding-left: {iconUrl === undefined ? '0' : '24px'};
 	width: {width};
+	--bg: {isValid ? '#88fc0323' : 'inherit'};
+    --outlineColor: {isValid ? 'var(--mainColor)' : 'var(--lightBorder)'};
+    --cursor: {isValid ? 'pointer' : 'not-allowed'};
     "
 >
 	{#if iconUrl !== undefined}
@@ -46,7 +46,7 @@
 			width: 242px;
 			height: 40px;
 			border: none;
-			background-color: rgba(0, 0, 0, 0);
+			background-color: transparent;
 			color: #ffffffde;
 			color: var(--mainColor);
 			cursor: var(--cursor);

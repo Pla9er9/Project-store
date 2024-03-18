@@ -34,14 +34,14 @@
         }
 
         h1 {
-            font-family: "Inter";
+            font-family: Inter, serif;
             font-weight: 100;
             line-height: 30px;
             font-size: 28px;
 
             span {
                 font-size: 20px;
-                color: rgb(187, 186, 186);
+                color: rgb(187 186 186);
             }
         }
 

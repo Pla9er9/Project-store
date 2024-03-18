@@ -10,14 +10,14 @@
     import ChangesBar from "$components/project/space/ChangesBar.svelte";
     import { onMount } from "svelte";
     import { beforeNavigate } from "$app/navigation";
-	import { page } from '$app/stores';
+    import { page } from "$app/stores";
     import { getProjectId } from "$lib/utils/fileUtils";
     import fetchHttp from "$lib/fetchHttp";
     import { alertStore } from "$lib/stores/alertStore";
 
     let space: Space | undefined = undefined;
     let currentFile: string | undefined = "";
-    const path = $page.url.searchParams.get("path")
+    const path = $page.url.searchParams.get("path");
 
     spaceStore.subscribe((value) => {
         space = value;
@@ -46,29 +46,32 @@
     onMount(async () => {
         const body = document.querySelector("body");
         if (body) body.style.overflowX = "auto";
-        await loadFile()
+        await loadFile();
     });
 
     async function loadFile() {
-        if (!path) return
+        if (!path) return;
 
-        const res = await fetchHttp(`/project/${getProjectId()}/files?path=${encodeURIComponent(path)}`, {});
+        const res = await fetchHttp(
+            `/project/${getProjectId()}/files?path=${encodeURIComponent(path)}`,
+            {}
+        );
         if (!res.ok) {
             if (res.status !== 404) {
-                alertStore.update(a => {
-                    a.message = "Couldnt load file"
-                    a.color = "red"
-                    return a
-                })
+                alertStore.update((a) => {
+                    a.message = "Couldnt load file";
+                    a.color = "red";
+                    return a;
+                });
             }
-            return
-        };
-        if (res.body.folders) return
-        
+            return;
+        }
+        if (res.body.folders) return;
+
         spaceStore.update((v) => {
             v.loadedFiles.set(path, res.body);
             v.editedFiles.set(path, res.body);
-            v.currentFile = path
+            v.currentFile = path;
             return v;
         });
     }
@@ -76,9 +79,8 @@
     beforeNavigate(() => {
         const body = document.querySelector("body");
         if (body) body.style.overflowX = "hidden";
-        $page.url.searchParams.delete("path")
-    })
-
+        $page.url.searchParams.delete("path");
+    });
 </script>
 
 <main class="row">
@@ -138,23 +140,6 @@
             height: 100vh;
             justify-content: start;
 
-            #desk {
-                margin: 260px auto auto auto;
-
-                p {
-                    border: none;
-                    font-family: "Fira sans";
-                    text-align: center;
-                    color: rgb(204, 204, 204);
-                    line-height: 28px;
-                }
-
-                img {
-                    width: 160px;
-                    height: 160px;
-                }
-            }
-
             img {
                 width: 22px;
                 height: 22px;
@@ -167,8 +152,8 @@
                 font-size: 18px;
                 width: 100%;
                 height: 60px;
-                margin: 0 0 20px 0;
-                border-bottom: solid 1px rgb(77, 77, 77);
+                margin: 0 0 20px;
+                border-bottom: solid 1px rgb(77 77 77);
             }
 
             .closeBtn {
@@ -182,6 +167,23 @@
 
                 img {
                     margin: 0;
+                }
+            }
+
+            #desk {
+                margin: 260px auto auto;
+
+                p {
+                    border: none;
+                    font-family: "Fira sans", sans-serif;
+                    text-align: center;
+                    color: rgb(204 204 204);
+                    line-height: 28px;
+                }
+
+                img {
+                    width: 160px;
+                    height: 160px;
                 }
             }
         }

@@ -133,13 +133,13 @@
             }
 
             a {
-                font-family: "Fira sans";
+                font-family: "Fira sans", sans-serif;
                 font-size: 15px;
                 color: #dfdcdc;
                 transition: text-decoration 150ms;
 
                 &:first-child {
-                    margin: 0px;
+                    margin: 0;
                 }
 
                 &:hover {
@@ -147,7 +147,7 @@
                 }
 
                 &:last-of-type {
-                    color: rgb(0, 110, 255);
+                    color: rgb(0 110 255);
                 }
             }
 

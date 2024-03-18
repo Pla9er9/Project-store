@@ -93,7 +93,7 @@
         margin: 0 auto;
 
         span {
-            color: rgba(220, 220, 220, 0);
+            color: transparent;
         }
     }
 </style>

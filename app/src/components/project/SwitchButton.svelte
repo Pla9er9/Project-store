@@ -18,10 +18,10 @@
     button {
         width: 120px;
         height: 40px;
-        margin: 50px 0 50px 0;
+        margin: 50px 0;
         border: none;
         color: #fff;
-        font-family: "Fira sans";
+        font-family: "Fira sans", sans-serif;
         border-top: solid 1px var(--lightBorder);
         border-bottom: solid 1px var(--lightBorder);
         transition: background 150ms ease-in-out;
@@ -41,10 +41,10 @@
         }
     }
 
-    @media screen and (max-width: 800px) {
+    @media screen and (width <= 800px) {
         .large {
             width: 90%;
-            margin: 40px auto 50px auto;
+            margin: 40px auto 50px;
 
             button {
                 width: 100%;

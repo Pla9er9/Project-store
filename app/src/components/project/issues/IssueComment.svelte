@@ -35,7 +35,7 @@
         background: linear-gradient(
             0deg,
             var(--background) 0%,
-            rgb(169, 215, 218) 0%,
+            rgb(169 215 218) 0%,
             var(--background) 100%
         );
     }
@@ -45,14 +45,14 @@
         width: 90%;
         padding: 5px 15px;
         margin: 30px 0;
-        outline: solid 1px rgba(105, 105, 105, 0.185);
+        outline: solid 1px rgba(105 105 105 / 18.5%);
         border-radius: 10px;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
 
         small {
-            color: rgb(168, 168, 168);
+            color: rgb(168 168 168);
         }
     }
 </style>

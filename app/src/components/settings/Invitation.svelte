@@ -48,8 +48,7 @@
 
 <style lang="scss">
 	.invitation {
-		margin-left: 30px;
-		margin: 10px 0;
+		margin: 10px 0 10px 30px;
 		border-radius: 5px;
 		width: 85vw;
 		max-width: 550px;
@@ -74,7 +73,7 @@
 		small {
 			margin-top: 5px;
 			margin-left: auto;
-			color: rgb(110, 110, 110);
+			color: rgb(110 110 110);
 			font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
 				sans-serif;
 		}
@@ -90,19 +89,19 @@
 			border-radius: 10px;
 			cursor: pointer;
 
-			&:first-of-type {
-				margin-left: auto;
-
-				&:hover {
-					background-color: #93f84f27;
-				}
-			}
-
 			&:last-of-type {
 				margin-right: 4px;
 
 				&:hover {
 					background-color: #f84f4f27;
+				}
+			}
+			
+			&:first-of-type {
+				margin-left: auto;
+
+				&:hover {
+					background-color: #93f84f27;
 				}
 			}
 

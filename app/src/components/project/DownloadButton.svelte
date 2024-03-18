@@ -18,7 +18,7 @@
 		margin-right: 10px;
 		float: right;
 		transition: 150ms ease-in-out;
-		outline: solid 1px rgb(85, 84, 84);
+		outline: solid 1px rgb(85 84 84);
 		border-radius: 5px;
 
 		&:hover {

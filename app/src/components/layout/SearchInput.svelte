@@ -4,17 +4,17 @@
     let value = "";
     let focus = false;
 
-    let isBottom = false
-    let show = true
+    let isBottom = false;
+    let show = true;
 
     function click() {
-        isBottom = !isBottom
-        const input = document.getElementById("searchInput")
+        isBottom = !isBottom;
+        const input = document.getElementById("searchInput");
         if (input) {
             if (isBottom) {
-                input.style.display = "flex"
+                input.style.display = "flex";
             } else {
-                input.style.display = "none"                
+                input.style.display = "none";
             }
         }
     }
@@ -22,10 +22,10 @@
     onMount(() => {
         setInterval(() => {
             if (window.innerWidth >= 600) {
-                isBottom = false
+                isBottom = false;
             }
-        }, 50)
-    })
+        }, 50);
+    });
 </script>
 
 {#if show}
@@ -45,15 +45,27 @@
         />
         {#if focus && value != ""}
             <div id="searchItems" class="column">
-                <a class="searchItem" href="/search?q={value}&t=users" rel="external">
+                <a
+                    class="searchItem"
+                    href="/search?q={value}&t=users"
+                    rel="external"
+                >
                     <img src="/icons/user.svg" alt="user icon" />
                     <p>Users {value}</p>
                 </a>
-                <a class="searchItem" href="/search?q={value}&t=project-name" rel="external">
+                <a
+                    class="searchItem"
+                    href="/search?q={value}&t=project-name"
+                    rel="external"
+                >
                     <img src="/icons/project.svg" alt="tag icon" />
                     <p>Projects {value}</p>
                 </a>
-                <a class="searchItem" href="/search?q={value}&t=project-tag" rel="external">
+                <a
+                    class="searchItem"
+                    href="/search?q={value}&t=project-tag"
+                    rel="external"
+                >
                     <img src="/icons/tag.svg" alt="tag icon" />
                     <p>Projects with tag {value}</p>
                 </a>
@@ -62,10 +74,22 @@
     </div>
 {/if}
 <button id="searchIcon" on:click={click}>
-    <img src="/icons/{isBottom ? 'cross_white' : 'search_'}.svg" alt="">
+    <img src="/icons/{isBottom ? 'cross_white' : 'search_'}.svg" alt="" />
 </button>
 
 <style lang="scss">
+    button {
+        display: none;
+        background-color: var(--background);
+        border: none;
+
+        img {
+            width: 18px;
+            margin-top: 3px;
+            margin-right: 10px;
+        }
+    }
+    
     #searchInput {
         width: max-content;
         display: flex;
@@ -97,8 +121,8 @@
             }
 
             &:focus {
-                outline: solid 1px rgba(182, 182, 182, 0.541);
-                border-bottom-right-radius: 0px;
+                outline: solid 1px rgba(182 182 182 / 54.1%);
+                border-bottom-right-radius: 0;
             }
         }
 
@@ -143,9 +167,9 @@
                 p {
                     width: 80%;
                     text-align: start;
-                    color: rgb(255, 243, 243);
+                    color: rgb(255 243 243);
                     font-size: 12px;
-                    font-family: "Fira sans";
+                    font-family: "Fira sans", sans-serif;
                     text-overflow: clip;
                 }
             }
@@ -170,19 +194,7 @@
         }
     }
 
-    button {
-        display: none;
-        background-color: var(--background);
-        border: none;
-
-        img {
-            width: 18px;
-            margin-top: 3px;
-            margin-right: 10px;
-        }
-    }
-
-    @media screen and (max-width: 980px) {
+    @media screen and (width <= 980px) {
         #searchInput {
             display: none;
             top: 0 !important;
@@ -199,6 +211,7 @@
                 width: 90vw;
             }
         }
+
         #searchIcon {
             display: block !important;
         }

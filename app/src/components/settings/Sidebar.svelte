@@ -67,12 +67,18 @@
 				margin-right: 15px;
 			}
 
+			button {
+				background-color: inherit;
+				border: none;
+				padding: 0;
+			}
+			
 			a,
 			button {
 				font-size: 15px;
 				font-family: sans-serif;
 				min-width: max-content;
-				color: #888888;
+				color: #888;
 				cursor: pointer;
 				transition: color 100ms ease-in-out;
 
@@ -81,19 +87,13 @@
 				}
 			}
 
-			button {
-				background-color: inherit;
-				border: none;
-				padding: 0;
-			}
-
 			.danger:hover {
-				color: rgb(228, 78, 78);
+				color: rgb(228 78 78);
 			}
 		}
 	}
 
-	@media screen and (max-width: 930px) {
+	@media screen and (width <= 930px) {
 		#sidebar {
 			min-width: 100vw;
 			min-height: 25px;

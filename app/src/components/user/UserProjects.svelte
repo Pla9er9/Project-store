@@ -43,8 +43,7 @@
 		padding-right: 10px;
 		width: 95%;
 		height: max-content;
-		overflow-y: auto;
-		overflow-x: hidden;
+		overflow: hidden auto;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: start;
