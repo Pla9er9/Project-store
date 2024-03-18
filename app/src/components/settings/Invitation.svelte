@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 	import fetchHttp from "$lib/fetchHttp";
+    import type { InvitationDto } from "$lib/models/invitation/InvitationDto";
 	import { tokenStore } from "$lib/stores/tokenStore";
 	import { createEventDispatcher } from "svelte";
 	import { get } from "svelte/store";
 
-	export let invitation;
+	export let invitation: InvitationDto;
 
 	var dispatch = createEventDispatcher();
 

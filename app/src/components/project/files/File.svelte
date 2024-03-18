@@ -8,6 +8,7 @@
 </script>
 
 <svelte:head>
+    <!-- eslint-disable-next-line -->
     {@html windows10}
 </svelte:head>
 

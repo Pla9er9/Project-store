@@ -5,8 +5,9 @@
     import { tokenStore } from "$lib/stores/tokenStore";
     import { get } from "svelte/store";
     import IssueRow from "$components/project/issues/IssueRow.svelte";
+    import type { IssueDtoSimple } from "$lib/models/issue/IssueDtoSimple";
 
-    let response: any = null;
+    let response: IssueDtoSimple[] | null = null;
 
     onMount(async () => {
         const res = await fetchHttp("/account/issues", {

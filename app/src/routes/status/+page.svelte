@@ -1,5 +1,4 @@
 <script>
-    // @ts-nocheck
     import StatusRow from "$components/status/StatusRow.svelte";
     
     export let data

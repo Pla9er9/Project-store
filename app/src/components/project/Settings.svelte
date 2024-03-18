@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let projectData: any;
+	export let projectData: ProjectDTO;
 
 	import * as validators from "$lib/validators/projectValidators.js";
 	import Input from "$components/forms/Input.svelte";
@@ -14,6 +14,7 @@
 	import getLicenses from "$lib/licenses";
 	import TagInput from "$components/forms/TagInput.svelte";
     import { alertStore } from "$lib/stores/alertStore";
+    import type { ProjectDTO } from "$lib/models/project/ProjectDTO";
 
 	let projectName = projectData.name,
 		projectNameValid = true,

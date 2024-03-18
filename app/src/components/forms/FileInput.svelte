@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let onChange: (e: Event) => void = (e) => {};
+	export let onChange: (e: Event) => void = () => {};
 	export let value: FileList;
 	export let text = '👾 Click to upload project code'
 	export let directory = true

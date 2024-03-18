@@ -1,7 +1,8 @@
 <script lang="ts">
+    import type { DeviceDto } from "$lib/models/device/DeviceDto";
     import Device from "./Device.svelte";
 
-    export let deviceList: any[];
+    export let deviceList: DeviceDto[];
     export let expand = false;
 </script>
 

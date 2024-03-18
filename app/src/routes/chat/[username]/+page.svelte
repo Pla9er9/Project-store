@@ -16,13 +16,14 @@
     import { get } from "svelte/store";
     import { tokenStore } from "$lib/stores/tokenStore";
     import Button from "$components/Button.svelte";
+    import type { MessageDto } from "$lib/models/message/MessageDto.js";
 
     let stompClient: CompatClient;
     let username: string;
 
     let message = "";
     let files: File[] = [];
-    let messages: any[] = [];
+    let messages: MessageDto[] = [];
     let apiPage = 0;
     let auto = false
     let active = true

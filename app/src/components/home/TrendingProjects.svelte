@@ -2,9 +2,10 @@
     import LoadingIndicator from "$components/LoadingIndicator.svelte";
     import Result from "$components/search/Result.svelte";
     import fetchHttp from "$lib/fetchHttp";
+    import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple";
     import { onMount } from "svelte";
 
-    let response: any = null;
+    let response: { content: ProjectDtoSimple[] } | null = null;
 
     onMount(async () => {
         const res = await fetchHttp("/project/mostLiked", {});

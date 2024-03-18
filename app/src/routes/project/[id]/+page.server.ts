@@ -14,6 +14,7 @@ export async function load({ params }) {
         );
         return res
     }
+    
     const res = await loadReadme();
     const md = await toMarkdown(res.body ? res.body : '');
 

@@ -1,8 +1,9 @@
 <script lang="ts">
     import Avatar from "$components/Avatar.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
+    import type { MessageDto } from "$lib/models/message/MessageDto";
 
-    export let message: any;
+    export let message: MessageDto;
     export let username: string;
     let isMessageYours = message.senderUsername === username;
     let hover = false;
@@ -31,7 +32,7 @@
             on:mouseenter={() => (hover = true)}
             on:mouseleave={() => (hover = false)}
         >
-            {#if message.type !== "image" && message.image === undefined}
+            {#if message.type !== "image"}
                 <p>{message.content}</p>
             {:else}
                 <img

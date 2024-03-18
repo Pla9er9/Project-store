@@ -2,7 +2,6 @@
     import { goto } from "$app/navigation";
     import Input from "$components/forms/Input.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
-    import fetchHttp from "$lib/fetchHttp";
     import { alertStore } from "$lib/stores/alertStore";
     import * as validators from "$lib/validators/registerValidators";
 

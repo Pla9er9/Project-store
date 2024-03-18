@@ -4,11 +4,12 @@
 	import LoadingIndicator from "$components/LoadingIndicator.svelte"
 	import Result from '$components/search/Result.svelte';
     import fetchHttp from '$lib/fetchHttp';
+    import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple";
     import { alertStore } from '$lib/stores/alertStore';
     import { tokenStore } from "$lib/stores/tokenStore";
     import { get } from "svelte/store";
 
-	let projects: any[] = []
+	let projects: ProjectDtoSimple[] = []
 
 	async function load() {
 		const res = await fetchHttp(`/project?userId=${userId}`, {
@@ -28,7 +29,7 @@
 <div id="projects">
 	{#await load()}
 		<LoadingIndicator size="40px" />
-	{:then _} 
+	{:then} 
 		{#each projects as project}
 			<div class="resultWrapper">
 				<Result data={project} type="project" wide={false} />

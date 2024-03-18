@@ -1,7 +1,8 @@
 <script lang="ts">
-	export let device: any;
+	export let device: DeviceDto;
 
 	import fetchHttp from "$lib/fetchHttp";
+    import type { DeviceDto } from "$lib/models/device/DeviceDto";
 	import { tokenStore } from "$lib/stores/tokenStore";
 	import { get } from "svelte/store";
 

@@ -2,7 +2,7 @@
     export let placeholder: string;
     export let password = false;
     export let value = "";
-    export let validator: (s: string) => string = (str) => "";
+    export let validator: (s: string) => string = () => "";
     export let maxlength = 30;
     export let correct = false;
     export let width = "220px";

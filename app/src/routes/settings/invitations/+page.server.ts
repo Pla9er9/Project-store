@@ -6,6 +6,6 @@ export async function load({ cookies }) {
         server: true
     })
     return {
-        data: res?.body
+        data: res.body
     }
 }

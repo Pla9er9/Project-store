@@ -6,7 +6,7 @@
     import { tokenStore } from "$lib/stores/tokenStore";
     import { get } from "svelte/store";
 
-    let response: any = null;
+    let response: string[] | null = null;
 
     onMount(async () => {
         const res = await fetchHttp("/account/chats", {

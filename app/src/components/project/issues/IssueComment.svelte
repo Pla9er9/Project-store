@@ -1,6 +1,5 @@
 <script lang="ts">
     import Avatar from "$components/Avatar.svelte";
-    import { PUBLIC_API_URL } from "$env/static/public";
     import type { IssueCommentDto } from "$lib/models/issue/IssueCommentDto";
 
     export let comment: IssueCommentDto;

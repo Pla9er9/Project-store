@@ -5,7 +5,6 @@
     import Input from "$components/forms/Input.svelte";
     import TextArea from "$components/forms/TextArea.svelte";
     import SubmitButton from "$components/forms/SubmitButton.svelte";
-    import { goto } from "$app/navigation";
     import Avatar from "$components/Avatar.svelte";
     import fetchHttp from "$lib/fetchHttp.js";
     import { alertStore } from "$lib/stores/alertStore.js";
@@ -133,10 +132,10 @@
             >
                 <img src="/icons/personal_data_outline.svg" alt="" />
             </Input>
-            <Input placeholder="Link" validator={(s) => ""} bind:value={link1}>
+            <Input placeholder="Link" validator={() => ""} bind:value={link1}>
                 <img src="/icons/link.svg" alt="link" />
             </Input>
-            <Input placeholder="Link" validator={(s) => ""} bind:value={link3}>
+            <Input placeholder="Link" validator={() => ""} bind:value={link3}>
                 <img src="/icons/link.svg" alt="link" />
             </Input>
         </div>
@@ -163,7 +162,7 @@
             >
                 <img src="/icons/personal_data_outline.svg" alt="" />
             </Input>
-            <Input placeholder="Link" validator={(s) => ""} bind:value={link2}>
+            <Input placeholder="Link" validator={() => ""} bind:value={link2}>
                 <img src="/icons/link.svg" alt="link" />
             </Input>
             <SubmitButton

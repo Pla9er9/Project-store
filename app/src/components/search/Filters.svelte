@@ -3,7 +3,7 @@
 
     export let query: string | null;
     export let type: string | null;
-    export let onSelect: (e: string) => void = (e) => {}
+    export let onSelect: (e: string) => void = () => {}
 
     let sType: string
     if (type === "" || type === null) {

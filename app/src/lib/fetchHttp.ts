@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { alertStore } from './stores/alertStore';
 import { PUBLIC_API_URL } from '$env/static/public';
 
-let any: any
+let any: unknown
 
 export default async function fetchHttp(
 	url: string,
@@ -21,7 +21,7 @@ export default async function fetchHttp(
         errorMessage = 'Some unexpected error occurred',
 		headers = {}
     }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 ): Promise<response> {
 	let auth = '';
 	let apiPrefix = '';

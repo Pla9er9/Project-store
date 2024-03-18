@@ -7,8 +7,9 @@
     import Result from "$components/search/Result.svelte";
     import Button from "$components/Button.svelte";
     import { goto } from "$app/navigation";
+    import type { ProjectDtoSimple } from "$lib/models/project/ProjectDtoSimple";
 
-    let response: any = null;
+    let response: ProjectDtoSimple[] | null = null;
 
     onMount(async () => {
         const res = await fetchHttp("/account/projects", {
