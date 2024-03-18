@@ -134,20 +134,32 @@ public class AuthService {
         return ownerAuthGate(projectId, name);
     }
 
-    public Project creatorAuthGateByToken(UUID projectId, String token) {
-        if (token == null || token.length() < 8) {
+    public Project creatorAuthGateByToken(UUID projectId, String token, boolean isAllowedIfPublic) {
+        if (!isAllowedIfPublic && (token == null || token.length() < 8)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        var name = jwtService.extractUsername(token.substring(7));
-        return creatorAuthGate(projectId, name);
+        String name = null;
+
+        if (!isAllowedIfPublic) {
+            name = jwtService.extractUsername(token.substring(7));
+        }
+        return creatorAuthGate(projectId, name, isAllowedIfPublic);
     }
 
     public Project creatorAuthGate(UUID projectId, String name) {
-        var user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return creatorAuthGate(projectId, name, false);
+    }
 
+    public Project creatorAuthGate(UUID projectId, String name, boolean isAllowedIfPublic) {
         var p = projectRepository.findById(projectId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (isAllowedIfPublic && !p.isPrivate()) {
+            return p;
+        }
+
+        var user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
         var found = false;
 

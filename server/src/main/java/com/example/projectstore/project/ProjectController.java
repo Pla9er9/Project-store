@@ -152,7 +152,7 @@ public class ProjectController {
             @PathVariable UUID id,
             HttpServletRequest request
     ) throws IOException {
-        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"), true);
         return fileService.getZip(id);
     }
 
@@ -162,7 +162,7 @@ public class ProjectController {
             @Nullable @RequestParam(defaultValue = "", required = false) String path,
             HttpServletRequest request
     ) {
-        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"), true);
         return ResponseEntity.ok(fileService.getByPathInProject(id, path));
     }
 
@@ -200,7 +200,7 @@ public class ProjectController {
             @PathVariable UUID id,
             @RequestParam(required = false, defaultValue = "0") int page,
             HttpServletRequest request) {
-        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"), true);
         return ResponseEntity.ok(issueService.getAllIssue(id, page));
     }
 
@@ -227,7 +227,7 @@ public class ProjectController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"));
+        authService.creatorAuthGateByToken(id, request.getHeader("Authorization"), true);
         var release = releaseService.getLatestRelease(id);
         response.setContentType("application/force-download");
         response.setContentLength(release.getBytes().length);
