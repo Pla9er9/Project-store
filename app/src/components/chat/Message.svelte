@@ -2,6 +2,7 @@
     import Avatar from "$components/Avatar.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
     import type { MessageDto } from "$lib/models/message/MessageDto";
+    import ChatImage from "./ChatImage.svelte";
 
     export let message: MessageDto;
     export let username: string;
@@ -35,19 +36,11 @@
             {#if message.type !== "image"}
                 <p>{message.content}</p>
             {:else}
-                <img
-                    src="{PUBLIC_API_URL}/cdn/images/{message.content}"
-                    alt=""
-                    style="max-width: 180px;"
-                />
+                <ChatImage id={message.content} />
             {/if}
         </div>
         {#if isMessageYours}
-            <Avatar
-                margin="0 30px 0 0"
-                username={username}
-                size="35px"
-            />
+            <Avatar margin="0 30px 0 0" {username} size="35px" />
         {/if}
     </div>
     {#if hover}

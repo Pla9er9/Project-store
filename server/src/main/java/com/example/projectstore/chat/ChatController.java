@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,8 +39,9 @@ public class ChatController {
     }
 
     @GetMapping("/api/v1/cdn/images/{filename}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String filename) {
-        return ResponseEntity.ok(fileService.getChatImage(filename));
+    public ResponseEntity<byte[]> getImage(@PathVariable String filename, Authentication authentication) {
+        return ResponseEntity.ok(
+                chatMessageService.getImage(filename, authentication.getName()));
     }
 
     @MessageMapping("/chat")

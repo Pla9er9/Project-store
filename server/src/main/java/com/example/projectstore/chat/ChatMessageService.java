@@ -116,4 +116,15 @@ public class ChatMessageService {
                 chatMessage.getType()
         );
     }
+
+    public byte[] getImage(String filename, String name) {
+        var chatMessage = repository.findByContentAndType(filename, "image")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!chatMessage.getSender().getUsername().equals(name) && !chatMessage.getRecipient().getUsername().equals(name)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return fileService.getChatImage(filename);
+    }
 }
