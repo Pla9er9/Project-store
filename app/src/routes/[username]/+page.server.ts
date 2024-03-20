@@ -1,6 +1,6 @@
 import fetchHttp from '$lib/fetchHttp.js';
 import type { UserDto } from '$lib/models/user/UserDto.js';
-import DOMPurify from 'dompurify';
+import DOMPurify from "isomorphic-dompurify";
 
 export async function load({ params, cookies }) {
 	async function loadData() {
