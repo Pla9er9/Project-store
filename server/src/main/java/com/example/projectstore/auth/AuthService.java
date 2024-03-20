@@ -10,6 +10,7 @@ import com.example.projectstore.project.Project;
 import com.example.projectstore.project.ProjectRepository;
 import com.example.projectstore.user.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -45,6 +47,16 @@ public class AuthService {
         request.setPassword(
                 passwordEncoder.encode(request.getPassword()));
 
+        var _user = userRepository.findByUsername(request.getUsername());
+        if (_user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already taken");
+        }
+
+        _user = userRepository.findByEmail(request.getEmail());
+        if (_user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already taken");
+        }
+
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -52,6 +64,7 @@ public class AuthService {
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .build();
+
         userRepository.save(user);
         fileService.createDirectory("/avatars", String.valueOf(user.getId()));
         var jwtToken = jwtService.generateToken(user);

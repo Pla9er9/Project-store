@@ -33,17 +33,23 @@
                 password: password,
                 firstname: firstname,
                 lastname: lastname,
-            })
-        })
+            }),
+        });
         if (res?.status === 200) {
             await goto("/");
             location.reload();
         } else {
-            alertStore.update(a => {
-                a.color ="red"
-                a.message = "Unabled to create account"
-                return a
-            })
+            const json = await res.json();
+            const errorMessage = json.error.message;
+
+            alertStore.update((a) => {
+                a.color = "red";
+                a.message =
+                    errorMessage === ""
+                        ? "Unabled to create account"
+                        : errorMessage;
+                return a;
+            });
         }
     }
 </script>
@@ -103,7 +109,7 @@
             text="Register"
             isValid={isFormValid}
             callback={async () => await sendForm()}
-			iconUrl="/icons/checkmark.svg"
+            iconUrl="/icons/checkmark.svg"
         />
     </div>
 </main>
@@ -111,15 +117,15 @@
 <style lang="scss">
     main {
         max-width: 700px;
-		min-height: 450px;
+        min-height: 450px;
         width: 100%;
         margin: 80px auto;
         display: flex;
         flex-direction: column;
         align-items: center;
-		justify-content: center;
+        justify-content: center;
         border: solid 1px var(--lightBorder);
-		border-radius: 5px;
+        border-radius: 5px;
 
         h1 {
             font-size: 40px;
@@ -133,7 +139,7 @@
         small {
             font-size: 22px;
             color: rgb(154 153 153);
-            font-family: 'Fira sans', sans-serif;
+            font-family: "Fira sans", sans-serif;
             margin-bottom: 40px;
         }
 

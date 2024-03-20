@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u FROM User u WHERE lower(u.username) LIKE %:name%")
     Page<User> searchByUserName(@Param("name") String name, Pageable pageable);
+
+    Optional<User> findByEmail(String email);
 }
