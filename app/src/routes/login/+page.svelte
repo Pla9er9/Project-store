@@ -27,7 +27,7 @@
             username: username,
             password: password,
         });
-        let res = await fetch("http://localhost:5173/login", {
+        let res = await fetch("/login", {
             method: "post",
             body: body,
         });
