@@ -58,7 +58,11 @@
         stompClient.connect(
             { headers: authHeaders },
             onConnected,
-            () => alert("Error"),
+            () => alertStore.update(a => {
+                a.message = "Error occured"
+                a.color = "red"
+                return a
+            }),
             (e: Event) => {
                 if (active) {
                     console.error(e);

@@ -4,6 +4,7 @@
     import SubmitButton from "$components/forms/SubmitButton.svelte";
     import fetchHttp from "$lib/fetchHttp";
     import { goto } from "$app/navigation";
+    import { alertStore } from "$lib/stores/alertStore";
 
     let title = "";
     let description = "";
@@ -19,7 +20,11 @@
         if (res?.ok) {
             await goto("/");
         } else {
-            alert("Error");
+            alertStore.update(a => {
+                a.message = "Error while creating new report"
+                a.color = "red"
+                return a
+            })
         }
     }
 </script>

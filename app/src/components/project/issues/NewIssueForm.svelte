@@ -4,6 +4,7 @@
     import SubmitButton from "$components/forms/SubmitButton.svelte";
     import TextArea from "$components/forms/TextArea.svelte";
     import { PUBLIC_API_URL } from "$env/static/public";
+    import { alertStore } from "$lib/stores/alertStore";
     import { tokenStore } from "$lib/stores/tokenStore";
     import { createEventDispatcher } from "svelte";
     import { get } from "svelte/store";
@@ -35,7 +36,11 @@
             },
         );
         if (!req.ok) {
-            alert("Error with creating project");
+            alertStore.update(a => {
+                a.message = "Error with creating project"
+                a.color = "red"
+                return a
+            })
             return;
         }
         await goto("");
