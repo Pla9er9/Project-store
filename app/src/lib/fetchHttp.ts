@@ -67,13 +67,19 @@ export default async function fetchHttp(
 	if (res.redirected) {
 		window.location.href = res.url;
 	}
+
+	let _body = await res.text()
+	try {
+		_body = JSON.parse(_body)
+	} catch { /**/ }
+
 	if ((res.status === 403 || res.status === 401) && redirecting) {
 		if (server) {
 			throw redirect(303, '/login');
 		}
 		await goto('login');
 		return {
-			body: "",
+			body: _body,
 			status: res.status,
 			ok: false,
 		};
@@ -87,7 +93,7 @@ export default async function fetchHttp(
 			});
 		}
 		return {
-			body: "",
+			body: _body,
 			status: res.status,
 			ok: false,
 		};
@@ -99,7 +105,7 @@ export default async function fetchHttp(
 		} else {
 			await goto('404');
 			return {
-				body: "",
+				body: _body,
 				status: res.status,
 				ok: false,
 			};
@@ -107,20 +113,11 @@ export default async function fetchHttp(
 	}
 
 	if (res.ok) {
-		const b = await res.text()
-		try {
-			return {
-				body: JSON.parse(b),
-				status: res.status,
-				ok: res.status === 200,
-			};
-		} catch {
-			return {
-				body: b,
-				status: res.status,
-				ok: res.status === 200,
-			};
-		}
+		return {
+			body: _body,
+			status: res.status,
+			ok: res.status === 200,
+		};
 	} else {
 		return {
 			body: "",
@@ -132,7 +129,7 @@ export default async function fetchHttp(
 
 type response = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	body: any,
+	body: any
 	status: number
 	ok: boolean
 }
