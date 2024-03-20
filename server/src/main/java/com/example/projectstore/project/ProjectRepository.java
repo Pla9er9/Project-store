@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.LockModeType;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,4 +50,6 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     Page<Project> findByIsPrivateFalse(Pageable pageable);
 
     List<Project> findTop3ByOwner_username(String username);
+
+    Optional<Project> findByName(String name);
 }

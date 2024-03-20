@@ -12,6 +12,7 @@
     import { toastStore } from "$lib/stores/toastStore.js";
     import fetchHttp from "$lib/fetchHttp.js";
     import { goto } from "$app/navigation";
+    import { alertStore } from "$lib/stores/alertStore.js";
 
     let projectName = "",
         projectNameValid = false,
@@ -42,7 +43,16 @@
             body: body,
             token: data.token,
         });
-        if (!res) return;
+
+        if (!res.ok) {
+            const msg = res.body.message
+            alertStore.update(a => {
+                a.message = msg === "" ? "Unable to create project" : msg
+                a.color = "red"
+                return a
+            })
+            return
+        };
 
         await sendFiles(res.body.id);
         await goto("/project/" + res.body.id);

@@ -106,6 +106,12 @@ public class ProjectService {
         var owner = userRepository.findByUsername(authentication.getName())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
+        var _project = projectRepository.findByName(request.getName());
+
+        if (_project.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project " + request.getName() + " already exist");
+        }
+
         Project project = new Project();
         project.setName(request.getName());
         project.setDescription(request.getDescription());
