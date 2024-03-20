@@ -20,17 +20,12 @@
 		{/each}
 	{:else}
 		<div class="column">
-			<img src="/icons/cross.svg" alt="" />
-			<p>No invitations found</p>
+			<p>❌ No invitations found</p>
 		</div>
 	{/if}
 </main>
 
 <style>
-	img {
-		width: 100px;
-	}
-	
 	p {
 		font-family: "Fira sans", sans-serif;
 	}
