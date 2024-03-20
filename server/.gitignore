@@ -8,6 +8,8 @@ cdn/avatars
 cdn/projects
 cdn/chatImages
 
+src/main/resources/application.properties
+
 ### STS ###
 .apt_generated
 .classpath
