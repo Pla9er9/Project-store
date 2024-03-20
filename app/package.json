@@ -50,6 +50,7 @@
 		"codemirror": "^6.0.1",
 		"dat.gui": "^0.7.9",
 		"dompurify": "^3.0.9",
+		"isomorphic-dompurify": "^2.5.0",
 		"jsonwebtoken": "^9.0.2",
 		"sockjs": "^0.3.24",
 		"sockjs-client": "^1.6.1",
