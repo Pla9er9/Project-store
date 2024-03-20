@@ -1,13 +1,11 @@
 <script lang="ts">
-	import DOMPurify from 'dompurify';
-
 	export let readme: string;
 </script>
 
 {#if !(readme.trim() === "")}
 	<div id="readme">
 		<!-- eslint-disable-next-line -->
-		{@html DOMPurify.sanitize(readme)}
+		{@html readme}
 	</div>
 {:else}
 	<div style="display:flex;flex-direction:column;align-items:center">

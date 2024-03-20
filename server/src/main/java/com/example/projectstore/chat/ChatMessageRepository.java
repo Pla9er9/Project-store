@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -20,4 +21,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, UUID> 
 
     @Query("SELECT DISTINCT m.recipient.username FROM ChatMessage m WHERE m.sender.username = :username AND m.recipient.username != :username")
     List<String> findChatsOpenedBySender(@Param("username") String username);
+
+    Optional<ChatMessage> findByContentAndType(String content, String type);
 }

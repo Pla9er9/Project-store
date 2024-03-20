@@ -2,6 +2,7 @@ import fetchHttp from "$lib/fetchHttp";
 import { tokenStore } from "$lib/stores/tokenStore.js";
 import { compile } from "mdsvex";
 import { get } from "svelte/store";
+import DOMPurify from 'dompurify';
 
 export async function load({ params }) {
     async function loadReadme() {
@@ -20,7 +21,7 @@ export async function load({ params }) {
 
     return {
         slug: params.id,
-        readme: md,
+        readme: DOMPurify.sanitize(md),
     };
 }
 
