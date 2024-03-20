@@ -2,7 +2,7 @@ import fetchHttp from "$lib/fetchHttp";
 import { tokenStore } from "$lib/stores/tokenStore.js";
 import { compile } from "mdsvex";
 import { get } from "svelte/store";
-import DOMPurify from 'dompurify';
+import DOMPurify from "isomorphic-dompurify";
 
 export async function load({ params }) {
     async function loadReadme() {
