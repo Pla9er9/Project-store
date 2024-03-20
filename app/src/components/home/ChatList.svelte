@@ -6,14 +6,14 @@
     import { tokenStore } from "$lib/stores/tokenStore";
     import { get } from "svelte/store";
 
-    let response: string[] | null = null;
+    export let chatList: string[] | null = null;
 
     onMount(async () => {
         const res = await fetchHttp("/account/chats", {
             token: get(tokenStore),
         });
         if (res?.ok) {
-            response = res.body;
+            chatList = res.body;
         }
     });
 </script>
@@ -23,18 +23,18 @@
         <img src="/icons/message.svg" alt="" />
         <p>Your chats</p>
     </div>
-    {#if !response}
+    {#if !chatList}
         <div style="margin: 80px auto;">
             <LoadingIndicator size="35px" />
         </div>
-    {:else if response.length === 0}
+    {:else if chatList.length === 0}
         <p
             style="margin: 45px auto;color: gray; font-family: 'Fira sans', sans-serif;font-size: 13px;"
         >
             0 chats open
         </p>
     {:else}
-        {#each response as p}
+        {#each chatList as p}
             <ChatRow username={p} />
         {/each}
     {/if}

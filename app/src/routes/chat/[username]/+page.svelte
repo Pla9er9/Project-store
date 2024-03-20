@@ -17,6 +17,7 @@
     import { tokenStore } from "$lib/stores/tokenStore";
     import Button from "$components/Button.svelte";
     import type { MessageDto } from "$lib/models/message/MessageDto.js";
+    import { PUBLIC_API_URL } from "$env/static/public";
 
     let stompClient: CompatClient;
     let username: string;
@@ -27,6 +28,7 @@
     let apiPage = 0;
     let auto = false
     let active = true
+    let chatList: null | string[] = null
 
     if (data.messages != undefined) {
         messages = data.messages.content
@@ -44,7 +46,8 @@
 
     onMount(async () => {
         const body = document.querySelector("body");
-        const sock = new SockJS("http://localhost:8080/ws", {
+        const url = PUBLIC_API_URL.replace("api/v1", "") + "ws"
+        const sock = new SockJS(url, {
             transportOptions: {
                 "xhr-streaming": {
                     headers: authHeaders,
@@ -99,7 +102,16 @@
                 return a
             })
         }
-        var message = JSON.parse(payload.body);
+        var message: MessageDto = JSON.parse(payload.body);
+
+        if (message.senderUsername !== username) {
+            chatList = chatList ? chatList?.filter(e => e !== message.senderUsername) : []
+            chatList = [message.senderUsername , ...chatList]
+        }
+
+        if (message.senderUsername !== data.username && message.senderUsername !== username) {
+            return
+        }
         messages = [...messages, message];
         await new Promise((r) => setTimeout(r, 50));
         scrollDown();
@@ -196,7 +208,7 @@
 
 <main class="row">
     <div id="chatList">
-        <ChatList />
+        <ChatList bind:chatList />
     </div>
     <div class="chat column">
         <div class="messages">
