@@ -9,7 +9,6 @@
     import VersionInput from "./VersionInput.svelte";
     import { tokenStore } from "$lib/stores/tokenStore";
     import { alertStore } from "$lib/stores/alertStore";
-    import { goto } from "$app/navigation";
     import DeleteButton from "$components/DeleteButton.svelte";
 
     let files: FileList;
@@ -28,22 +27,41 @@
         }
         formData.append("file", file);
 
-        await fetchHttp(`/project/${projectId}/release/${version}`, {
+        const res = await fetchHttp(`/project/${projectId}/release/${version}`, {
             method: "post",
             token: get(tokenStore),
             noContentType: true,
             stringify: false,
             body: formData,
         });
-        await goto(document.URL);
+
+        if (!res.ok) {
+            const msg = res.body.message
+            alertStore.update(a => {
+                a.message = msg === "" || !msg ? "Could not upload release try later" : msg
+                a.color = "red"
+                return a
+            })
+        } else {
+            location.reload()
+        }
     }
 
     async function deleteRelease() {
-        await fetchHttp(`/project/${projectId}/release`, {
+        const res = await fetchHttp(`/project/${projectId}/release`, {
             method: "delete",
             token: get(tokenStore),
         });
-        location.reload();
+        if (!res.ok) {
+            const msg = res.body.message
+            alertStore.update(a => {
+                a.message = msg === "" || !msg ? "Could not upload release try later" : msg
+                a.color = "red"
+                return a
+            })
+        } else {
+            location.reload()
+        }
     }
 </script>
 
@@ -56,9 +74,9 @@
         />
         <VersionInput bind:value={version} />
         <SubmitButton
-            text="Release"
+            text="Upload"
             callback={uploadRelease}
-            isValid={version.length > 0 && files.length > 0}
+            isValid={version.length > 0 && files && files.length > 0}
             iconUrl="/icons/checkmark.svg"
         />
     </div>

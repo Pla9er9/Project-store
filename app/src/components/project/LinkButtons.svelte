@@ -15,7 +15,7 @@
 	let creators: UserDtoSimple[] = info.creators;
 	let likes: number = info.likes;
 	let liked: boolean = info.liked;
-	let latestRelease: string | null = info.latestRelease;
+	let latestRelease: string | null = info.latestReleaseVersion;
 
 	const token = get(tokenStore);
 	let showCreators = false
