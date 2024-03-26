@@ -13,10 +13,13 @@ import com.example.projectstore.project.ProjectDtoSimple;
 import com.example.projectstore.project.ProjectService;
 import com.example.projectstore.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +54,11 @@ public class AccountController {
     }
 
     @GetMapping("oauth2/account")
-    public AccountDto getAccountByOauth2Token(@RequestParam String accessToken, @RequestParam String secret) {
+    public AccountDto getAccountByOauth2Token(@RequestParam String accessToken, HttpServletRequest request) {
+        var secret = request.getHeader("x-secret");
+        if (secret == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No secret provided in x-secret header");
+        }
         return applicationService.getAccountData(accessToken, secret);
     }
 
